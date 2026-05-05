@@ -32,7 +32,7 @@ const pageCtx = createPublicPageContext({
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -80,7 +80,7 @@ const pageCtx = createPublicPageContext({
 	</head>
 	<body>
 		<header class="site-header">
-			<nav class="nav">
+			<!-- <nav class="nav">
 				<a href="/" class="site-logo">{siteTitle}</a>
 				<div class="nav-links">
 					{
@@ -95,12 +95,25 @@ const pageCtx = createPublicPageContext({
 					<a href="/_emdash/admin" class="nav-admin">Admin</a>
 					<a href="/signup" class="nav-cta">Get Started</a>
 				</div>
-			</nav>
+			</nav> -->
+			<a href="/" class="site-logo">◎</a>
+			<p>泰山流護身術・逮捕術<br>東京八王子本部道場</p>
 		</header>
 
 		<main>
 			<slot />
 		</main>
+
+		<aside>
+			
+			<button>English</button>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/blog">Blog</a></li>
+				<li><a href="/contact">Contact</a></li>
+			</ul>
+		</aside>
 
 		<footer class="site-footer">
 			<div class="footer-content">

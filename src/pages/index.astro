@@ -30,6 +30,94 @@ const pageContent = page?.data.content;
 			</div>
 		)
 	}
+
+	<section class="hero">
+		<h1>泰山流護身術・逮捕術</h1>
+	</section>
+
+	<section  class="menu">
+		<section>
+			<picture>
+				<source srcset="/images/taizanryu-hero.webp" type="image/webp" />
+				<img src="/images/taizanryu-hero.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+			</picture>
+			<h2>泰山流護身術・逮捕術</h2>
+			<p>60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
+		</section>
+		<section>
+			<picture>
+				<source srcset="/images/taizanryu-practice.webp" type="image/webp" />
+				<img src="/images/taizanryu-practice.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+			</picture>
+			<h2>泰山流指圧整体院</h2>
+			<p>武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
+		</section>
+		<section>
+			<picture>
+				<source srcset="/images/taizanryu-community.webp" type="image/webp" />
+				<img src="/images/taizanryu-community.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+			</picture>
+			<h2>宗家について</h2>
+			<p>60年以上にわたる武道訓練と研究を経て、伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術（Taiho Jutsu）」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。現在、選ばれた少数の生徒のみと完全予約制でクラスを行っています。</p>
+		</section>
+	</section>
+
+	<sectionf class="news">
+		<h2>お知らせ</h2>
+		<p>ご質問やクラスの予約については、お気軽にお問い合わせください。</p>
+		<a href="/contact" class="btn btn-primary">お問い合わせフォームへ</a>
+	</section>
+
+	<section class="banner">
+		<picture>
+			<source srcset="/images/taizanryu-hero.webp" type="image/webp" />
+			<img src="/images/taizanryu-hero.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+		</picture>	
+	</section>
+
+	<section class="gallery">
+		<div>
+			<h2>国境を越えて集う仲間たち。</h2>
+			<p>世界中から集まる仲間たちと共に、泰山流の技術と精神を学び、共有しています。国境を越えた交流が、私たちのコミュニティをより豊かにしています。</p>
+			<picture>
+				<source srcset="/images/taizanryu-community.webp" type="image/webp" />
+				<img src="/images/taizanryu-community.jpg" alt="泰山流護身術・逮捕術のイメージ" />	
+			</picture>
+			<button>ギャラリーを見る</button>
+		</div>
+		<div>
+			<h2>稽古仲間たち</h2>
+			<p>日々の稽古を通じて、仲間たちと切磋琢磨しながら成長しています。共に汗を流し、技を磨くことで、深い絆が生まれています。</p>
+			<picture>
+				<source srcset="/images/taizanryu-practice.webp" type="image/webp" />
+				<img src="/images/taizanryu-practice.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+				</picture>
+			<button>稽古の様子を見る</button>
+		</div>
+		<div>
+			<h2>泰山流の技術</h2>
+			<p>泰山流の技術は、実戦的な護身術と心身の健康を促進する指圧療法の両面から構成されています。これらの技術を通じて、自己防衛能力を高めるとともに、心身のバランスを整えることができます。</p>
+			<picture>
+				<source srcset="/images/taizanryu-techniques.webp" type="image/webp" />
+				<img src="/images/taizanryu-techniques.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+			</picture>
+			<button>技術の詳細を見る</button>
+		</div>
+	</section>
+
+	<section class="access">
+		<h2>アクセス</h2>
+		<picture>
+			<source srcset="/images/taizanryu-access.webp" type="image/webp" />
+			<img src="/images/taizanryu-access.jpg" alt="泰山流護身術・逮捕術のイメージ" />
+		</picture>
+		<p>東京都八王子市子安町1-29-1</p>
+		<p>八王子駅南口より徒歩5分</p>
+		<p>新宿駅から30分、日本全国からアクセス良好</p>
+		<div>
+			<map name="taizanryu-access"></map>
+		</div>
+	</section>
 </Base>
 
 <style>
@@ -47,5 +135,41 @@ const pageContent = page?.data.content;
 	.empty-state p {
 		color: var(--color-muted);
 		margin-bottom: var(--spacing-xl);
+	}
+
+	.hero {
+		text-align: center;
+		padding: var(--spacing-5xl) var(--spacing-lg);
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+	.menu {
+		display: flex;
+		gap: var(--spacing-5xl);
+		flex-wrap: wrap;
+		padding: var(--spacing-5xl) var(--spacing-lg);
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+	.menu section {
+		flex: 1 1 300px;
+		text-align: center;
+	}
+	.banner {
+		margin: var(--spacing-5xl) 0;
+	}
+	.gallery {
+		display: flex;
+		gap: var(--spacing-5xl);
+		flex-wrap: wrap;
+		padding: var(--spacing-5xl) var(--spacing-lg);
+		max-width: var(--max-width);
+		margin: 0 auto;
+	}
+	.access {
+		text-align: center;
+		padding: var(--spacing-5xl) var(--spacing-lg);
+		max-width: var(--max-width);
+		margin: 0 auto;
 	}
 </style>
