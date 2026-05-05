@@ -36,30 +36,33 @@ const pageContent = page?.data.content;
 	</section>
 
 	<section  class="menu">
-		<section>
+		<div>
 			<picture>
 				<source srcset="/images/taizanryu-hero.webp" type="image/webp" />
 				<img src="/images/taizanryu-hero.jpg" alt="泰山流護身術・逮捕術のイメージ" />
 			</picture>
 			<h2>泰山流護身術・逮捕術</h2>
 			<p>60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
-		</section>
-		<section>
+			<button>詳細を見る</button>
+		</div>
+		<div>
 			<picture>
 				<source srcset="/images/taizanryu-practice.webp" type="image/webp" />
 				<img src="/images/taizanryu-practice.jpg" alt="泰山流護身術・逮捕術のイメージ" />
 			</picture>
 			<h2>泰山流指圧整体院</h2>
 			<p>武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
-		</section>
-		<section>
+			<button>詳細を見る</button>	
+		</div>
+		<div>
 			<picture>
 				<source srcset="/images/taizanryu-community.webp" type="image/webp" />
 				<img src="/images/taizanryu-community.jpg" alt="泰山流護身術・逮捕術のイメージ" />
 			</picture>
 			<h2>宗家について</h2>
 			<p>60年以上にわたる武道訓練と研究を経て、伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術（Taiho Jutsu）」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。現在、選ばれた少数の生徒のみと完全予約制でクラスを行っています。</p>
-		</section>
+			<button>詳細を見る</button>
+		</div>
 	</section>
 
 	<sectionf class="news">
@@ -150,6 +153,7 @@ const pageContent = page?.data.content;
 		padding: var(--spacing-5xl) var(--spacing-lg);
 		max-width: var(--max-width);
 		margin: 0 auto;
+		background-color: #6B1F23;
 	}
 	.menu section {
 		flex: 1 1 300px;
@@ -157,6 +161,7 @@ const pageContent = page?.data.content;
 	}
 	.banner {
 		margin: var(--spacing-5xl) 0;
+		background-color: #E8E2D6;
 	}
 	.gallery {
 		display: flex;
@@ -171,5 +176,6 @@ const pageContent = page?.data.content;
 		padding: var(--spacing-5xl) var(--spacing-lg);
 		max-width: var(--max-width);
 		margin: 0 auto;
+		background-color: #E8E2D6;
 	}
 </style>
