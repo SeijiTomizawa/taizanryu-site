@@ -6,7 +6,7 @@ import MarketingBlocks from "../components/MarketingBlocks.astro";
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
 
 try {
-	Astro.cache.set(cacheHint);
+  Astro.cache.set(cacheHint);
 } catch {}
 
 const pageTitle = page?.data.title;
@@ -14,168 +14,132 @@ const pageContent = page?.data.content;
 ---
 
 <Base
-	title={pageTitle !== "Home" ? pageTitle : undefined}
-	description="Build products people actually want. The all-in-one platform for modern teams."
+  title={pageTitle !== "Home" ? pageTitle : undefined}
+  description="Painting is my passion. Fine Arts Portfolio."
 >
-	{
-		pageContent ? (
-			<MarketingBlocks value={pageContent} />
-		) : (
-			<div class="empty-state">
-				<h1>Welcome to Acme</h1>
-				<p>Edit the home page content in the admin to get started.</p>
-				<a href="/_emdash/admin" class="btn btn-primary">
-					Open Admin
-				</a>
-			</div>
-		)
-	}
+  {
+    pageContent && (
+      <MarketingBlocks value={pageContent} />
+    )
+  }
 
-	<section class="hero">
-		<h1>泰山流護身術・逮捕術</h1>
-	</section>
+  <div class="container" id="home">
+    
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="fade-in-title">
+          <span class="line-1">FINE ARTS</span><br>
+          <span class="line-2">PORTFOLIO</span>
+        </h1>
+        <img src="https://picsum.photos/400/300?random=1" alt="Woman playing guitar" class="hero-img-1 hero-fade" />
+      </div>
+      <div class="hero-center">
+        <img src="https://picsum.photos/350/600?random=2" alt="Couple walking" class="hero-img-2 hero-fade" />
+      </div>
+      <div class="hero-right">
+        <img src="https://picsum.photos/400/250?random=3" alt="Tiger" class="hero-img-3 hero-fade" />
+        <p class="author-name hero-fade">GIONAN CHUALD<br>PAINTER</p>
+      </div>
+    </section>
 
-	<section  class="menu">
-		<div>
-			<picture>
-				<source srcset="/images/taizanryu-hero.webp" type="image/webp" />
-				<img src="/images/taizanryu-hero.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-			</picture>
-			<h2>泰山流護身術・逮捕術</h2>
-			<p>60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
-			<a href="/SelfDefense" class="btn btn-primary">詳細を見る</a>
-		</div>
-		<div>
-			<picture>
-				<source srcset="/images/taizanryu-practice.webp" type="image/webp" />
-				<img src="/images/taizanryu-practice.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-			</picture>
-			<h2>泰山流指圧整体院</h2>
-			<p>武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
-			<a href="/Shiatsu" class="btn btn-primary">詳細を見る</a>
-		</div>
-		<div>
-			<picture>
-				<source srcset="/images/taizanryu-community.webp" type="image/webp" />
-				<img src="/images/taizanryu-community.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-			</picture>
-			<h2>宗家について</h2>
-			<p>60年以上にわたる武道訓練と研究を経て、伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術（Taiho Jutsu）」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。現在、選ばれた少数の生徒のみと完全予約制でクラスを行っています。</p>
-			<a href="/Soke" class="btn btn-primary">詳細を見る</a>
-		</div>
-	</section>
+    <section class="about" id="about">
+      <div class="about-text">
+        <img src="https://picsum.photos/100/100?random=4" alt="Artist Portrait" class="avatar reveal" />
+        <h2 class="reveal">Painting is my passion.<br>I see beauty in all things<br>and I paint what I see.</h2>
+        <p class="reveal">I have been painting for 40 years. Nature is my main inspiration. I love to capture the light and colors of the seasons. I am always experimenting with new techniques and materials.</p>
+      </div>
+      <div class="about-image">
+        <img src="https://picsum.photos/500/400?random=5" alt="Hand painting" class="reveal" />
+      </div>
+    </section>
 
-	<sectionf class="news">
-		<h2>お知らせ</h2>
-		<p>ご質問やクラスの予約については、お気軽にお問い合わせください。</p>
-		<a href="/contact" class="btn btn-primary">お問い合わせフォームへ</a>
-	</section>
+    <section class="background-exhibits" id="background">
+      <div class="be-text">
+        <div class="be-block reveal">
+          <h3>MY BACKGROUND</h3>
+          <ul>
+            <li>BA in Fine Arts, University of Paris</li>
+            <li>MFA in Painting, London Art College</li>
+          </ul>
+        </div>
+        <div class="be-block reveal">
+          <h3>EXHIBITS</h3>
+          <ul>
+            <li>"Colors of Spring" - City Gallery, Paris (2020)</li>
+            <li>"Light & Shadow" - Modern Art Museum, NY (2018)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="be-image">
+        <img src="https://picsum.photos/600/700?random=6" alt="Garden painting" class="reveal" />
+      </div>
+    </section>
 
-	<section class="banner">
-		<picture>
-			<source srcset="/images/taizanryu-hero.webp" type="image/webp" />
-			<img src="/images/taizanryu-hero.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-		</picture>	
-	</section>
+    <section class="featured-works" id="works">
+      <h6 class="section-subtitle reveal">MY FEATURED WORKS</h6>
+      <div class="work-list">
+        <div class="work-item reveal">
+          <span class="work-num">01</span>
+          <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
+          <div class="work-details">
+            <h3>GARDENS IN BLUE</h3>
+          </div>
+        </div>
+        <div class="work-item reveal">
+          <span class="work-num">02</span>
+          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+          <div class="work-details">
+            <h3>PLATTER #2</h3>
+          </div>
+        </div>
+      </div>
+    </section>
 
-	<section class="gallery">
-		<div>
-			<h2>国境を越えて集う仲間たち。</h2>
-			<p>世界中から集まる仲間たちと共に、泰山流の技術と精神を学び、共有しています。国境を越えた交流が、私たちのコミュニティをより豊かにしています。</p>
-			<picture>
-				<source srcset="/images/taizanryu-community.webp" type="image/webp" />
-				<img src="/images/taizanryu-community.jpg" alt="泰山流護身術・逮捕術のイメージ" />	
-			</picture>
-			<a href="/gallery" class="btn btn-primary">ギャラリーを見る</a>
-		</div>
-		<div>
-			<h2>稽古仲間たち</h2>
-			<p>日々の稽古を通じて、仲間たちと切磋琢磨しながら成長しています。共に汗を流し、技を磨くことで、深い絆が生まれています。</p>
-			<picture>
-				<source srcset="/images/taizanryu-practice.webp" type="image/webp" />
-				<img src="/images/taizanryu-practice.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-				</picture>
-			<a href="/gallery" class="btn btn-primary">稽古の様子を見る</a>
-		</div>
-		<div>
-			<h2>泰山流の技術</h2>
-			<p>泰山流の技術は、実戦的な護身術と心身の健康を促進する指圧療法の両面から構成されています。これらの技術を通じて、自己防衛能力を高めるとともに、心身のバランスを整えることができます。</p>
-			<picture>
-				<source srcset="/images/taizanryu-techniques.webp" type="image/webp" />
-				<img src="/images/taizanryu-techniques.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-			</picture>
-			<a href="/training" class="btn btn-primary">技術の詳細を見る</a>
-		</div>
-	</section>
+    <section class="gallery-grid">
+      <img src="https://picsum.photos/400/250?random=12" alt="Gallery 1" class="reveal" />
+      <img src="https://picsum.photos/400/250?random=13" alt="Gallery 2" class="reveal" />
+      <img src="https://picsum.photos/400/250?random=14" alt="Gallery 3" class="reveal" />
+      <img src="https://picsum.photos/400/250?random=15" alt="Gallery 4" class="reveal" />
+    </section>
 
-	<section class="access">
-		<h2>アクセス</h2>
-		<picture>
-			<source srcset="/images/taizanryu-access.webp" type="image/webp" />
-			<img src="/images/taizanryu-access.jpg" alt="泰山流護身術・逮捕術のイメージ" />
-		</picture>
-		<p>東京都八王子市子安町1-29-1</p>
-		<p>八王子駅南口より徒歩5分</p>
-		<p>新宿駅から30分、日本全国からアクセス良好</p>
-		<div>
-			<map name="taizanryu-access"></map>
-		</div>
-	</section>
+    <section class="contact" id="contact">
+      <div class="contact-title reveal">
+        <h2>GET IN<br>TOUCH</h2>
+      </div>
+      <div class="contact-image">
+        <img src="https://picsum.photos/400/500?random=21" alt="Artist portrait" class="reveal" />
+      </div>
+    </section>
+
+  </div>
 </Base>
 
 <style>
-	.empty-state {
-		text-align: center;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-	}
+  /* 各セクション固有のレイアウトスタイル */
+  .hero { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+  .hero h1 { font-size: 3rem; margin-bottom: 40px; }
+  .hero-img-2 { height: 600px; object-fit: cover; }
+  .author-name { text-align: right; font-size: 0.8rem; letter-spacing: 2px; }
 
-	.empty-state h1 {
-		margin-bottom: var(--spacing-md);
-	}
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 30px; }
+  .about h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; }
 
-	.empty-state p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-xl);
-	}
+  .background-exhibits { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
+  .be-text { display: flex; flex-direction: column; gap: 40px; }
+  
+  .work-list { display: flex; flex-direction: column; gap: 30px; }
+  .work-item { display: flex; align-items: center; gap: 30px; }
+  .work-item img { width: 250px; height: 120px; object-fit: cover; }
 
-	.hero {
-		text-align: center;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-	}
-	.menu {
-		display: flex;
-		gap: var(--spacing-5xl);
-		flex-wrap: wrap;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-		background-color: #6B1F23;
-	}
-	.menu section {
-		flex: 1 1 300px;
-		text-align: center;
-	}
-	.banner {
-		margin: var(--spacing-5xl) 0;
-		background-color: #E8E2D6;
-	}
-	.gallery {
-		display: flex;
-		gap: var(--spacing-5xl);
-		flex-wrap: wrap;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-	}
-	.access {
-		text-align: center;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
-		background-color: #E8E2D6;
-	}
+  .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .contact { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: end; }
+  .contact-title h2 { font-size: 3rem; }
+
+  @media (max-width: 900px) {
+    .container { padding-left: 20px; padding-right: 20px; }
+    .hero, .about, .background-exhibits, .contact { grid-template-columns: 1fr; }
+    .hero-img-2 { height: 400px; }
+  }
 </style>
