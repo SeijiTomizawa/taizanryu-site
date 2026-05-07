@@ -49,9 +49,9 @@ const pageContent = page?.data.content;
         <h2 class="reveal">泰山流護身術・逮捕術</h2>
         <p class="reveal">60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
       </div>
-      <div class="about-image">
+      <a href="/self-defense" class="about-image">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_05.webp" alt="柔術稽古" class="reveal" />
-      </div>
+      </a>
     </section>
 
     <section class="shiatsu" id="shiatsu">
@@ -59,9 +59,9 @@ const pageContent = page?.data.content;
         <h2 class="reveal">泰山流指圧整体院</h2>
         <p class="reveal">武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
       </div>
-      <div class="about-image">
+      <a href="/shiatsu" class="about-image">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/shiatsu/SHIATSU_DO_02.webp" alt="指圧治療院" class="reveal" />
-      </div>
+      </a>
     </section>
 
     <section class="background-exhibits" id="background">
@@ -71,12 +71,10 @@ const pageContent = page?.data.content;
           <p>伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術（Taiho Jutsu）」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。現在、選ばれた少数の生徒のみと完全予約制でクラスを行っています。</p>
         </div>
       </div>
-      <div class="be-image">
+      <a href="/soke" class="be-image">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/biography/SOKE_JOE_MILLER.webp" alt="宗家ジョー・ミラー" class="reveal" />
-      </div>
+      </a>
     </section>
-
-    
 
     <section class="emblem" id="emblem">
       <div class="banner-image">
@@ -164,7 +162,8 @@ const pageContent = page?.data.content;
   .work-item { display: flex; align-items: center; gap: 30px; }
   .work-item img { width: 250px; height: 120px; object-fit: cover; }
 
-  .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .emblem { text-align: center; }
+  .emblem img { width: 200px; height: 200px; object-fit: contain; }
 
   .contact { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: end; }
   .contact-title h2 { font-size: 3rem; }
