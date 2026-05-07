@@ -39,7 +39,7 @@ const pageContent = page?.data.content;
           <span class="line-1">泰山流護身術・逮捕術</span><br>
           <span class="line-2">- 東京八王子本部道場 -</span>
         </h1>
-        <p class="hero-subtitle">Peaceful Mountain System</p>
+        <h2 class="hero-subtitle">Peaceful Mountain System</h2>
         <p class="hero-author">守破離の精神で、真の護身を。</p>
       </div>
     </section>
@@ -90,33 +90,30 @@ const pageContent = page?.data.content;
       <dl>
         <dt class="reveal">
           <span class="work-num">01</span>
-          <a href="">
-            <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
-          </a>
-          <h3>国境を越えて集う仲間たち</h3>
+          <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
         </dt>
         <dd class="reveal">
+          <h3>国境を越えて集う仲間たち</h3>
           世界中から集まった生徒たちが、泰山流の技術と精神を学び、共に成長しています。国籍や背景を超えた絆が、道場を一層豊かなものにしています。
+          <a href="/training" class="btn">詳細を見る</a>
         </dd>
         <dt class="reveal">
           <span class="work-num">02</span>
-          <a href="/training">
-            <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
-          </a>
-          <h3>稽古仲間たち</h3>
+          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
         </dt>
         <dd class="reveal">
+          <h3>稽古仲間たち</h3>
           稽古で培った絆と信頼。同じ目標に向かって努力する、様々な国籍、年齢、経験レベルの仲間たちとの交流は、武道の成長に欠かせない要素です。
+          <a href="/training" class="btn">詳細を見る</a>  
         </dd>
         <dt class="reveal">
           <span class="work-num">03</span>
-          <a href="/techniques">
-            <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
-          </a>
-          <h3>泰山流の技術</h3>
+          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
         </dt>
         <dd class="reveal">
+          <h3>泰山流の技術</h3>
           宗家ジョー・ミラーによる技術解説と、道場での稽古の様子をご覧ください。基本技術から実戦応用まで、映像を通じて泰山流の技術と哲学を体験できます。
+          <a href="/techniques" class="btn">詳細を見る</a>
         </dd>
       </dl>
     </section>
@@ -135,7 +132,7 @@ const pageContent = page?.data.content;
         <p>新宿駅から30分、日本全国からアクセス良好</p>
       </div>
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.1234567890123!2d139.1234567890123!3d35.1234567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x123456789012345%3A0x123456789012345!2sHachioji%20Station%20South%20Exit!5e0!3m2!1sen!2sjp!4v1234567890123"
+        src="https://maps.app.goo.gl/sstfR73Vs9hrdtAF7"
         width="100%"
         height="300"
         style="border:0;"
@@ -168,16 +165,20 @@ const pageContent = page?.data.content;
 
 <style>
   /* --- レイアウトスタイル --- */
-  .featured-works dl { display: flex; flex-direction: column; gap: 40px; }
-  .featured-works dt { display: flex; align-items: center; gap: 30px; margin-bottom: 10px; }
-  .featured-works .work-num { font-size: 2rem; font-weight: 600; color: var(--text-secondary); }
-  .featured-works img { width: 300px; height: 150px; object-fit: cover; border-radius: 8px; }
-  .featured-works h3 { font-size: 1.5rem; margin: 0; }
-  .featured-works dd { margin-left: 80px; font-size: 1rem; color: var(--text-secondary); line-height: 1.8; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-  .featured-works dd:last-child { border-bottom: none; }
-
-  .emblem { text-align: center; margin: 80px 0; background-color: var(--bg-color-secondary); padding: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
-  .emblem img { width: 200px; height: 200px; object-fit: contain; }
+  .emblem { 
+    text-align: center; 
+    background-color: var(--bg-color-secondary); 
+    padding: 40px; 
+    width: 100vw;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  }
+  .emblem img { 
+    width: 200px; 
+    height: 200px; 
+    object-fit: contain; 
+  }
 
   .access h3 { font-size: 2rem; margin-bottom: 30px; }
   /* --- 統合セクション (カードレイアウト) --- */
@@ -285,7 +286,7 @@ const pageContent = page?.data.content;
   .hero-author { animation-delay: 1.0s; font-size: 1rem; margin-top: 40px; letter-spacing: 2px; }
 
   .line-1 { font-size: 3.5rem; font-weight: 600; letter-spacing: 4px; display: inline-block; margin-bottom: 10px; }
-  .line-2 { font-size: 1.5rem; letter-spacing: 2px; font-weight: 300; }
+  .line-2 { font-size: 3rem; letter-spacing: 2px; font-weight: 300; }
 
   @keyframes floatUp { to { opacity: 1; transform: translateY(0); } }
 
@@ -302,5 +303,95 @@ const pageContent = page?.data.content;
     .line-2 { font-size: 1.1rem; }
     .hero-subtitle { font-size: 1rem; }
     .hero-carousel { height: 60vh; }
+  }
+
+  /* --- Featured Works (横並び & ボタン) --- */
+  .featured-works dl {
+    display: grid;
+    grid-template-columns: auto 1fr; /* dtを左、ddを右の残りのスペースに配置 */
+    align-items: center; /* 縦方向の中央揃え */
+    column-gap: 50px; /* 左右の余白 */
+    row-gap: 60px;    /* 上下の余白 */
+  }
+
+  .featured-works dt {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 0;
+  }
+
+  .featured-works .work-num {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .featured-works img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .featured-works dd {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px; /* 見出し、テキスト、ボタン間の余白 */
+  }
+
+  .featured-works h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  /* --- 空色のリンクボタン --- */
+  .featured-works .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #38bdf8; /* 鮮やかな空色 */
+    color: #0f172a; /* 視認性を高めるための濃い文字色 */
+    padding: 10px 28px;
+    border-radius: 30px; /* 角丸 */
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .featured-works .btn:hover {
+    background-color: #7dd3fc; /* ホバー時は少し明るい空色に */
+    transform: translateY(-3px); /* ふわっと浮く */
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); /* 空色の影 */
+  }
+
+  /* --- スマホ用レスポンシブ対応 --- */
+  @media (max-width: 900px) {
+    .featured-works dl {
+      grid-template-columns: 1fr; /* スマホでは縦1列に戻す */
+      row-gap: 30px;
+    }
+    .featured-works dt {
+      margin-bottom: 10px;
+    }
+    .featured-works dd {
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 見やすくするための区切り線 */
+    }
+    .featured-works dd:last-child {
+      border-bottom: none;
+    }
+    .featured-works img {
+      width: 100%;
+      height: auto;
+    }
   }
 </style>
