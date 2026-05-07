@@ -80,6 +80,17 @@ const pageContent = page?.data.content;
       </div>
     </section>
 
+    <section class="schedule reveal" id="schedule">
+      <h2>稽古スケジュール</h2>
+      <p>隔週土曜日 pm 5:00 - 8:00</p>
+      <p>不定期なので、最新情報はお知らせをご確認ください。</p>
+    </section>
+
+    <section class="news reveal" id="news">
+      <h2>最新情報</h2>
+      <p>準備中</p>
+    </section>
+
     <section class="emblem" id="emblem">
       <div class="banner-image">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO.webp" alt="泰山流エンブレム" class="reveal" />
@@ -121,25 +132,14 @@ const pageContent = page?.data.content;
     <section class="access reveal" id="access">
       <h3>アクセス</h3>
       <div class="access-hero">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/big-photo0000-6654.jpg" 
-          alt="八王子駅前"
-          width="100%" height="200" style="border:0; object-fit: cover; margin-bottom: 20px;"
-        />
+        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/big-photo0000-6654.jpg" alt="八王子駅前"/>
       </div>
       <div class="access-info" style="margin-bottom: 20px;">
         <p>東京都八王子市子安町1-29-1</p>
         <p>八王子駅南口より徒歩5分</p>
         <p>新宿駅から30分、日本全国からアクセス良好</p>
       </div>
-      <iframe
-        src="https://maps.app.goo.gl/sstfR73Vs9hrdtAF7"
-        width="100%"
-        height="300"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.0163513502466!2d139.3370407760321!3d35.65196877259671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60191ddb5bd357c9%3A0xe6ea1e69ca00b8b!2z44CSMTkyLTA5MDQg5p2x5Lqs6YO95YWr546L5a2Q5biC5a2Q5a6J55S677yR5LiB55uu77yS77yZ4oiS77yR!5e0!3m2!1sja!2sjp!4v1778164204991!5m2!1sja!2sjp"></iframe>
     </section>
 
   </div>
@@ -164,23 +164,6 @@ const pageContent = page?.data.content;
 </script>
 
 <style>
-  /* --- レイアウトスタイル --- */
-  .emblem { 
-    text-align: center; 
-    background-color: var(--bg-color-secondary); 
-    padding: 40px; 
-    width: 100vw;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-  }
-  .emblem img { 
-    width: 200px; 
-    height: 200px; 
-    object-fit: contain; 
-  }
-
-  .access h3 { font-size: 2rem; margin-bottom: 30px; }
   /* --- 統合セクション (カードレイアウト) --- */
   .feature-grid {
     display: grid;
@@ -393,5 +376,69 @@ const pageContent = page?.data.content;
       width: 100%;
       height: auto;
     }
+  }
+
+  /* --- エンブレムセクション (全画面幅 & 位置調整) --- */
+  .emblem {
+    /* 画面幅いっぱいにするトリック */
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    text-align: center;
+    background-color: var(--bg-color-secondary);
+    
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  }
+
+  .emblem img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  /* --- アクセスセクション (全画面幅) --- */
+  .access {
+    /* 画面幅いっぱいにするトリック */
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    text-align: center; /* テキストを中央揃えに */
+    padding-top: 40px;
+    background-color: var(--bg-color); /* 背景色を馴染ませる */
+  }
+
+  .access h3 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+  }
+
+  .access-info {
+    padding: 0 20px; /* スマホなどで文字が端にくっつかないようにする */
+    margin-bottom: 40px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  /* 画像を全画面幅に */
+  .access-hero img {
+    width: 100% !important; /* HTMLのインラインスタイルを確実に上書き */
+    height: 350px !important; /* 高さを少し広げてダイナミックに（お好みで調整） */
+    object-fit: cover;
+    display: block; /* 画像下部の不要な隙間を消す */
+    margin-bottom: 40px !important;
+  }
+
+  /* Googleマップを全画面幅に */
+  .access iframe {
+    width: 100%; /* HTML側の width="600" を上書きして全幅にする */
+    height: 450px;
+    display: block;
   }
 </style>
