@@ -11,9 +11,9 @@ interface Props {
 
 const { title, description, image } = Astro.props;
 const settings = await getSiteSettings();
-const siteTitle = settings?.title || "Fine Arts Portfolio";
+const siteTitle = settings?.title || "泰山流護身術・逮捕術";
 const fullTitle = title ? `${title} — ${siteTitle}` : siteTitle;
-const siteDescription = settings?.tagline || "Painting is my passion.";
+const siteDescription = settings?.tagline || "東京八王子本部道場";
 
 const menu = await getMenu("primary");
 
@@ -59,11 +59,16 @@ const pageCtx = createPublicPageContext({
       <button class="close-btn" id="closeBtn" aria-label="メニューを閉じる">&times;</button>
       <nav class="drawer-nav">
         <ul>
-          <li><a href="/#home">HOME</a></li>
-          <li><a href="/#about">ABOUT</a></li>
-          <li><a href="/#background">BACKGROUND</a></li>
-          <li><a href="/#works">WORKS</a></li>
-          <li><a href="/#contact">CONTACT</a></li>
+          <li><a href="/#home">ホーム</a></li>
+          <li><a href="/self-defense">護身術・逮捕術</a></li>
+          <li><a href="/shiatsu">指圧治療院</a></li>
+          <li><a href="/soke">宗家について</a></li>
+          <li><a href="/members">門下生たち</a></li>
+          <li><a href="/affiliated-dojos">友好関係の道場</a></li>
+          <li><a href="/training">練習風景</a></li>
+          <li><a href="/event-photos">大会写真</a></li>
+          <li><a href="/gallery">宗家の賞状</a></li>
+          <li><a href="/testimonials">治療院お客様の声</a></li>
         </ul>
       </nav>
     </aside>
