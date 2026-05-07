@@ -44,36 +44,40 @@ const pageContent = page?.data.content;
       </div>
     </section>
 
-    <section class="self-defense" id="self-defense">
-      <div class="about-text">
-        <h2 class="reveal">泰山流護身術・逮捕術</h2>
-        <p class="reveal">60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
-      </div>
-      <a href="/self-defense" class="about-image">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_05.webp" alt="柔術稽古" class="reveal" />
-      </a>
-    </section>
+<section class="features-section" id="features">
+      <div class="feature-grid">
+        
+        <a href="/self-defense" class="feature-card reveal">
+          <div class="feature-image-wrapper">
+            <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_05.webp" alt="柔術稽古" />
+          </div>
+          <div class="feature-text">
+            <h2>泰山流護身術・逮捕術</h2>
+            <p>60年以上の武道経験に基づく実践的な護身術。合気柔術、柔道、空手の技術を統合し、現代社会に適応した効果的な防御システムを学びます。</p>
+          </div>
+        </a>
 
-    <section class="shiatsu" id="shiatsu">
-      <div class="about-text">
-        <h2 class="reveal">泰山流指圧整体院</h2>
-        <p class="reveal">武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
-      </div>
-      <a href="/shiatsu" class="about-image">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/shiatsu/SHIATSU_DO_02.webp" alt="指圧治療院" class="reveal" />
-      </a>
-    </section>
+        <a href="/shiatsu" class="feature-card reveal">
+          <div class="feature-image-wrapper">
+            <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/shiatsu/SHIATSU_DO_02.webp" alt="指圧治療院" />
+          </div>
+          <div class="feature-text">
+            <h2>泰山流指圧整体院</h2>
+            <p>武道の知識と経験を活かした独自の整体・指圧療法。身体のバランスを整え、自然治癒力を高めることで、心身の健康をサポートします。</p>
+          </div>
+        </a>
 
-    <section class="background-exhibits" id="background">
-      <div class="be-text">
-        <div class="be-block reveal">
-          <h3>宗家について</h3>
-          <p>伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術（Taiho Jutsu）」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。現在、選ばれた少数の生徒のみと完全予約制でクラスを行っています。</p>
-        </div>
+        <a href="/soke" class="feature-card reveal">
+          <div class="feature-image-wrapper">
+            <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/biography/SOKE_JOE_MILLER.webp" alt="宗家ジョー・ミラー" />
+          </div>
+          <div class="feature-text">
+            <h2>宗家について</h2>
+            <p>伝統的な術から独立し、泰山流を創始。実戦的な護身術「逮捕術」と、心身を癒す「泰山流指圧」の両面から、バランスの取れた武道を指導しています。</p>
+          </div>
+        </a>
+
       </div>
-      <a href="/soke" class="be-image">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/biography/SOKE_JOE_MILLER.webp" alt="宗家ジョー・ミラー" class="reveal" />
-      </a>
     </section>
 
     <section class="emblem" id="emblem">
@@ -164,16 +168,6 @@ const pageContent = page?.data.content;
 
 <style>
   /* --- レイアウトスタイル --- */
-  
-  /* self-defense と shiatsu を2カラムグリッドに */
-  .self-defense, .shiatsu { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .about-text h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 500; }
-  .about-image img { border-radius: 8px; width: 100%; }
-
-  .background-exhibits { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
-  .be-text { display: flex; flex-direction: column; gap: 40px; }
-  .be-image img { border-radius: 8px; width: 100%; }
-  
   .featured-works dl { display: flex; flex-direction: column; gap: 40px; }
   .featured-works dt { display: flex; align-items: center; gap: 30px; margin-bottom: 10px; }
   .featured-works .work-num { font-size: 2rem; font-weight: 600; color: var(--text-secondary); }
@@ -182,10 +176,82 @@ const pageContent = page?.data.content;
   .featured-works dd { margin-left: 80px; font-size: 1rem; color: var(--text-secondary); line-height: 1.8; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .featured-works dd:last-child { border-bottom: none; }
 
-  .emblem { text-align: center; margin: 80px 0; background-color: rgba(0,0,0,0.2); padding: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
+  .emblem { text-align: center; margin: 80px 0; background-color: var(--bg-color-secondary); padding: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
   .emblem img { width: 200px; height: 200px; object-fit: contain; }
 
   .access h3 { font-size: 2rem; margin-bottom: 30px; }
+  /* --- 統合セクション (カードレイアウト) --- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列のグリッド */
+    gap: 40px;
+  }
+
+  /* カード全体のスタイル */
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  /* 画像のラッパー（背景白、サイズ統一、ホバーエフェクト） */
+  .feature-image-wrapper {
+    background-color: #ffffff; /* 背景を白に */
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3; /* すべての画像を 4:3 の比率で統一 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  }
+
+  /* 画像自体の設定 */
+  .feature-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 枠に合わせてトリミング。余白を残したい場合は 'contain' に変更 */
+    transition: transform 0.4s ease;
+  }
+
+  /* ホバー時のエフェクト（ふわっと浮き上がり、影がつく） */
+  .feature-card:hover .feature-image-wrapper {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  /* テキスト部分のスタイル */
+  .feature-text {
+    padding: 25px 10px 10px 10px;
+  }
+
+  .feature-text h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .feature-text p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ホバー時にタイトル文字色を少し変える（任意） */
+  .feature-card:hover .feature-text h2 {
+    color: #e0d5ce;
+  }
+
+  /* スマホ・タブレット用レスポンシブ対応 */
+  @media (max-width: 900px) {
+    .feature-grid {
+      grid-template-columns: 1fr; /* スマホでは縦1列に */
+      gap: 50px;
+    }
+  }
 
   /* --- ヒーローカルーセル (全画面幅) --- */
   .hero-carousel {
