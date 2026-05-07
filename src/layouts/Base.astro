@@ -44,10 +44,12 @@ const pageCtx = createPublicPageContext({
 
   <body>
     <header class="site-header">
-      <div class="header-left">
-        <div class="logo-box"></div>
+      <a href="/home" class="header-left">
+        <div class="logo-box">
+          <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO_2.webp" alt="Site Logo" class="logo" />
+        </div>
         <span class="site-title">{siteTitle}</span>
-      </div>
+      </a>
       <button class="hamburger" id="hamburger" aria-label="メニューを開く">
         <span class="bar"></span>
         <span class="bar"></span>
