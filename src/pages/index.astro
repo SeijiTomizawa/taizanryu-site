@@ -11,37 +11,11 @@ try {
 
 const pageTitle = page?.data.title;
 const pageContent = page?.data.content;
-
-/**
-   * ヒーローカルーセルの画像切り替え (フェード)
-   */
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.carousel-slide');
-    if (slides.length === 0) return;
-
-    let currentSlide = 0;
-    const intervalTime = 5000; // 5000ミリ秒 (5秒) ごとに切り替え
-
-    function nextSlide() {
-      // 現在の画像をフェードアウト
-      slides[currentSlide].classList.remove('active');
-      
-      // 次の画像のインデックスを計算
-      currentSlide = (currentSlide + 1) % slides.length;
-      
-      // 次の画像をフェードイン
-      slides[currentSlide].classList.add('active');
-    }
-
-    // タイマー開始
-    setInterval(nextSlide, intervalTime);
-  });
-
 ---
 
 <Base
   title={pageTitle !== "Home" ? pageTitle : undefined}
-  description="Painting is my passion. Fine Arts Portfolio."
+  description="泰山流護身術・逮捕術 - Peaceful Mountain System"
 >
   {
     pageContent && (
@@ -51,7 +25,7 @@ const pageContent = page?.data.content;
 
   <div class="container" id="home">
     
-<section class="hero-carousel">
+    <section class="hero-carousel">
       <div class="carousel-images">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_04.webp" alt="Dojo 04" class="carousel-slide active" />
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_08.webp" alt="Dojo 08" class="carousel-slide" />
@@ -110,48 +84,48 @@ const pageContent = page?.data.content;
 
     <section class="featured-works" id="works">
       <dl>
-        <dt>
+        <dt class="reveal">
           <span class="work-num">01</span>
           <a href="">
             <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
           </a>
           <h3>国境を越えて集う仲間たち</h3>
         </dt>
-        <dd>
+        <dd class="reveal">
           世界中から集まった生徒たちが、泰山流の技術と精神を学び、共に成長しています。国籍や背景を超えた絆が、道場を一層豊かなものにしています。
         </dd>
-        <dt>
+        <dt class="reveal">
           <span class="work-num">02</span>
           <a href="/training">
             <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
           </a>
           <h3>稽古仲間たち</h3>
         </dt>
-        <dd>
+        <dd class="reveal">
           稽古で培った絆と信頼。同じ目標に向かって努力する、様々な国籍、年齢、経験レベルの仲間たちとの交流は、武道の成長に欠かせない要素です。
         </dd>
-        <dt>
+        <dt class="reveal">
           <span class="work-num">03</span>
           <a href="/techniques">
             <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
           </a>
           <h3>泰山流の技術</h3>
         </dt>
-        <dd>
+        <dd class="reveal">
           宗家ジョー・ミラーによる技術解説と、道場での稽古の様子をご覧ください。基本技術から実戦応用まで、映像を通じて泰山流の技術と哲学を体験できます。
         </dd>
       </dl>
     </section>
 
-    <section class="access" id="access">
+    <section class="access reveal" id="access">
       <h3>アクセス</h3>
       <div class="access-hero">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/big-photo0000-6654.jpg" 
-          alt="八王子駅前" class="reveal"
-          width="100%" height="200" style="border:0;"
+          alt="八王子駅前"
+          width="100%" height="200" style="border:0; object-fit: cover; margin-bottom: 20px;"
         />
       </div>
-      <div class="access-info">
+      <div class="access-info" style="margin-bottom: 20px;">
         <p>東京都八王子市子安町1-29-1</p>
         <p>八王子駅南口より徒歩5分</p>
         <p>新宿駅から30分、日本全国からアクセス良好</p>
@@ -170,107 +144,76 @@ const pageContent = page?.data.content;
   </div>
 </Base>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.carousel-slide');
+    if (slides.length === 0) return;
+
+    let currentSlide = 0;
+    const intervalTime = 5000;
+
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    setInterval(nextSlide, intervalTime);
+  });
+</script>
+
 <style>
-  /* 各セクション固有のレイアウトスタイル */
-  .hero { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
-  .hero h1 { font-size: 3rem; margin-bottom: 40px; }
-  .hero-img-2 { height: 600px; object-fit: cover; }
-  .author-name { text-align: right; font-size: 0.8rem; letter-spacing: 2px; }
-
-  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 30px; }
-  .about h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 400; }
-
-  .background-exhibits { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; }
-  .be-text { display: flex; flex-direction: column; gap: 40px; }
+  /* --- レイアウトスタイル --- */
   
-  .featured-works dl { display: flex; flex-direction: column; gap: 50px; }
-  .featured-works dt { display: flex; align-items: center; gap: 30px; }
+  /* self-defense と shiatsu を2カラムグリッドに */
+  .self-defense, .shiatsu { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-text h2 { font-size: 2rem; margin-bottom: 20px; font-weight: 500; }
+  .about-image img { border-radius: 8px; width: 100%; }
+
+  .background-exhibits { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; }
+  .be-text { display: flex; flex-direction: column; gap: 40px; }
+  .be-image img { border-radius: 8px; width: 100%; }
+  
+  .featured-works dl { display: flex; flex-direction: column; gap: 40px; }
+  .featured-works dt { display: flex; align-items: center; gap: 30px; margin-bottom: 10px; }
   .featured-works .work-num { font-size: 2rem; font-weight: 600; color: var(--text-secondary); }
   .featured-works img { width: 300px; height: 150px; object-fit: cover; border-radius: 8px; }
   .featured-works h3 { font-size: 1.5rem; margin: 0; }
-  .featured-works dd { margin-left: 80px; font-size: 1rem; color: var(--text-secondary); }
+  .featured-works dd { margin-left: 80px; font-size: 1rem; color: var(--text-secondary); line-height: 1.8; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .featured-works dd:last-child { border-bottom: none; }
 
-  .emblem { text-align: center; margin: 80px 0; background-color: var(--bg-color-secondary); padding: 40px; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; }
+  .emblem { text-align: center; margin: 80px 0; background-color: rgba(0,0,0,0.2); padding: 40px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
   .emblem img { width: 200px; height: 200px; object-fit: contain; }
 
-  .contact { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: end; }
-  .contact-title h2 { font-size: 3rem; }
-
-  @media (max-width: 900px) {
-    .container { padding-left: 20px; padding-right: 20px; }
-    .hero, .about, .background-exhibits, .contact { grid-template-columns: 1fr; }
-    .hero-img-2 { height: 400px; }
-  }
+  .access h3 { font-size: 2rem; margin-bottom: 30px; }
 
   /* --- ヒーローカルーセル (全画面幅) --- */
   .hero-carousel {
     position: relative;
     width: 100vw;
-    height: 80vh; /* 画面高さの80% (お好みで100vhに変更してください) */
+    height: 80vh; 
     left: 50%;
-    transform: translateX(-50%); /* .containerの枠を突破して全幅にするトリック */
-    margin-top: -100px; /* Base.astro等で設定された余白を相殺して上に詰める場合 */
+    transform: translateX(-50%); 
+    margin-top: -100px; 
+    margin-bottom: 60px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* 背景画像グループ */
-  .carousel-images {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
+  .carousel-images { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+  .carousel-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
+  .carousel-slide.active { opacity: 1; }
+  .carousel-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 2; }
 
-  .carousel-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out; /* 1.5秒かけてフェードイン/アウト */
-  }
+  .carousel-content { position: relative; z-index: 3; text-align: center; color: #ffffff; padding: 0 20px; }
 
-  .carousel-slide.active {
-    opacity: 1;
-  }
-
-  /* テキストの視認性を上げるオーバーレイ */
-  .carousel-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* 黒の半透明 */
-    z-index: 2;
-  }
-
-  /* 中央配置のテキストコンテンツ */
-  .carousel-content {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    color: #ffffff;
-    padding: 0 20px;
-  }
-
-  /* ふわっと表示されるアニメーション */
-  .hero-title,
-  .hero-subtitle,
-  .hero-author {
+  .hero-title, .hero-subtitle, .hero-author {
     opacity: 0;
     transform: translateY(30px);
     animation: floatUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
-
   .hero-title { animation-delay: 0.2s; margin-bottom: 20px; }
   .hero-subtitle { animation-delay: 0.6s; font-size: 1.2rem; letter-spacing: 3px; }
   .hero-author { animation-delay: 1.0s; font-size: 1rem; margin-top: 40px; letter-spacing: 2px; }
@@ -278,22 +221,20 @@ const pageContent = page?.data.content;
   .line-1 { font-size: 3.5rem; font-weight: 600; letter-spacing: 4px; display: inline-block; margin-bottom: 10px; }
   .line-2 { font-size: 1.5rem; letter-spacing: 2px; font-weight: 300; }
 
-  @keyframes floatUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  @keyframes floatUp { to { opacity: 1; transform: translateY(0); } }
 
-  /* スマホ対応 */
+  /* --- スマホ・タブレット用レスポンシブ対応 --- */
   @media (max-width: 900px) {
+    .container { padding-left: 20px; padding-right: 20px; }
+    .self-defense, .shiatsu, .background-exhibits { grid-template-columns: 1fr; gap: 40px; }
+    
+    .featured-works dt { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .featured-works img { width: 100%; height: auto; }
+    .featured-works dd { margin-left: 0; }
+
     .line-1 { font-size: 2rem; }
     .line-2 { font-size: 1.1rem; }
     .hero-subtitle { font-size: 1rem; }
     .hero-carousel { height: 60vh; }
   }
-
-  /* 元の .hero 関連のCSS (不要になりますが、念のため上書きまたは削除してください) */
-  /* .hero { display: grid; ... } 等は削除可能です */
-
 </style>
