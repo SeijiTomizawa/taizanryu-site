@@ -48,7 +48,7 @@ const pageCtx = createPublicPageContext({
         <div class="logo-box">
           <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO_2.webp" alt="Site Logo" class="logo" />
         </div>
-        <span class="site-title">{siteTitle}</span>
+        <span class="site-title">"泰山流護身術・逮捕術"<br>"東京八王子本部道場" </span>
       </a>
       <button class="hamburger" id="hamburger" aria-label="メニューを開く">
         <span class="bar"></span>
@@ -69,7 +69,7 @@ const pageCtx = createPublicPageContext({
           <li><a href="/affiliated-dojos">友好関係の道場</a></li>
           <li><a href="/training">練習風景</a></li>
           <li><a href="/event-photos">大会写真</a></li>
-          <li><a href="/gallery">宗家の賞状</a></li>
+          <li><a href="/awards">宗家の賞状</a></li>
           <li><a href="/testimonials">治療院お客様の声</a></li>
         </ul>
       </nav>
@@ -84,10 +84,18 @@ const pageCtx = createPublicPageContext({
     <footer class="site-footer">
       <div class="footer-content">
         <p>&copy; {new Date().getFullYear()} {siteTitle}. All Rights Reserved.</p>
-        <div class="social-links">
-          <a href="#">Instagram</a>
-          <a href="#">Twitter</a>
-        </div>
+        <ul>
+          <li><a href="/#home">ホーム</a></li>
+          <li><a href="/self-defense">護身術・逮捕術</a></li>
+          <li><a href="/shiatsu">指圧治療院</a></li>
+          <li><a href="/soke">宗家について</a></li>
+          <li><a href="/members">門下生たち</a></li>
+          <li><a href="/affiliated-dojos">友好関係の道場</a></li>
+          <li><a href="/training">練習風景</a></li>
+          <li><a href="/event-photos">大会写真</a></li>
+          <li><a href="/awards">宗家の賞状</a></li>
+          <li><a href="/testimonials">治療院お客様の声</a></li>
+        </ul>
       </div>
     </footer>
 
@@ -163,7 +171,7 @@ const pageCtx = createPublicPageContext({
         padding: 0 40px; z-index: 100;
       }
       .header-left { display: flex; align-items: center; gap: 15px; }
-      .logo-box img { width: 30px; height: 30px; border-radius: 4px; }
+      .logo-box img { width: 50px; height: 50px; border-radius: 4px; }
       .site-title { font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
       /* --- Hamburger --- */

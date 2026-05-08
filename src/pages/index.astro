@@ -100,7 +100,7 @@ const pageContent = page?.data.content;
     <section class="featured-works" id="works">
       <dl>
         <dt class="reveal">
-          <span class="work-num">01</span>
+          <span class="work-num">1</span>
           <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
         </dt>
         <dd class="reveal">
@@ -109,7 +109,7 @@ const pageContent = page?.data.content;
           <a href="/training" class="btn">詳細を見る</a>
         </dd>
         <dt class="reveal">
-          <span class="work-num">02</span>
+          <span class="work-num">2</span>
           <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
         </dt>
         <dd class="reveal">
@@ -118,13 +118,31 @@ const pageContent = page?.data.content;
           <a href="/training" class="btn">詳細を見る</a>  
         </dd>
         <dt class="reveal">
-          <span class="work-num">03</span>
+          <span class="work-num">3</span>
           <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
         </dt>
         <dd class="reveal">
           <h3>泰山流の技術</h3>
           宗家ジョー・ミラーによる技術解説と、道場での稽古の様子をご覧ください。基本技術から実戦応用まで、映像を通じて泰山流の技術と哲学を体験できます。
           <a href="/techniques" class="btn">詳細を見る</a>
+        </dd>
+        <dt class="reveal">
+          <span class="work-num">4</span>
+          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+        </dt>
+        <dd class="reveal">
+          <h3>宗家の賞状</h3>
+          泰山流宗家ジョー・ミラーの認定証と栄誉を紹介します。武道界への貢献が評価され、多数の賞状や表彰を受けています。
+          <a href="/awards" class="btn">詳細を見る</a>
+        </dd>
+        <dt class="reveal">
+          <span class="work-num">5</span>
+          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+        </dt>
+        <dd class="reveal">
+          <h3>治療院お客様の声</h3>
+          泰山流指圧整体院での施術を受けたお客様からの感想と体験談をご紹介します。身体の不調が改善された喜びの声が多数寄せられています。
+          <a href="/testimonials" class="btn">詳細を見る</a>
         </dd>
       </dl>
     </section>
@@ -422,6 +440,21 @@ const pageContent = page?.data.content;
     color: var(--text-secondary);
     line-height: 1.8;
   }
+
+  .access-hero img {
+    width: 100vw; /* HTML側の width="600" を上書きして全幅にする */
+    height: 350px; /* 高さを少し広げてダイナミックに（お好みで調整） */
+    object-fit: cover;
+    display: block; /* 画像下部の不要な隙間を消す */
+    margin-bottom: 40px;
+  }
+
+  /* Googleマップを全画面幅に */
+  .access iframe {
+    width: 100%; /* HTML側の width="600" を上書きして全幅にする */
+    height: 450px;
+    display: block;
+  } */
 
   .schedule {
     background-color: var(--bg-color-secondary);
