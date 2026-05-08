@@ -383,6 +383,7 @@ const pageContent = page?.data.content;
     /* 画面幅いっぱいにするトリック */
     position: relative;
     width: 100vw;
+    height: 300px; /* 適宜調整 */
     left: 50%;
     transform: translateX(-50%);
     
@@ -402,15 +403,11 @@ const pageContent = page?.data.content;
 
   /* --- アクセスセクション (全画面幅) --- */
   .access {
-    /* 画面幅いっぱいにするトリック */
-    position: relative;
     width: 100vw;
     left: 50%;
-    transform: translateX(-50%);
-    
     text-align: center; /* テキストを中央揃えに */
     padding-top: 40px;
-    background-color: var(--bg-color); /* 背景色を馴染ませる */
+    background-color: #fff; /* 背景色を馴染ませる */
   }
 
   .access h3 {
@@ -426,19 +423,17 @@ const pageContent = page?.data.content;
     line-height: 1.8;
   }
 
-  /* 画像を全画面幅に */
-  .access-hero img {
-    width: 100% !important; /* HTMLのインラインスタイルを確実に上書き */
-    height: 350px !important; /* 高さを少し広げてダイナミックに（お好みで調整） */
-    object-fit: cover;
-    display: block; /* 画像下部の不要な隙間を消す */
-    margin-bottom: 40px !important;
+  .schedule {
+    background-color: var(--bg-color-secondary);
+    width: 100vw;
+    padding: 40px 20px;
+    margin-bottom: 40px;
   }
 
-  /* Googleマップを全画面幅に */
-  .access iframe {
-    width: 100%; /* HTML側の width="600" を上書きして全幅にする */
-    height: 450px;
-    display: block;
+  .news {
+    background-color: #fff;
+    width: 100vw;
+    padding: 40px 20px;
+    margin-bottom: 40px;
   }
 </style>
