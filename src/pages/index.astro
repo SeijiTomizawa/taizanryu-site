@@ -152,7 +152,7 @@ const pageContent = page?.data.content;
       <div class="access-hero">
         <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/big-photo0000-6654.jpg" alt="八王子駅前"/>
       </div>
-      <div class="access-info" style="margin-bottom: 20px;">
+      <div class="access-info">
         <p>東京都八王子市子安町1-29-1</p>
         <p>八王子駅南口より徒歩5分</p>
         <p>新宿駅から30分、日本全国からアクセス良好</p>
@@ -262,8 +262,8 @@ const pageContent = page?.data.content;
     height: 80vh; 
     left: 50%;
     transform: translateX(-50%); 
-    margin-top: -100px; 
-    margin-bottom: 60px;
+    margin-top: -100px;
+    margin-bottom: 80px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -295,7 +295,7 @@ const pageContent = page?.data.content;
   @media (max-width: 900px) {
     .container { padding-left: 20px; padding-right: 20px; }
     .self-defense, .shiatsu, .background-exhibits { grid-template-columns: 1fr; gap: 40px; }
-    
+
     .featured-works dt { flex-direction: column; align-items: flex-start; gap: 15px; }
     .featured-works img { width: 100%; height: auto; }
     .featured-works dd { margin-left: 0; }
@@ -303,7 +303,18 @@ const pageContent = page?.data.content;
     .line-1 { font-size: 2rem; }
     .line-2 { font-size: 1.1rem; }
     .hero-subtitle { font-size: 1rem; }
-    .hero-carousel { height: 60vh; }
+    .hero-carousel { height: 60vh; margin-bottom: 40px; }
+
+    .features-section,
+    .featured-works {
+      padding: 40px 0;
+    }
+
+    .schedule,
+    .news,
+    .access {
+      padding: 40px 20px;
+    }
   }
 
   /* --- Featured Works (横並び & ボタン) --- */
@@ -423,9 +434,9 @@ const pageContent = page?.data.content;
   .access {
     width: 100vw;
     left: 50%;
-    text-align: center; /* テキストを中央揃えに */
-    padding-top: 40px;
-    background-color: #fff; /* 背景色を馴染ませる */
+    text-align: center;
+    padding: 80px 20px;
+    background-color: #fff;
   }
 
   .access h3 {
@@ -456,17 +467,27 @@ const pageContent = page?.data.content;
     display: block;
   } */
 
+  .features-section {
+    padding: 80px 0;
+  }
+
   .schedule {
     background-color: var(--bg-color-secondary);
+    color: var(--text-secondary);
     width: 100vw;
-    padding: 40px 20px;
-    margin-bottom: 40px;
+    padding: 80px 20px;
+    border-radius: 4px;
   }
 
   .news {
     background-color: #fff;
+    color: #000;
     width: 100vw;
-    padding: 40px 20px;
-    margin-bottom: 40px;
+    padding: 80px 20px;
+    border-radius: 4px;
+  }
+
+  .featured-works {
+    padding: 80px 0;
   }
 </style>

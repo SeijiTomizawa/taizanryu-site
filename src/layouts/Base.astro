@@ -44,12 +44,14 @@ const pageCtx = createPublicPageContext({
 
   <body>
     <header class="site-header">
-      <a href="/home" class="header-left">
+      <a href="/" class="header-left">
         <div class="logo-box">
           <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO_2.webp" alt="Site Logo" class="logo" />
         </div>
-        <span class="site-title l-1">泰山流護身術・逮捕術</span>
-        <span class="site-title l-2">東京八王子本部道場</span>
+        <div class="site-title-block">
+          <span class="l-1">泰山流護身術・逮捕術</span>
+          <span class="l-2">東京八王子本部道場</span>
+        </div>
       </a>
       <button class="hamburger" id="hamburger" aria-label="メニューを開く">
         <span class="bar"></span>
@@ -165,14 +167,10 @@ const pageCtx = createPublicPageContext({
         padding: 0 40px; z-index: 100;
       }
       .header-left { display: flex; align-items: center; gap: 15px; }
-      .logo-box img { width: 60px; height: 60px; border-radius: 4px; }
-      .site-title {
-         font-weight: 600; 
-         letter-spacing: 1px; 
-         text-transform: uppercase;
-         l-1 { font-size: 0.8rem; }
-         l-2 { font-size: 0.6rem; }
-      }
+      .logo-box img { width: 56px; height: 56px; border-radius: 4px; }
+      .site-title-block { display: flex; flex-direction: column; gap: 3px; }
+      .l-1 { font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; }
+      .l-2 { font-size: 0.65rem; font-weight: 400; letter-spacing: 1px; color: var(--text-secondary); }
 
       /* --- Hamburger --- */
       .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 10px; z-index: 101; }
@@ -186,9 +184,14 @@ const pageCtx = createPublicPageContext({
       }
       .drawer-menu.open { right: 0; }
       .close-btn { position: absolute; top: 25px; right: 40px; background: none; border: none; color: var(--text-primary); font-size: 2.5rem; cursor: pointer; line-height: 1; }
-      .drawer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 30px; margin-top: 50px; }
-      .drawer-nav a { font-size: 1.5rem; font-weight: 300; letter-spacing: 2px; transition: color 0.3s ease; }
-      .drawer-nav a:hover { color: var(--text-secondary); }
+      .drawer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 0; margin-top: 40px; }
+      .drawer-nav li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .drawer-nav a {
+        display: block; padding: 16px 0;
+        font-size: 1.1rem; font-weight: 300; letter-spacing: 2px;
+        transition: color 0.3s ease, padding-left 0.3s ease;
+      }
+      .drawer-nav a:hover { color: var(--text-secondary); padding-left: 8px; }
 
       /* --- Overlay --- */
       .overlay {
@@ -199,16 +202,18 @@ const pageCtx = createPublicPageContext({
       .overlay.open { opacity: 1; visibility: visible; }
 
       /* --- Footer --- */
-      .site-footer { background-color: #1a120d; padding: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+      .site-footer { background-color: #1a120d; padding: 48px 40px; border-top: 1px solid rgba(255,255,255,0.1); }
       .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary); }
-      .social-links { display: flex; gap: 20px; }
+      .social-links { display: flex; gap: 0; }
+      .social-links a { padding: 4px 16px; border-left: 1px solid rgba(255,255,255,0.15); transition: color 0.3s ease; }
+      .social-links a:first-child { border-left: none; padding-left: 0; }
       .social-links a:hover { color: var(--text-primary); }
 
       /* --- Global Layout & Animations --- */
       .container {
         max-width: 1200px; margin: 0 auto;
         padding: calc(100px + var(--header-height)) 40px 100px;
-        display: flex; flex-direction: column; gap: 150px;
+        display: flex; flex-direction: column;
       }
 
       .fade-in-title span { display: inline-block; opacity: 0; transform: translateY(20px); animation: titleFadeIn 0.8s ease forwards; }
