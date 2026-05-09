@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos";
 ---
 
 <Base
@@ -121,53 +122,19 @@ import Base from "../layouts/Base.astro";
 
       <div class="sh-video-grid">
 
-        <div class="sh-video-item reveal">
-          <div class="sh-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流指圧 基本手技"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+        {videosData.slice(0, 4).map((v) => (
+          <div class="sh-video-item reveal">
+            <div class="sh-video-wrap">
+              <iframe
+                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
+                title={v.titleJP}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="sh-video-caption">{v.descriptionJP}</p>
           </div>
-          <p class="sh-video-caption">基本手技 — 母指付け根を使った施術</p>
-        </div>
-
-        <div class="sh-video-item reveal">
-          <div class="sh-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流指圧 経絡へのアプローチ"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sh-video-caption">経絡治療 — ツボへのアプローチ</p>
-        </div>
-
-        <div class="sh-video-item reveal">
-          <div class="sh-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流整体"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sh-video-caption">整体施術 — 身体のバランス調整</p>
-        </div>
-
-        <div class="sh-video-item reveal">
-          <div class="sh-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流指圧 全身施術"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sh-video-caption">全身施術 — 心身のリセット</p>
-        </div>
+        ))}
 
       </div>
 

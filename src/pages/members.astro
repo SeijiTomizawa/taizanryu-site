@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { membersGroupImage } from "../components/blocks/images";
 const members = [
   { name: "WARREN HARRIS", id: "TZ001" },
   { name: "RENA KEY", id: "TZ002" },
@@ -79,7 +80,7 @@ const members = [
   <!-- ヒーローセクション -->
   <section class="mb-hero">
     <img
-      src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_08.webp"
+      src={membersGroupImage}
       alt="泰山流道場 門下生たち"
       class="mb-hero-bg"
     />

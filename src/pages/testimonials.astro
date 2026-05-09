@@ -1,52 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
-
-const R2 = "https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev";
-
-const videos = [
-  {
-    id: "dQw4w9WgXcQ",
-    name: "田中 美智子 様",
-    age: "50代女性",
-    complaint: "慢性的な肩こり・首の痛み",
-    quote: "長年悩んでいた肩こりが、数回の施術でみるみる改善しました。宗家の手技は他では体験できない深さがあります。",
-  },
-  {
-    id: "dQw4w9WgXcQ",
-    name: "山本 健太郎 様",
-    age: "40代男性",
-    complaint: "腰痛・坐骨神経痛",
-    quote: "病院でも治らなかった腰痛が、泰山流指圧で劇的に楽になりました。週に一度通うのが今では楽しみです。",
-  },
-  {
-    id: "dQw4w9WgXcQ",
-    name: "佐々木 恵子 様",
-    age: "60代女性",
-    complaint: "膝の痛み・むくみ",
-    quote: "足のむくみと膝痛で歩くのが辛かったのですが、施術後は体が軽くなり、よく眠れるようになりました。",
-  },
-  {
-    id: "dQw4w9WgXcQ",
-    name: "Robert Johnson 様",
-    age: "30代男性",
-    complaint: "スポーツによる筋肉疲労",
-    quote: "武道の稽古後の疲労回復に通っています。Sensei Miller's technique is unlike anything I've experienced.",
-  },
-  {
-    id: "dQw4w9WgXcQ",
-    name: "中村 洋子 様",
-    age: "70代女性",
-    complaint: "頭痛・めまい",
-    quote: "頭痛薬が手放せなかった生活が変わりました。経絡へのアプローチが効いているのか、頭がすっきりします。",
-  },
-  {
-    id: "dQw4w9WgXcQ",
-    name: "鈴木 誠一 様",
-    age: "50代男性",
-    complaint: "デスクワークによる疲労・眼精疲労",
-    quote: "PC作業が多く常に体が張っていましたが、施術後は全身がほぐれ、仕事の集中力も上がった気がします。",
-  },
-];
+import { shiatsuTestimonialsData, getCloudflareStreamUrl } from "../components/blocks/videos";
+import { shiatsuReviewsHeroBg } from "../components/blocks/images";
 ---
 
 <Base
@@ -57,7 +12,7 @@ const videos = [
   <!-- ヒーローセクション -->
   <section class="ts-hero">
     <img
-      src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/shiatsu/SHIATSU_DO_02.webp"
+      src={shiatsuReviewsHeroBg}
       alt="泰山流指圧整体院"
       class="ts-hero-bg"
     />
@@ -87,40 +42,23 @@ const videos = [
     </div>
   </section>
 
-  <!-- 動画ストリーミング一覧 -->
+  <!-- 動画ギャラリー -->
   <section class="ts-videos">
     <div class="ts-inner">
-
-      {videos.map((v, i) => (
-        <article class={`ts-card reveal ts-card--${i % 2 === 0 ? 'normal' : 'reverse'}`}>
-
-          <div class="ts-card-video">
+      <div class="ts-grid">
+        {shiatsuTestimonialsData.map((v, i) => (
+          <div class="ts-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
             <div class="ts-video-wrap">
               <iframe
-                src={`https://www.youtube.com/embed/${v.id}`}
-                title={`${v.name} — お客様の声`}
+                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
+                title={v.titleJP}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
             </div>
           </div>
-
-          <div class="ts-card-body">
-            <div class="ts-card-meta">
-              <span class="ts-tag">{v.complaint}</span>
-            </div>
-            <blockquote class="ts-card-quote">
-              <p>「{v.quote}」</p>
-            </blockquote>
-            <div class="ts-card-person">
-              <p class="ts-card-name">{v.name}</p>
-              <p class="ts-card-age">{v.age}</p>
-            </div>
-          </div>
-
-        </article>
-      ))}
-
+        ))}
+      </div>
     </div>
   </section>
 
@@ -268,44 +206,38 @@ const videos = [
     color: var(--text-secondary);
   }
 
-  /* ===== 動画一覧 ===== */
+  /* ===== 動画ギャラリー ===== */
   .ts-videos {
     padding: 0 0 100px;
     background-color: var(--bg-color);
   }
 
-  /* ===== カード（横並び） ===== */
-  .ts-card {
+  .ts-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-    padding: 64px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 
-  .ts-card:last-child {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  .ts-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  /* 偶数カードは動画を右に */
-  .ts-card--reverse {
-    direction: rtl;
-  }
-
-  .ts-card--reverse > * {
-    direction: ltr;
-  }
-
-  /* 動画 */
   .ts-video-wrap {
     position: relative;
     width: 100%;
     padding-top: 56.25%;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.4);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    background-color: #0a0705;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .ts-item:hover .ts-video-wrap {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
+    transform: translateY(-4px);
   }
 
   .ts-video-wrap iframe {
@@ -316,52 +248,11 @@ const videos = [
     border: none;
   }
 
-  /* テキスト側 */
-  .ts-card-meta {
-    margin-bottom: 20px;
-  }
-
-  .ts-tag {
-    display: inline-block;
-    font-size: 0.72rem;
+  .ts-item-label {
+    font-size: 0.75rem;
     letter-spacing: 1.5px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(107, 31, 35, 0.7);
-    background-color: rgba(107, 31, 35, 0.25);
-    color: #ffcccc;
-  }
-
-  .ts-card-quote {
-    margin: 0 0 28px;
-    padding: 0;
-    border: none;
-  }
-
-  .ts-card-quote p {
-    font-size: 1.05rem;
-    line-height: 2;
-    color: var(--text-primary);
-    font-weight: 300;
-    letter-spacing: 0.5px;
-  }
-
-  .ts-card-person {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .ts-card-name {
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-  }
-
-  .ts-card-age {
-    font-size: 0.78rem;
     color: var(--text-secondary);
-    letter-spacing: 1px;
+    padding-left: 4px;
   }
 
   /* ===== レスポンシブ ===== */
@@ -372,16 +263,13 @@ const videos = [
 
     .ts-videos { padding-bottom: 60px; }
 
-    .ts-card {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 48px 0;
-      direction: ltr;
-    }
-
-    .ts-card--reverse { direction: ltr; }
+    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
     .ts-line-a { letter-spacing: 4px; }
     .ts-line-b { letter-spacing: 5px; }
+  }
+
+  @media (max-width: 560px) {
+    .ts-grid { grid-template-columns: 1fr; }
   }
 </style>

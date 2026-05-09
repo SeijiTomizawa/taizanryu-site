@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components/blocks/videos";
 ---
 
 <Base
@@ -107,53 +108,19 @@ import Base from "../layouts/Base.astro";
 
       <div class="sd-video-grid">
 
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流護身術 基本技法"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+        {martialArtsTechniquesData.map((v) => (
+          <div class="sd-video-item reveal">
+            <div class="sd-video-wrap">
+              <iframe
+                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
+                title={v.titleJP}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="sd-video-caption">{v.titleJP} — {v.descriptionJP}</p>
           </div>
-          <p class="sd-video-caption">基本技法 — 受け身と基礎動作</p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流逮捕術"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption">逮捕術 — 安全な制圧技術</p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流合気柔術"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption">合気柔術 — 関節技と投げ技</p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流組手稽古"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption">組手稽古 — 実践的な護身訓練</p>
-        </div>
+        ))}
 
       </div>
 
