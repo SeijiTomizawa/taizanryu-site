@@ -1,0 +1,374 @@
+---
+import Base from "../layouts/Base.astro";
+
+const R2 = "https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev";
+
+// 画像リスト — src と alt を定義
+// aspect は "tall" | "wide" | "square" — マソンリーの高低差のヒント
+const photos = [
+  { src: `${R2}/dojo/DOJO_04.webp`,                       alt: "道場稽古",           aspect: "wide" },
+  { src: `${R2}/dojo/DOJO_05.webp`,                       alt: "柔術稽古",           aspect: "tall" },
+  { src: `${R2}/dojo/DOJO_07.webp`,                       alt: "組手稽古",           aspect: "wide" },
+  { src: `${R2}/dojo/DOJO_08.webp`,                       alt: "道場風景",           aspect: "tall" },
+  { src: `${R2}/shiatsu/SHIATSU_DO_02.webp`,              alt: "指圧施術",           aspect: "square" },
+  { src: `${R2}/biography/SOKE_JOE_MILLER.webp`,          alt: "宗家ジョー・ミラー", aspect: "tall" },
+  { src: `${R2}/parts/big-photo0000-6654.jpg`,            alt: "八王子道場",         aspect: "wide" },
+  { src: `https://picsum.photos/600/800?random=51`,       alt: "稽古風景",           aspect: "tall" },
+  { src: `https://picsum.photos/800/500?random=52`,       alt: "演武",               aspect: "wide" },
+  { src: `https://picsum.photos/600/600?random=53`,       alt: "門下生",             aspect: "square" },
+  { src: `https://picsum.photos/500/700?random=54`,       alt: "技の披露",           aspect: "tall" },
+  { src: `https://picsum.photos/800/600?random=55`,       alt: "大会",               aspect: "wide" },
+  { src: `https://picsum.photos/600/900?random=56`,       alt: "組技",               aspect: "tall" },
+  { src: `https://picsum.photos/800/500?random=57`,       alt: "審査会",             aspect: "wide" },
+  { src: `https://picsum.photos/600/600?random=58`,       alt: "集合写真",           aspect: "square" },
+  { src: `https://picsum.photos/500/750?random=59`,       alt: "型の演武",           aspect: "tall" },
+  { src: `https://picsum.photos/800/550?random=60`,       alt: "道場外観",           aspect: "wide" },
+  { src: `https://picsum.photos/600/800?random=61`,       alt: "指導風景",           aspect: "tall" },
+];
+---
+
+<Base
+  title="大会写真"
+  description="泰山流護身術・逮捕術 — 道場での稽古・演武・大会の様子をご覧ください。"
+>
+
+  <!-- タイトルセクション -->
+  <section class="ep-title">
+    <div class="ep-title-inner reveal">
+      <p class="ep-eyebrow">Taizan-ryu</p>
+      <h1 class="ep-title-text">大会写真</h1>
+      <p class="ep-title-sub">Event Photos</p>
+      <div class="ep-divider"></div>
+      <p class="ep-title-desc">稽古・演武・大会の様子をご紹介します。</p>
+    </div>
+  </section>
+
+  <!-- マソンリーグリッド -->
+  <section class="ep-gallery">
+    <div class="ep-masonry">
+      {photos.map((photo, i) => (
+        <div
+          class={`ep-item ep-item--${photo.aspect} reveal`}
+          data-index={i}
+          data-src={photo.src}
+          data-alt={photo.alt}
+          style={`animation-delay: ${(i % 6) * 80}ms`}
+        >
+          <img src={photo.src} alt={photo.alt} loading="lazy" />
+          <div class="ep-item-overlay">
+            <span class="ep-item-icon">⊕</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ライトボックス -->
+  <div class="ep-lightbox" id="ep-lightbox" aria-hidden="true">
+    <button class="ep-lb-close" id="ep-lb-close" aria-label="閉じる">&times;</button>
+    <button class="ep-lb-prev" id="ep-lb-prev" aria-label="前の画像">&#8249;</button>
+    <button class="ep-lb-next" id="ep-lb-next" aria-label="次の画像">&#8250;</button>
+    <div class="ep-lb-stage">
+      <img class="ep-lb-img" id="ep-lb-img" src="" alt="" />
+    </div>
+    <p class="ep-lb-caption" id="ep-lb-caption"></p>
+    <p class="ep-lb-counter" id="ep-lb-counter"></p>
+  </div>
+
+</Base>
+
+<script>
+  const photos = Array.from(document.querySelectorAll<HTMLElement>('.ep-item'));
+  const lightbox  = document.getElementById('ep-lightbox')!;
+  const lbImg     = document.getElementById('ep-lb-img') as HTMLImageElement;
+  const lbCaption = document.getElementById('ep-lb-caption')!;
+  const lbCounter = document.getElementById('ep-lb-counter')!;
+  const lbClose   = document.getElementById('ep-lb-close')!;
+  const lbPrev    = document.getElementById('ep-lb-prev')!;
+  const lbNext    = document.getElementById('ep-lb-next')!;
+
+  let current = 0;
+
+  function open(index: number) {
+    current = index;
+    const item = photos[index];
+    lbImg.src        = item.dataset.src ?? '';
+    lbImg.alt        = item.dataset.alt ?? '';
+    lbCaption.textContent = item.dataset.alt ?? '';
+    lbCounter.textContent = `${index + 1} / ${photos.length}`;
+    lightbox.classList.add('ep-lightbox--open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('ep-lightbox--open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function prev() { open((current - 1 + photos.length) % photos.length); }
+  function next() { open((current + 1) % photos.length); }
+
+  photos.forEach((item, i) => item.addEventListener('click', () => open(i)));
+  lbClose.addEventListener('click', close);
+  lbPrev.addEventListener('click', prev);
+  lbNext.addEventListener('click', next);
+
+  // オーバーレイクリックで閉じる
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || (e.target as HTMLElement).classList.contains('ep-lb-stage')) close();
+  });
+
+  // キーボード操作
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('ep-lightbox--open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowLeft')  prev();
+    if (e.key === 'ArrowRight') next();
+  });
+</script>
+
+<style>
+  /* ===== タイトル ===== */
+  .ep-title {
+    padding: calc(var(--header-height) + 80px) 0 72px;
+    background-color: var(--bg-color);
+    text-align: center;
+  }
+
+  .ep-title-inner {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ep-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .ep-title-text {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 600;
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .ep-title-sub {
+    font-size: 0.85rem;
+    letter-spacing: 5px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+  }
+
+  .ep-divider {
+    width: 40px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.25);
+    margin: 0 auto 36px;
+  }
+
+  .ep-title-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+  }
+
+  /* ===== マソンリーグリッド ===== */
+  .ep-gallery {
+    padding: 0 0 80px;
+    background-color: var(--bg-color);
+  }
+
+  .ep-masonry {
+    column-count: 3;
+    column-gap: 8px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ===== 各アイテム ===== */
+  .ep-item {
+    break-inside: avoid;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  /* アスペクト比のヒント — 実際の画像の高さに従う */
+  .ep-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* ホバーオーバーレイ */
+  .ep-item-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(107, 31, 35, 0.0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.35s ease;
+  }
+
+  .ep-item-icon {
+    font-size: 2rem;
+    color: #fff;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .ep-item:hover img {
+    transform: scale(1.05);
+  }
+
+  .ep-item:hover .ep-item-overlay {
+    background-color: rgba(107, 31, 35, 0.45);
+  }
+
+  .ep-item:hover .ep-item-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ===== ライトボックス ===== */
+  .ep-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .ep-lightbox--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ep-lb-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 1;
+    padding: 60px 80px 20px;
+    box-sizing: border-box;
+  }
+
+  .ep-lb-img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    transition: opacity 0.2s ease;
+  }
+
+  .ep-lb-caption {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 2px;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .ep-lb-counter {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 2px;
+    margin: 0 0 24px;
+  }
+
+  /* 閉じるボタン */
+  .ep-lb-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 2.5rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 8px;
+    transition: color 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+  }
+
+  .ep-lb-close:hover {
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  /* 前後ボタン */
+  .ep-lb-prev,
+  .ep-lb-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 2rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    z-index: 10;
+  }
+
+  .ep-lb-prev { left: 20px; }
+  .ep-lb-next { right: 20px; }
+
+  .ep-lb-prev:hover,
+  .ep-lb-next:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 1024px) {
+    .ep-masonry { column-count: 2; }
+  }
+
+  @media (max-width: 600px) {
+    .ep-masonry {
+      column-count: 2;
+      column-gap: 4px;
+      padding: 0 8px;
+    }
+
+    .ep-item { margin-bottom: 4px; }
+
+    .ep-title {
+      padding: calc(var(--header-height) + 48px) 0 48px;
+    }
+
+    .ep-lb-stage { padding: 60px 16px 16px; }
+    .ep-lb-prev  { left: 8px; }
+    .ep-lb-next  { right: 8px; }
+    .ep-lb-prev,
+    .ep-lb-next  { width: 40px; height: 40px; font-size: 1.4rem; }
+  }
+</style>
