@@ -44,7 +44,7 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
 
   <!-- 動画ギャラリー -->
   <section class="ts-videos">
-    <div class="ts-inner">
+    <div class="ts-grid-wrap">
       <div class="ts-grid">
         {shiatsuTestimonialsData.map((v, i) => (
           <div class="ts-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
@@ -208,8 +208,14 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
 
   /* ===== 動画ギャラリー ===== */
   .ts-videos {
-    padding: 0 0 100px;
+    padding: 60px 0 100px;
     background-color: var(--bg-color);
+  }
+
+  .ts-grid-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
   }
 
   .ts-grid {
@@ -263,7 +269,8 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
 
     .ts-videos { padding-bottom: 60px; }
 
-    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .ts-grid-wrap { padding: 0 16px; }
+    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
     .ts-line-a { letter-spacing: 4px; }
     .ts-line-b { letter-spacing: 5px; }
