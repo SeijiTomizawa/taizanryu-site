@@ -3,9 +3,81 @@
 
 /// <reference types="emdash/locals" />
 
-import type { ContentBylineCredit } from "emdash";
+import type { ContentBylineCredit, PortableTextBlock } from "emdash";
+
+export interface Page {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  content?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface Post {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number };
+  content?: PortableTextBlock[];
+  excerpt?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface Video {
+  id: string;
+  slug: string | null;
+  status: string;
+  title_jp: string;
+  title_en?: string | null;
+  description_jp?: string | null;
+  description_en?: string | null;
+  cloudflare_video_id: string;
+  category?: string | null;
+  thumbnail_time?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+}
+
+export interface Member {
+  id: string;
+  slug: string | null;
+  status: string;
+  name: string;
+  member_id: string;
+  photo_url?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+}
+
+export interface News {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  date?: string | null;
+  category?: string | null;
+  body?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+}
 
 declare module "emdash" {
   interface EmDashCollections {
+    pages: Page;
+    posts: Post;
+    videos: Video;
+    members: Member;
+    news: News;
   }
 }

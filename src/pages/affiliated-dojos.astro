@@ -38,12 +38,16 @@ const dojos = [
     <div class="inner">
       <div class="title-content reveal">
         <p class="eyebrow">Taizan-ryu</p>
-        <h1 class="title-text">友好関係の道場</h1>
+        <h1 class="title-text"><span class="ja">友好関係の道場</span><span class="en">Affiliated Dojos</span></h1>
         <p class="title-sub">Affiliated Dojos</p>
         <div class="divider"></div>
-        <p class="title-desc">
+        <p class="title-desc ja">
           世界各国から集まった仲間たちが、守破離の精神のもとで共に稽古に励んでいます。
           国籍・年齢・経験を超えた絆が、泰山流道場を一層豊かなものにしています。
+        </p>
+        <p class="title-desc en">
+          Students from around the world train together in the spirit of Shu-Ha-Ri.
+          Bonds that transcend nationality, age, and experience make Taizan-ryu Dojo all the richer.
         </p>
       </div>
     </div>
@@ -64,8 +68,8 @@ const dojos = [
     <div class="inner">
 
       <div class="list-header reveal">
-        <h2>友好関係の道場一覧</h2>
-        <p>友好関係の道場をご紹介します。</p>
+        <h2><span class="ja">友好関係の道場一覧</span><span class="en">Affiliated Dojos</span></h2>
+        <p><span class="ja">友好関係の道場をご紹介します。</span><span class="en">Meet our affiliated dojos.</span></p>
       </div>
 
       <div class="grid">
@@ -82,7 +86,7 @@ const dojos = [
               <p class="card-location">{dojo.location}</p>
               <p class="card-description">{dojo.discribe}</p>
               <a href={dojo.link} target="_blank" rel="noopener noreferrer" class="btn-secondary">
-                詳細を見る
+                <span class="ja">詳細を見る</span><span class="en">View Details</span>
               </a>
             </div>
           </div>

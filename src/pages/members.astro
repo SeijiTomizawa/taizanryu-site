@@ -1,59 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
+import { getEmDashCollection } from "emdash";
 import { membersGroupImage } from "../components/blocks/images";
-const members = [
-  { name: "WARREN HARRIS", id: "TZ001" },
-  { name: "RENA KEY", id: "TZ002" },
-  { name: "RODNEY CHOE", id: "TZ003" },
-  { name: "JADA-LOVE ROPER", id: "TZ004" },
-  { name: "SHERI EDWARDS", id: "TZ005" },
-  { name: "RONICE EDWARDS", id: "TZ006" },
-  { name: "PASQUALE ALBINO", id: "TZ007" },
-  { name: "KEITH ALLEN", id: "TZ008" },
-  { name: "LOGAN J. WHITEHILL", id: "TZ008" },
-  { name: "MICHAEL BURRIEL", id: "TZ009" },
-  { name: "JIM FAIRCHILD", id: "TZ0010" },
-  { name: "TOM BURRIEL", id: "TZ0011" },
-  { name: "TOMMY BURRIEL", id: "TZ0012" },
-  { name: "RONALD V. LEWIS", id: "TZ0013" },
-  { name: "STACY ROSIER", id: "TZ0014" },
-  { name: "HANAKO MATAYOSHI", id: "TZ0015" },
-  { name: "RAY WILSON", id: "TZ0016" },
-  { name: "ISSAM SAITO", id: "TZ0017" },
-  { name: "RON DURAN", id: "TZ0018" },
-  { name: "MASASHI KAKIMOTO", id: "TZ0019" },
-  { name: "SIMONE NAPOLEONE GIAMPIETRO", id: "TZ0020" },
-  { name: "LUCA BAGNOLI", id: "TZ0021" },
-  { name: "ZAMEER SAIFI", id: "TZ0022" },
-  { name: "SATOSHI NAGATA", id: "TZ0023" },
-  { name: "SARA DE AMICIS", id: "TZ0025" },
-  { name: "PRASAD WICKRAMA SINGHE", id: "TZ0026" },
-  { name: "SEIJI TOMIZAWA", id: "TZ0027" },
-  { name: "YUU YOSHIYAMA", id: "TZ0028" },
-  { name: "ANTHONY PACENSKI", id: "TZ0029" },
-  { name: "FUGI OKA YU SAKU", id: "TZ0030" },
-  { name: "FARLEY MANN", id: "TZ0031" },
-  { name: "SHAWN FLANAGAN", id: "TZ0032" },
-  { name: "KYLE FLANAGAN", id: "TZ0033" },
-  { name: "TONY DIAZ", id: "TZ0034" },
-  { name: "SAMMY SAMPSON", id: "TZ0035" },
-  { name: "GREGORY MIDDLETON", id: "TZ0036" },
-  { name: "PHILIP KIYOSHI GIGNAC", id: "TZ0037" },
-  { name: "SIMONE MIDDLETON", id: "TZ0038" },
-  { name: "EMERY MULDROW", id: "TZ0039" },
-  { name: "FRANCESCA DE MARCO", id: "TZ0041" },
-  { name: "BATUNDA GILLIMORE", id: "TZ0042" },
-  { name: "SEIJI TOMIZAWA", id: "TZ0043" },
-  { name: "CHRISTOPHER M. PIATKOWSKI", id: "TZ0045" },
-  { name: "DAESHAWN PERRY", id: "TZ0046" },
-  { name: "RAFAEL MELENDEZ", id: "TZ0047" },
-  { name: "TAKAHIRO MINAKUCHI", id: "TZ0048" },
-  { name: "CHRISTIAN HALBAL", id: "TZ0049" },
-  { name: "RICHARD SCHAFER", id: "TZ0050" },
-  { name: "RAFAEL MELANDEZ", id: "TZ0051" },
-  { name: "PERRY BATUNDA GALLEMORE", id: "TZ0052" },
-  { name: "ANTONIO CKARKE", id: "TZ0053" },
-];  
+
+const { entries: members, cacheHint } = await getEmDashCollection("members", {
+  limit: 100,
+});
+try { Astro.cache.set(cacheHint); } catch {}
 ---
 
 <Base
@@ -66,12 +19,16 @@ const members = [
     <div class="mb-inner">
       <div class="mb-title-content reveal">
         <p class="mb-eyebrow">Taizan-ryu</p>
-        <h1 class="mb-title-text">門下生</h1>
+        <h1 class="mb-title-text"><span class="ja">門下生</span><span class="en">Members</span></h1>
         <p class="mb-title-sub">Members</p>
         <div class="mb-divider"></div>
-        <p class="mb-title-desc">
+        <p class="mb-title-desc ja">
           世界各国から集まった仲間たちが、守破離の精神のもとで共に稽古に励んでいます。
           国籍・年齢・経験を超えた絆が、泰山流道場を一層豊かなものにしています。
+        </p>
+        <p class="mb-title-desc en">
+          Students from around the world train together in the spirit of Shu-Ha-Ri.
+          Bonds that transcend nationality, age, and experience make Taizan-ryu Dojo all the richer.
         </p>
       </div>
     </div>
@@ -89,24 +46,25 @@ const members = [
 
   <!-- リストセクション -->
   <section class="mb-list">
-    <h2>共に稽古を積む仲間たち</h2>
-    <p>2025年9月現在 - 泰山流護身術認定メンバー</p>
+    <h2><span class="ja">共に稽古を積む仲間たち</span><span class="en">Training Together as One</span></h2>
+    <p><span class="ja">2025年9月現在 - 泰山流護身術認定メンバー</span><span class="en">As of September 2025 — Taizan-ryu Certified Members</span></p>
 
     <div class="mb-grid">
       {members.map((member) => (
         <div class="mb-card">
           <div class="mb-card-photo">
             <img
-              src={`https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/members/${member.id}.webp`}
-              alt={member.name}
+              src={member.data.photo_url || `https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/members/${member.data.member_id}.webp`}
+              alt={member.data.name}
             />
           </div>
           <div class="mb-card-body">
-            <h3 class="mb-card-name">{member.name}</h3>
-            <p class="mb-card-name-en">{member.id}</p>
+            <h3 class="mb-card-name">{member.data.name}</h3>
+            <p class="mb-card-name-en">{member.data.member_id}</p>
           </div>
         </div>
-      ))} 
+      ))}
+    </div>
   </section>
 
 </Base>

@@ -1,6 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
-import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos";
+import { getEmDashCollection } from "emdash";
+import { getCloudflareStreamUrl } from "../components/blocks/videos";
+
+const { entries: allVideos, cacheHint } = await getEmDashCollection("videos", { limit: 100 });
+try { Astro.cache.set(cacheHint); } catch {}
+
+const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").slice(0, 4);
 ---
 
 <Base
@@ -19,10 +25,10 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
     <div class="sh-hero-content">
       <p class="sh-eyebrow">Taizan-ryu</p>
       <h1 class="sh-hero-title">
-        <span class="line-a">指圧</span>
-        <span class="line-b">整体院</span>
+        <span class="line-a"><span class="ja">指圧</span><span class="en">Shiatsu</span></span>
+        <span class="line-b"><span class="ja">整体院</span><span class="en">Clinic</span></span>
       </h1>
-      <p class="sh-hero-sub">武道の知で、身体を癒す。</p>
+      <p class="sh-hero-sub"><span class="ja">武道の知で、身体を癒す。</span><span class="en">Healing the body through martial wisdom.</span></p>
     </div>
     <div class="sh-hero-scroll">
       <span></span>
@@ -34,12 +40,19 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
     <div class="sh-inner">
 
       <div class="sh-intro reveal">
-        <h2>泰山流指圧について</h2>
-        <p>
+        <h2><span class="ja">泰山流指圧について</span><span class="en">About Taizan-ryu Shiatsu</span></h2>
+        <p class="ja">
           泰山流指圧は、宗家ジョー・ミラーが柔術修行の中で体得した皇法指圧を礎に、
           独自の研究と改良を加えて生み出した指圧療法システムです。
           武道で培った身体の理解と、経絡・ツボへの深い知識を組み合わせ、
           心身のバランスを整え自然治癒力を引き出します。
+        </p>
+        <p class="en">
+          Taizan-ryu Shiatsu is a therapy system developed by Soke Joe Miller,
+          building upon Koho Shiatsu he mastered during his ju-jutsu training,
+          enhanced through his own research and refinements.
+          It combines deep body awareness cultivated through martial arts with
+          profound knowledge of meridians and pressure points to restore balance and unlock natural healing.
         </p>
       </div>
 
@@ -48,24 +61,27 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
         <div class="sh-pillar reveal">
           <span class="sh-pillar-num">01</span>
           <div class="sh-pillar-body">
-            <h3>皇法指圧との融合</h3>
-            <p>八光流柔術に組み込まれた皇法指圧を源流に持ちます。伝統的な手技の本質を受け継ぎながら、より効果的な施術を追求しました。</p>
+            <h3><span class="ja">皇法指圧との融合</span><span class="en">Fusion with Koho Shiatsu</span></h3>
+            <p class="ja">八光流柔術に組み込まれた皇法指圧を源流に持ちます。伝統的な手技の本質を受け継ぎながら、より効果的な施術を追求しました。</p>
+            <p class="en">Rooted in Koho Shiatsu incorporated into Hakko-ryu Ju-jutsu. While inheriting the essence of traditional hand techniques, we pursued more effective treatment methods.</p>
           </div>
         </div>
 
         <div class="sh-pillar reveal">
           <span class="sh-pillar-num">02</span>
           <div class="sh-pillar-body">
-            <h3>泰山流独自の手技</h3>
-            <p>母指先端ではなく母指付け根全体を使う独自のストローク技術。多くのクライアントから「痛みが少なく、深く効く」と好評を得ています。</p>
+            <h3><span class="ja">泰山流独自の手技</span><span class="en">Taizan-ryu Original Technique</span></h3>
+            <p class="ja">母指先端ではなく母指付け根全体を使う独自のストローク技術。多くのクライアントから「痛みが少なく、深く効く」と好評を得ています。</p>
+            <p class="en">A unique stroking technique using the full base of the thumb rather than its tip. Praised by many clients as "less painful and deeply effective."</p>
           </div>
         </div>
 
         <div class="sh-pillar reveal">
           <span class="sh-pillar-num">03</span>
           <div class="sh-pillar-body">
-            <h3>統合的な治療アプローチ</h3>
-            <p>皇法・泰山流・浪越指圧の各システムを症状に応じて使い分け。武道で鍛えた身体感覚が、的確なアプローチを可能にします。</p>
+            <h3><span class="ja">統合的な治療アプローチ</span><span class="en">Integrated Treatment Approach</span></h3>
+            <p class="ja">皇法・泰山流・浪越指圧の各システムを症状に応じて使い分け。武道で鍛えた身体感覚が、的確なアプローチを可能にします。</p>
+            <p class="en">Applying Koho, Taizan-ryu, and Namikoshi Shiatsu systems according to the condition. The body awareness developed through martial arts enables precise application.</p>
           </div>
         </div>
 
@@ -77,36 +93,67 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
   <section class="sh-quote">
     <div class="sh-inner">
       <blockquote class="reveal">
-        <h2>泰山流指圧について</h2>
-        <h3>泰山流指圧の誕生</h3>
-        <p>
+        <h2><span class="ja">泰山流指圧について</span><span class="en">About Taizan-ryu Shiatsu</span></h2>
+
+        <h3><span class="ja">泰山流指圧の誕生</span><span class="en">Birth of Taizan-ryu Shiatsu</span></h3>
+        <p class="ja">
           私は柔術の師である奥山龍峰宗家代から初めて皇法指圧を学びました。
           奥山宗家は八光流柔術という護身術システムの創始者であり、このシステムには皇法指圧システムが武道の一部として組み込まれていました。
           1985年、私は皇法治療の技術を自分自身の経絡とツボへの応用アイデアと融合させ、異なるレベルの施術を実現したいと考えました。
         </p>
-        <h3>独自のシステム開発</h3>
-        <p>
+        <p class="en">
+          I first learned Koho Shiatsu from my ju-jutsu teacher, Soke Okuyama Ryuho.
+          Soke Okuyama was the founder of Hakko-ryu Ju-jutsu, a self-defense system that incorporated
+          the Koho Shiatsu system as part of the martial arts. In 1985, I wanted to blend
+          the techniques of Koho treatment with my own ideas for applying meridians and pressure points,
+          and to achieve different levels of treatment.
+        </p>
+
+        <h3><span class="ja">独自のシステム開発</span><span class="en">Development of Our Own System</span></h3>
+        <p class="ja">
           皇法指圧は深く根差した母指圧ですが、人々は母指の先端での施術の痛みに耐えられませんでした。
           そこで私は母指の付け根全体を使い、異なるストローク技術を適用することにしました。
           多くのクライアントで実地試験を行ったところ、肯定的なフィードバックを得られ、多くの人がこのプロセスを愛していると言ってくれました。
           最終的に、私は泰山流指圧システムを米国議会図書館に著作権登録しました。
         </p>
-        <h3>現在の治療アプローチ</h3>
-        <p>
+        <p class="en">
+          Koho Shiatsu uses deep-rooted thumb pressure, but people could not tolerate the pain
+          of treatment with the tip of the thumb. So I decided to use the entire base of the thumb
+          and apply different stroking techniques. After field-testing on many clients, I received
+          positive feedback — many people said they love the process. Eventually, I registered
+          the Taizan-ryu Shiatsu system with the Library of Congress.
+        </p>
+
+        <h3><span class="ja">現在の治療アプローチ</span><span class="en">Current Treatment Approach</span></h3>
+        <p class="ja">
           今日、私はこの応用原理を使ってクライアントの健康を改善しています。
           異なる疾患には皇法指圧システムを引き続き使用することもありますが、
           両方のシステムに加えて浪越指圧システムの応用を組み合わせることで、
           特定の症状を持つ方々の治療においてより良い結果を得ています。
         </p>
-        <h3>指圧の歴史的背景</h3>
-        <p>
+        <p class="en">
+          Today I use these application principles to improve my clients' health.
+          For different conditions I may still use the Koho Shiatsu system, but by combining
+          both systems along with the Namikoshi Shiatsu system, I achieve better results
+          in treating people with specific conditions.
+        </p>
+
+        <h3><span class="ja">指圧の歴史的背景</span><span class="en">Historical Background of Shiatsu</span></h3>
+        <p class="ja">
           指圧は日本で生まれた非侵襲的な指圧療法です。
           当時、このタイプのセラピストは「按摩さん」と呼ばれており、これはマッサージ師を意味します。
           これらのセラピストの多くは視覚障害者でした。
           なぜなら、これは彼らが見ることなくできる数少ない仕事の一つだったからです。
           触れることだけが、彼らの唯一の生計手段でした。
         </p>
-        <footer>— 宗家　ジョセフ・ミラー</footer>
+        <p class="en">
+          Shiatsu is a non-invasive pressure therapy born in Japan. At the time,
+          this type of therapist was called "Amma-san," meaning massage therapist.
+          Many of these therapists were visually impaired, because this was one of the few
+          occupations they could perform without sight. Touch alone was their sole means of livelihood.
+        </p>
+
+        <footer><span class="ja">— 宗家　ジョセフ・ミラー</span><span class="en">— Soke Joseph Miller</span></footer>
       </blockquote>
     </div>
   </section>
@@ -116,23 +163,25 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
     <div class="sh-inner">
 
       <div class="sh-section-header reveal">
-        <h2>施術動画</h2>
-        <p>泰山流指圧の施術の様子をご覧ください。独自の手技と経絡へのアプローチを動画でご紹介します。</p>
+        <h2><span class="ja">施術動画</span><span class="en">Treatment Videos</span></h2>
+        <p class="ja">泰山流指圧の施術の様子をご覧ください。独自の手技と経絡へのアプローチを動画でご紹介します。</p>
+        <p class="en">Watch Taizan-ryu Shiatsu treatments in action. Discover our unique hand techniques and meridian approach through video.</p>
       </div>
 
       <div class="sh-video-grid">
 
-        {videosData.slice(0, 4).map((v) => (
+        {dojoVideos.map((v) => (
           <div class="sh-video-item reveal">
             <div class="sh-video-wrap">
               <iframe
-                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
-                title={v.titleJP}
+                src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
+                title={v.data.title_jp}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
             </div>
-            <p class="sh-video-caption">{v.descriptionJP}</p>
+            <p class="sh-video-caption ja">{v.data.description_jp}</p>
+            <p class="sh-video-caption en">{v.data.description_en || v.data.description_jp}</p>
           </div>
         ))}
 
@@ -144,7 +193,7 @@ import { videosData, getCloudflareStreamUrl } from "../components/blocks/videos"
           target="_blank"
           rel="noopener"
           class="sh-btn-outline"
-        >YouTube チャンネルで全動画を見る</a>
+        ><span class="ja">YouTube チャンネルで全動画を見る</span><span class="en">Watch All Videos on YouTube</span></a>
       </div>
 
     </div>

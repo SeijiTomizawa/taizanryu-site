@@ -1,6 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
-import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components/blocks/videos";
+import { getEmDashCollection } from "emdash";
+import { getCloudflareStreamUrl } from "../components/blocks/videos";
+
+const { entries: allVideos, cacheHint } = await getEmDashCollection("videos", { limit: 100 });
+try { Astro.cache.set(cacheHint); } catch {}
+
+const martialArtsVideos = allVideos.filter(v => v.data.category === "martial-arts");
 ---
 
 <Base
@@ -19,10 +25,10 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
     <div class="sd-hero-content">
       <p class="sd-eyebrow">Taizan-ryu</p>
       <h1 class="sd-hero-title">
-        <span class="line-a">護身術</span>
-        <span class="line-b">逮捕術</span>
+        <span class="line-a"><span class="ja">護身術</span><span class="en">Self-Defense</span></span>
+        <span class="line-b"><span class="ja">逮捕術</span><span class="en">Arrest Arts</span></span>
       </h1>
-      <p class="sd-hero-sub">守破離の精神で、真の護身を。</p>
+      <p class="sd-hero-sub"><span class="ja">守破離の精神で、真の護身を。</span><span class="en">True self-defense through Shu-Ha-Ri.</span></p>
     </div>
     <div class="sd-hero-scroll">
       <span></span>
@@ -34,12 +40,18 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
     <div class="sd-inner">
 
       <div class="sd-intro reveal">
-        <h2>泰山流護身術について</h2>
-        <p>
+        <h2><span class="ja">泰山流護身術について</span><span class="en">About Taizan-ryu Self-Defense</span></h2>
+        <p class="ja">
           泰山流護身術は、八光流（52年）、義経柔術（59年）、
           空手、柔道（20年）といった伝統的な武道の技術と哲学を基に、
           宗家ジョー・ミラーが創り上げた総合護身術システムです。
           実戦的な技術と精神的な成長を両立させ、真の護身を目指します。
+        </p>
+        <p class="en">
+          Taizan-ryu is a comprehensive self-defense system created by Soke Joe Miller,
+          grounded in the techniques and philosophy of traditional martial arts including
+          Hakko-ryu (52 years), Yoshitsune Ju-jutsu (59 years), Karate, and Judo (20 years).
+          It unifies practical technique with spiritual growth to achieve true self-defense.
         </p>
       </div>
 
@@ -48,24 +60,27 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
         <div class="sd-pillar reveal">
           <span class="sd-pillar-num">01</span>
           <div class="sd-pillar-body">
-            <h3>合気柔術の技法</h3>
-            <p>相手の力を利用し、最小限の力で最大限の効果を引き出す合気柔術の理論を基礎とします。体格差を超えた護身技術を誰でも習得できます。</p>
+            <h3><span class="ja">合気柔術の技法</span><span class="en">Aiki-Jujutsu Techniques</span></h3>
+            <p class="ja">相手の力を利用し、最小限の力で最大限の効果を引き出す合気柔術の理論を基礎とします。体格差を超えた護身技術を誰でも習得できます。</p>
+            <p class="en">Using the opponent's force to draw maximum effect from minimal effort — the principles of Aiki-Jujutsu form the foundation. Anyone can master self-defense techniques that transcend physical size differences.</p>
           </div>
         </div>
 
         <div class="sd-pillar reveal">
           <span class="sd-pillar-num">02</span>
           <div class="sd-pillar-body">
-            <h3>実践的な逮捕術</h3>
-            <p>相手を傷つけず、安全に制圧するための逮捕術。警察官・警備員向けに体系化された技術を、一般の方にも分かりやすく指導します。</p>
+            <h3><span class="ja">実践的な逮捕術</span><span class="en">Practical Arrest Techniques</span></h3>
+            <p class="ja">相手を傷つけず、安全に制圧するための逮捕術。警察官・警備員向けに体系化された技術を、一般の方にも分かりやすく指導します。</p>
+            <p class="en">Taiho Jutsu for safely restraining without harming the opponent. Techniques systematized for law enforcement and security personnel, taught in an accessible way to the general public.</p>
           </div>
         </div>
 
         <div class="sd-pillar reveal">
           <span class="sd-pillar-num">03</span>
           <div class="sd-pillar-body">
-            <h3>現代護身術の統合</h3>
-            <p>街中での危険回避、暴漢への対処、護身意識の育成まで。現代の生活環境に即した護身術として、常に進化し続けています。</p>
+            <h3><span class="ja">現代護身術の統合</span><span class="en">Modern Self-Defense Integration</span></h3>
+            <p class="ja">街中での危険回避、暴漢への対処、護身意識の育成まで。現代の生活環境に即した護身術として、常に進化し続けています。</p>
+            <p class="en">From avoiding danger in the city, to dealing with attackers, to cultivating situational awareness — a self-defense system adapted to modern life that continues to evolve.</p>
           </div>
         </div>
 
@@ -77,22 +92,33 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
   <section class="sd-quote">
     <div class="sd-inner">
       <blockquote class="reveal">
-        <h2>私の遺産　泰山流</h2>
-        <h3>守破離（SHUHARI）</h3>
-        <p>私の道場で教えている「平和なる山の体系（Peaceful Mountain System）」は、熟達への三段階である「守破離」という概念に基づいています。</p>
-        <h4>武道における私の歩み</h4>
-        <p>私の歩みは、私が生涯にわたり学んできた諸体系の伝統的な教えと基本技術から始まりました。八光流 52年、義経柔術 59年、空手および柔道 20年。私が修めた武道と治療の術は私の生活様式に取り入れられており、私は教えることをそのまま生きています。</p>
+        <h2><span class="ja">私の遺産　泰山流</span><span class="en">My Legacy: Taizan-ryu</span></h2>
+
+        <h3><span class="ja">守破離（SHUHARI）</span><span class="en">Shu-Ha-Ri (守破離)</span></h3>
+        <p class="ja">私の道場で教えている「平和なる山の体系（Peaceful Mountain System）」は、熟達への三段階である「守破離」という概念に基づいています。</p>
+        <p class="en">The "Peaceful Mountain System" I teach in my dojo is based on the concept of "Shu-Ha-Ri" — the three stages of mastery.</p>
+
+        <h4><span class="ja">武道における私の歩み</span><span class="en">My Journey in the Martial Arts</span></h4>
+        <p class="ja">私の歩みは、私が生涯にわたり学んできた諸体系の伝統的な教えと基本技術から始まりました。八光流 52年、義経柔術 59年、空手および柔道 20年。私が修めた武道と治療の術は私の生活様式に取り入れられており、私は教えることをそのまま生きています。</p>
+        <p class="en">My journey began with the traditional teachings and foundational techniques of the systems I have studied throughout my life: Hakko-ryu for 52 years, Yoshitsune Ju-jutsu for 59 years, and Karate and Judo for 20 years. The martial and healing arts I have mastered are incorporated into my way of life — I live what I teach.</p>
         <br>
-        <h3>泰山流の創設</h3>
-        <p>私がいくつかの伝統的な柔術体系から離れる決意をしたとき、私は自らの体系である泰山流（TaizanRyu）「平和なる山の体系」を創りました。そして、私が教える泰山流の護身術体系の中で、逮捕術（Taiho Jutsu）、捕縛・制圧（検挙）技術、そしてその応用を指導しています。これらは誰にでも、特に法執行機関に携わる人々に有用です。私は伝統的な柔術体系も教えています。なぜなら、型（katas）や技（wazas）として知られる基本稽古は、実際の路上での現実的な状況において、護身の応用をどのように使うかを修行者に学ばせるからです。さらに私は、武術と治療術の調和を図るために私が発展させた「平和なる山の体系」の指圧（Shiatsu）という癒しの術も教え、奨励しています。</p>
+
+        <h3><span class="ja">泰山流の創設</span><span class="en">Founding of Taizan-ryu</span></h3>
+        <p class="ja">私がいくつかの伝統的な柔術体系から離れる決意をしたとき、私は自らの体系である泰山流（TaizanRyu）「平和なる山の体系」を創りました。そして、私が教える泰山流の護身術体系の中で、逮捕術（Taiho Jutsu）、捕縛・制圧（検挙）技術、そしてその応用を指導しています。これらは誰にでも、特に法執行機関に携わる人々に有用です。私は伝統的な柔術体系も教えています。なぜなら、型（katas）や技（wazas）として知られる基本稽古は、実際の路上での現実的な状況において、護身の応用をどのように使うかを修行者に学ばせるからです。さらに私は、武術と治療術の調和を図るために私が発展させた「平和なる山の体系」の指圧（Shiatsu）という癒しの術も教え、奨励しています。</p>
+        <p class="en">When I decided to depart from certain traditional ju-jutsu systems, I created my own system, Taizan-ryu — the "Peaceful Mountain System." Within this system I teach Taiho Jutsu (arrest techniques), restraint and control techniques, and their applications — useful for anyone, especially those in law enforcement. I also teach traditional ju-jutsu, because the foundational training known as katas and wazas teaches practitioners how to apply self-defense in real-world situations. Furthermore, I teach and encourage Shiatsu, the healing art of the "Peaceful Mountain System," which I developed to harmonize the martial and healing arts.</p>
         <br>
-        <h3>私の指導哲学</h3>
-        <p>私は護身を目的として、伝統的な実戦的柔術技術を教え続けています。私の哲学は「人は可能な限り稽古に身を捧げ、攻防の技量を維持しなければならない」というものです。私は、いかなる攻撃に対しても全方向（360度）から身を守れるよう、身体の動きに重点を置いています。武道や武の道は、すべての人に向いているわけではありません。私の60年にわたる武道の知識と研鑽に基づけば、これら古来の護身術を効果的に用いるためには、稽古に時間を捧げる必要があります。</p>
+
+        <h3><span class="ja">私の指導哲学</span><span class="en">My Teaching Philosophy</span></h3>
+        <p class="ja">私は護身を目的として、伝統的な実戦的柔術技術を教え続けています。私の哲学は「人は可能な限り稽古に身を捧げ、攻防の技量を維持しなければならない」というものです。私は、いかなる攻撃に対しても全方向（360度）から身を守れるよう、身体の動きに重点を置いています。武道や武の道は、すべての人に向いているわけではありません。私の60年にわたる武道の知識と研鑽に基づけば、これら古来の護身術を効果的に用いるためには、稽古に時間を捧げる必要があります。</p>
+        <p class="en">I continue to teach traditional practical ju-jutsu techniques for the purpose of self-defense. My philosophy is that one must dedicate oneself to training as much as possible and maintain combat proficiency. I emphasize body movement to defend against any attack from all 360 degrees. The martial way is not for everyone. Based on my 60 years of martial arts knowledge and training, effectively applying these ancient self-defense arts requires a serious commitment of time.</p>
         <br>
-        <h3>信仰と感謝</h3>
-        <p>しかし私の歩みは、私の命を救ってくださった主であり救い主であるイエス・キリストへの愛がなければ、決して実現しなかったでしょう。</p>
-        <p>神よ、私を信じてくださってありがとうございます。栄光は神に帰します。</p> 
-        <footer>— 宗家　ジョセフ・ミラー</footer>
+
+        <h3><span class="ja">信仰と感謝</span><span class="en">Faith and Gratitude</span></h3>
+        <p class="ja">しかし私の歩みは、私の命を救ってくださった主であり救い主であるイエス・キリストへの愛がなければ、決して実現しなかったでしょう。</p>
+        <p class="en">However, my journey would never have been possible without my love for the Lord and Savior Jesus Christ, who saved my life.</p>
+        <p class="ja">神よ、私を信じてくださってありがとうございます。栄光は神に帰します。</p>
+        <p class="en">Thank you, God, for believing in me. All glory belongs to God.</p>
+        <footer><span class="ja">— 宗家　ジョセフ・ミラー</span><span class="en">— Soke Joseph Miller</span></footer>
       </blockquote>
     </div>
   </section>
@@ -102,23 +128,25 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
     <div class="sd-inner">
 
       <div class="sd-section-header reveal">
-        <h2>練習動画</h2>
-        <p>道場での稽古の様子をご覧ください。基本技術から実戦応用まで、泰山流の技を動画でお伝えします。</p>
+        <h2><span class="ja">練習動画</span><span class="en">Training Videos</span></h2>
+        <p class="ja">道場での稽古の様子をご覧ください。基本技術から実戦応用まで、泰山流の技を動画でお伝えします。</p>
+        <p class="en">Watch training sessions at our dojo. From fundamental techniques to practical applications, experience Taizan-ryu through video.</p>
       </div>
 
       <div class="sd-video-grid">
 
-        {martialArtsTechniquesData.map((v) => (
+        {martialArtsVideos.map((v) => (
           <div class="sd-video-item reveal">
             <div class="sd-video-wrap">
               <iframe
-                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
-                title={v.titleJP}
+                src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
+                title={v.data.title_jp}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
             </div>
-            <p class="sd-video-caption">{v.titleJP} — {v.descriptionJP}</p>
+            <p class="sd-video-caption ja">{v.data.title_jp} — {v.data.description_jp}</p>
+            <p class="sd-video-caption en">{v.data.title_en || v.data.title_jp} — {v.data.description_en || v.data.description_jp}</p>
           </div>
         ))}
 
@@ -130,7 +158,7 @@ import { martialArtsTechniquesData, getCloudflareStreamUrl } from "../components
           target="_blank"
           rel="noopener"
           class="sd-btn-outline"
-        >YouTube チャンネルで全動画を見る</a>
+        ><span class="ja">YouTube チャンネルで全動画を見る</span><span class="en">Watch All Videos on YouTube</span></a>
       </div>
 
     </div>

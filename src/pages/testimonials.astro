@@ -1,7 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
-import { shiatsuTestimonialsData, getCloudflareStreamUrl } from "../components/blocks/videos";
+import { getEmDashCollection } from "emdash";
+import { getCloudflareStreamUrl } from "../components/blocks/videos";
 import { shiatsuReviewsHeroBg } from "../components/blocks/images";
+
+const { entries: allVideos, cacheHint } = await getEmDashCollection("videos", { limit: 100 });
+try { Astro.cache.set(cacheHint); } catch {}
+
+const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-testimonial");
 ---
 
 <Base
@@ -20,10 +26,10 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
     <div class="ts-hero-content">
       <p class="ts-eyebrow">Taizan-ryu Shiatsu</p>
       <h1 class="ts-hero-title">
-        <span class="ts-line-a">お客様の声</span>
-        <span class="ts-line-b">Testimonials</span>
+        <span class="ts-line-a"><span class="ja">お客様の声</span><span class="en">Testimonials</span></span>
+        <span class="ts-line-b">Taizan-ryu Shiatsu</span>
       </h1>
-      <p class="ts-hero-sub">施術を受けた方々の体験談</p>
+      <p class="ts-hero-sub"><span class="ja">施術を受けた方々の体験談</span><span class="en">Stories from our clients</span></p>
     </div>
     <div class="ts-hero-scroll"><span></span></div>
   </section>
@@ -32,11 +38,16 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
   <section class="ts-lead">
     <div class="ts-inner">
       <div class="ts-lead-content reveal">
-        <h2>治療院お客様の声</h2>
-        <p>
+        <h2><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h2>
+        <p class="ja">
           泰山流指圧整体院で施術を受けたお客様からのご感想を動画でご紹介します。
           慢性的な痛みや不調でお悩みの方の参考になれば幸いです。
           個人の感想であり、効果を保証するものではありません。
+        </p>
+        <p class="en">
+          Video testimonials from clients who have received treatment at Taizan-ryu Shiatsu Clinic.
+          We hope these accounts from those suffering from chronic pain and conditions will be of help.
+          These are personal experiences and do not guarantee outcomes.
         </p>
       </div>
     </div>
@@ -46,12 +57,12 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
   <section class="ts-videos">
     <div class="ts-grid-wrap">
       <div class="ts-grid">
-        {shiatsuTestimonialsData.map((v, i) => (
+        {testimonialVideos.map((v, i) => (
           <div class="ts-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
             <div class="ts-video-wrap">
               <iframe
-                src={getCloudflareStreamUrl(v.cloudflareVideoId, false, v.thumbnailTime)}
-                title={v.titleJP}
+                src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
+                title={v.data.title_jp}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>

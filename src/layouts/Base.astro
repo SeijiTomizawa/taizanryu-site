@@ -30,13 +30,20 @@ const pageCtx = createPublicPageContext({
 });
 ---
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-lang="ja">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{fullTitle}</title>
     <EmDashHead page={pageCtx} />
-    
+    <!-- Language init: run before render to prevent flash -->
+    <script is:inline>
+      (function() {
+        var lang = localStorage.getItem('site-lang') || 'ja';
+        document.documentElement.dataset.lang = lang;
+        document.documentElement.lang = lang;
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -49,31 +56,34 @@ const pageCtx = createPublicPageContext({
           <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO_2.webp" alt="Site Logo" class="logo" />
         </div>
         <div class="site-title-block">
-          <span class="l-1">泰山流護身術・逮捕術</span>
-          <span class="l-2">東京八王子本部道場</span>
+          <span class="l-1"><span class="ja">泰山流護身術・逮捕術</span><span class="en">Taizan-ryu Martial Arts</span></span>
+          <span class="l-2"><span class="ja">東京八王子本部道場</span><span class="en">Tokyo Hachioji Main Dojo</span></span>
         </div>
       </a>
-      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+      <div class="header-right">
+        <button class="lang-btn" id="langBtn" aria-label="Switch language">EN</button>
+        <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
     </header>
 
     <aside class="drawer-menu" id="drawer">
       <button class="close-btn" id="closeBtn" aria-label="メニューを閉じる">&times;</button>
       <nav class="drawer-nav">
         <ul>
-          <li><a href="/#home">ホーム</a></li>
-          <li><a href="/self-defense">護身術・逮捕術</a></li>
-          <li><a href="/shiatsu">指圧治療院</a></li>
-          <li><a href="/soke">宗家について</a></li>
-          <li><a href="/members">門下生たち</a></li>
-          <li><a href="/affiliated-dojos">友好関係の道場</a></li>
-          <li><a href="/training">練習風景</a></li>
-          <li><a href="/event-photos">大会写真</a></li>
-          <li><a href="/awards">宗家の賞状</a></li>
-          <li><a href="/testimonials">治療院お客様の声</a></li>
+          <li><a href="/#home"><span class="ja">ホーム</span><span class="en">Home</span></a></li>
+          <li><a href="/self-defense"><span class="ja">護身術・逮捕術</span><span class="en">Martial Arts</span></a></li>
+          <li><a href="/shiatsu"><span class="ja">指圧治療院</span><span class="en">Shiatsu Clinic</span></a></li>
+          <li><a href="/soke"><span class="ja">宗家について</span><span class="en">About the Soke</span></a></li>
+          <li><a href="/members"><span class="ja">門下生たち</span><span class="en">Members</span></a></li>
+          <li><a href="/affiliated-dojos"><span class="ja">友好関係の道場</span><span class="en">Affiliated Dojos</span></a></li>
+          <li><a href="/training"><span class="ja">練習風景</span><span class="en">Training</span></a></li>
+          <li><a href="/event-photos"><span class="ja">大会写真</span><span class="en">Event Photos</span></a></li>
+          <li><a href="/awards"><span class="ja">宗家の賞状</span><span class="en">Awards</span></a></li>
+          <li><a href="/testimonials"><span class="ja">治療院お客様の声</span><span class="en">Testimonials</span></a></li>
         </ul>
       </nav>
     </aside>
@@ -86,9 +96,9 @@ const pageCtx = createPublicPageContext({
 
     <section class="global-cta">
       <div class="global-cta-inner reveal">
-        <h2>仲間になりませんか</h2>
-        <p>経験・国籍・年齢は問いません。まずは見学・体験稽古からお気軽にどうぞ。</p>
-        <a href="/contact" class="global-cta-btn">お問い合わせ</a>
+        <h2><span class="ja">仲間になりませんか</span><span class="en">Join Our Family</span></h2>
+        <p><span class="ja">経験・国籍・年齢は問いません。まずは見学・体験稽古からお気軽にどうぞ。</span><span class="en">Experience, nationality, and age are no barrier. Feel free to come watch or try a training session.</span></p>
+        <a href="/contact" class="global-cta-btn"><span class="ja">お問い合わせ</span><span class="en">Contact Us</span></a>
       </div>
     </section>
 
@@ -127,22 +137,31 @@ const pageCtx = createPublicPageContext({
       });
 
       // Scroll Animation (Intersection Observer)
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      };
-
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('active');
         });
-      }, observerOptions);
+      }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-      document.querySelectorAll('.reveal').forEach(el => {
-        observer.observe(el);
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      // Language toggle
+      const langBtn = document.getElementById('langBtn') as HTMLButtonElement | null;
+      const root = document.documentElement;
+
+      function applyLang(lang: string) {
+        root.dataset.lang = lang;
+        root.lang = lang;
+        localStorage.setItem('site-lang', lang);
+        if (langBtn) langBtn.textContent = lang === 'ja' ? 'EN' : 'JP';
+      }
+
+      // Sync button label with current lang (already set by inline script)
+      const currentLang = root.dataset.lang || 'ja';
+      if (langBtn) langBtn.textContent = currentLang === 'ja' ? 'EN' : 'JP';
+
+      langBtn?.addEventListener('click', () => {
+        applyLang(root.dataset.lang === 'ja' ? 'en' : 'ja');
       });
     </script>
 
@@ -167,6 +186,11 @@ const pageCtx = createPublicPageContext({
       }
       a { color: inherit; text-decoration: none; }
 
+      /* --- Language toggle --- */
+      .en { display: none; }
+      [data-lang="en"] .en { display: revert; }
+      [data-lang="en"] .ja { display: none; }
+
       /* --- Header --- */
       .site-header {
         position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
@@ -175,10 +199,27 @@ const pageCtx = createPublicPageContext({
         padding: 0 40px; z-index: 100;
       }
       .header-left { display: flex; align-items: center; gap: 15px; }
+      .header-right { display: flex; align-items: center; gap: 16px; }
       .logo-box img { width: 56px; height: 56px; border-radius: 4px; }
       .site-title-block { display: flex; flex-direction: column; gap: 3px; }
       .l-1 { font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; }
       .l-2 { font-size: 0.65rem; font-weight: 400; letter-spacing: 1px; color: var(--text-secondary); }
+
+      /* --- Language button --- */
+      .lang-btn {
+        background: none;
+        border: 1px solid rgba(255,255,255,0.25);
+        color: var(--text-secondary);
+        font-family: var(--font-sans);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        transition: color 0.3s ease, border-color 0.3s ease;
+        white-space: nowrap;
+      }
+      .lang-btn:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.55); }
 
       /* --- Hamburger --- */
       .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; padding: 10px; z-index: 101; }
