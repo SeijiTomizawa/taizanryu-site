@@ -80,12 +80,6 @@ const pageContent = page?.data.content;
       </div>
     </section>
 
-    <section class="schedule reveal" id="schedule">
-      <h2>稽古スケジュール</h2>
-      <p>隔週土曜日 pm 5:00 - 8:00</p>
-      <p>不定期なので、最新情報はお知らせをご確認ください。</p>
-    </section>
-
     <section class="news reveal" id="news">
       <h2>最新情報</h2>
       <p>準備中</p>
@@ -259,7 +253,7 @@ const pageContent = page?.data.content;
   .hero-carousel {
     position: relative;
     width: 100vw;
-    height: 80vh; 
+    height: 100vh; 
     left: 50%;
     transform: translateX(-50%); 
     margin-top: -100px;
@@ -436,7 +430,7 @@ const pageContent = page?.data.content;
     left: 50%;
     text-align: center;
     padding: 80px 20px;
-    background-color: #fff;
+    background-color: var(--bg-color-secondary);
   }
 
   .access h3 {
@@ -469,14 +463,6 @@ const pageContent = page?.data.content;
 
   .features-section {
     padding: 80px 0;
-  }
-
-  .schedule {
-    background-color: var(--bg-color-secondary);
-    color: var(--text-secondary);
-    width: 100vw;
-    padding: 80px 20px;
-    border-radius: 4px;
   }
 
   .news {
