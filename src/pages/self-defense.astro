@@ -169,6 +169,15 @@ import Base from "../layouts/Base.astro";
     </div>
   </section>
 
+  <!-- お問い合わせ CTA -->
+  <section class="sd-cta">
+    <div class="sd-inner reveal">
+      <h2>体験稽古のご案内</h2>
+      <p>まずは見学・体験稽古から。どなたでもお気軽にお問い合わせください。</p>
+      <a href="/contact" class="sd-btn-primary">お問い合わせ</a>
+    </div>
+  </section>
+
 </Base>
 
 <style>
@@ -364,24 +373,69 @@ import Base from "../layouts/Base.astro";
   }
 
   .sd-quote blockquote {
-    text-align: center;
-    max-width: 700px;
+    max-width: 760px;
     margin: 0 auto;
   }
 
-  .sd-quote blockquote p {
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    line-height: 2;
-    color: #3a2a20;
-    font-weight: 300;
-    letter-spacing: 1px;
+  /* br タグは CSS マージンで余白を管理するため非表示 */
+  .sd-quote blockquote br {
+    display: none;
   }
 
-  .sd-quote blockquote footer {
+  /* メインタイトル */
+  .sd-quote blockquote h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #1e0e08;
+    text-align: center;
+    margin-bottom: 56px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(58, 42, 32, 0.2);
+  }
+
+  /* セクション見出し */
+  .sd-quote blockquote h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    color: #2a1a10;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-left: 14px;
+    border-left: 3px solid rgba(107, 31, 35, 0.5);
+  }
+
+  /* サブ見出し */
+  .sd-quote blockquote h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #5a3a2a;
     margin-top: 28px;
+    margin-bottom: 10px;
+    text-transform: none;
+  }
+
+  /* 本文 */
+  .sd-quote blockquote p {
+    font-size: 0.95rem;
+    line-height: 2.1;
+    color: #3a2a20;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-bottom: 0;
+  }
+
+  /* 署名 */
+  .sd-quote blockquote footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(58, 42, 32, 0.15);
     font-size: 0.85rem;
     letter-spacing: 2px;
     color: #7a5a4a;
+    text-align: right;
   }
 
   /* ===== 動画セクション ===== */
@@ -483,6 +537,27 @@ import Base from "../layouts/Base.astro";
     background-color: var(--bg-color-secondary);
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ===== CTA ===== */
+  .sd-cta {
+    padding: 100px 0;
+    background-color: #1a120d;
+    text-align: center;
+  }
+
+  .sd-cta h2 {
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+
+  .sd-cta p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.8;
   }
 
   /* ===== レスポンシブ ===== */
