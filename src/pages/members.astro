@@ -1,5 +1,58 @@
 ---
 import Base from "../layouts/Base.astro";
+const members = [
+  { name: "WARREN HARRIS", id: "TZ001" },
+  { name: "RENA KEY", id: "TZ002" },
+  { name: "RODNEY CHOE", id: "TZ003" },
+  { name: "JADA-LOVE ROPER", id: "TZ004" },
+  { name: "SHERI EDWARDS", id: "TZ005" },
+  { name: "RONICE EDWARDS", id: "TZ006" },
+  { name: "PASQUALE ALBINO", id: "TZ007" },
+  { name: "KEITH ALLEN", id: "TZ008" },
+  { name: "LOGAN J. WHITEHILL", id: "TZ008" },
+  { name: "MICHAEL BURRIEL", id: "TZ009" },
+  { name: "JIM FAIRCHILD", id: "TZ0010" },
+  { name: "TOM BURRIEL", id: "TZ0011" },
+  { name: "TOMMY BURRIEL", id: "TZ0012" },
+  { name: "RONALD V. LEWIS", id: "TZ0013" },
+  { name: "STACY ROSIER", id: "TZ0014" },
+  { name: "HANAKO MATAYOSHI", id: "TZ0015" },
+  { name: "RAY WILSON", id: "TZ0016" },
+  { name: "ISSAM SAITO", id: "TZ0017" },
+  { name: "RON DURAN", id: "TZ0018" },
+  { name: "MASASHI KAKIMOTO", id: "TZ0019" },
+  { name: "SIMONE NAPOLEONE GIAMPIETRO", id: "TZ0020" },
+  { name: "LUCA BAGNOLI", id: "TZ0021" },
+  { name: "ZAMEER SAIFI", id: "TZ0022" },
+  { name: "SATOSHI NAGATA", id: "TZ0023" },
+  { name: "SARA DE AMICIS", id: "TZ0025" },
+  { name: "PRASAD WICKRAMA SINGHE", id: "TZ0026" },
+  { name: "SEIJI TOMIZAWA", id: "TZ0027" },
+  { name: "YUU YOSHIYAMA", id: "TZ0028" },
+  { name: "ANTHONY PACENSKI", id: "TZ0029" },
+  { name: "FUGI OKA YU SAKU", id: "TZ0030" },
+  { name: "FARLEY MANN", id: "TZ0031" },
+  { name: "SHAWN FLANAGAN", id: "TZ0032" },
+  { name: "KYLE FLANAGAN", id: "TZ0033" },
+  { name: "TONY DIAZ", id: "TZ0034" },
+  { name: "SAMMY SAMPSON", id: "TZ0035" },
+  { name: "GREGORY MIDDLETON", id: "TZ0036" },
+  { name: "PHILIP KIYOSHI GIGNAC", id: "TZ0037" },
+  { name: "SIMONE MIDDLETON", id: "TZ0038" },
+  { name: "EMERY MULDROW", id: "TZ0039" },
+  { name: "FRANCESCA DE MARCO", id: "TZ0041" },
+  { name: "BATUNDA GILLIMORE", id: "TZ0042" },
+  { name: "SEIJI TOMIZAWA", id: "TZ0043" },
+  { name: "CHRISTOPHER M. PIATKOWSKI", id: "TZ0045" },
+  { name: "DAESHAWN PERRY", id: "TZ0046" },
+  { name: "RAFAEL MELENDEZ", id: "TZ0047" },
+  { name: "TAKAHIRO MINAKUCHI", id: "TZ0048" },
+  { name: "CHRISTIAN HALBAL", id: "TZ0049" },
+  { name: "RICHARD SCHAFER", id: "TZ0050" },
+  { name: "RAFAEL MELANDEZ", id: "TZ0051" },
+  { name: "PERRY BATUNDA GALLEMORE", id: "TZ0052" },
+  { name: "ANTONIO CKARKE", id: "TZ0053" },
+];  
 ---
 
 <Base
@@ -35,127 +88,24 @@ import Base from "../layouts/Base.astro";
 
   <!-- リストセクション -->
   <section class="mb-list">
-    <div class="mb-inner">
+    <h2>共に稽古を積む仲間たち</h2>
+    <p>2025年9月現在 - 泰山流護身術認定メンバー</p>
 
-      <div class="mb-list-header reveal">
-        <h2>門下生一覧</h2>
-        <p>現役門下生のご紹介です。</p>
-      </div>
-
-      <div class="mb-grid">
-
-        <div class="mb-card reveal">
+    <div class="mb-grid">
+      {members.map((member) => (
+        <div class="mb-card">
           <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=10" alt="門下生" />
+            <img
+              src={`https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/members/${member.id}.webp`}
+              alt={member.name}
+            />
           </div>
           <div class="mb-card-body">
-            <h3 class="mb-card-name">山田 太郎</h3>
-            <p class="mb-card-name-en">Taro Yamada</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">初段</span>
-              <span class="mb-tag">護身術</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇯🇵 日本</dd>
-              <dt>入門</dt><dd>2018年</dd>
-            </dl>
+            <h3 class="mb-card-name">{member.name}</h3>
+            <p class="mb-card-name-en">{member.id}</p>
           </div>
         </div>
-
-        <div class="mb-card reveal">
-          <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=11" alt="門下生" />
-          </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">John Smith</h3>
-            <p class="mb-card-name-en">ジョン・スミス</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">二段</span>
-              <span class="mb-tag">逮捕術</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇺🇸 アメリカ</dd>
-              <dt>入門</dt><dd>2015年</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div class="mb-card reveal">
-          <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=12" alt="門下生" />
-          </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">鈴木 花子</h3>
-            <p class="mb-card-name-en">Hanako Suzuki</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">初段</span>
-              <span class="mb-tag">護身術</span>
-              <span class="mb-tag">指圧</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇯🇵 日本</dd>
-              <dt>入門</dt><dd>2020年</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div class="mb-card reveal">
-          <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=13" alt="門下生" />
-          </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">Carlos Rivera</h3>
-            <p class="mb-card-name-en">カルロス・リベラ</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">三段</span>
-              <span class="mb-tag">逮捕術</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇲🇽 メキシコ</dd>
-              <dt>入門</dt><dd>2012年</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div class="mb-card reveal">
-          <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=14" alt="門下生" />
-          </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">田中 健</h3>
-            <p class="mb-card-name-en">Ken Tanaka</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">初段</span>
-              <span class="mb-tag">護身術</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇯🇵 日本</dd>
-              <dt>入門</dt><dd>2021年</dd>
-            </dl>
-          </div>
-        </div>
-
-        <div class="mb-card reveal">
-          <div class="mb-card-photo">
-            <img src="https://picsum.photos/300/300?random=15" alt="門下生" />
-          </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">Marie Dupont</h3>
-            <p class="mb-card-name-en">マリー・デュポン</p>
-            <div class="mb-card-tags">
-              <span class="mb-tag mb-tag-rank">初段</span>
-              <span class="mb-tag">護身術</span>
-              <span class="mb-tag">指圧</span>
-            </div>
-            <dl class="mb-card-info">
-              <dt>出身</dt><dd>🇫🇷 フランス</dd>
-              <dt>入門</dt><dd>2019年</dd>
-            </dl>
-          </div>
-        </div>
-
-      </div>
-    </div>
+      ))} 
   </section>
 
 </Base>
