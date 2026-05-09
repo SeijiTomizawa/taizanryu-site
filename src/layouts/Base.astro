@@ -84,6 +84,14 @@ const pageCtx = createPublicPageContext({
       <slot />
     </main>
 
+    <section class="global-cta">
+      <div class="global-cta-inner reveal">
+        <h2>仲間になりませんか</h2>
+        <p>経験・国籍・年齢は問いません。まずは見学・体験稽古からお気軽にどうぞ。</p>
+        <a href="/contact" class="global-cta-btn">お問い合わせ</a>
+      </div>
+    </section>
+
     <footer class="site-footer">
       <div class="footer-content">
         <p>&copy; {new Date().getFullYear()} {siteTitle}. All Rights Reserved.</p>
@@ -230,6 +238,23 @@ const pageCtx = createPublicPageContext({
 
       .reveal { opacity: 0; transform: translateY(50px); transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
       .reveal.active { opacity: 1; transform: translateY(0); }
+
+      /* --- Global CTA --- */
+      .global-cta { padding: 100px 40px; background-color: #1a120d; text-align: center; }
+      .global-cta-inner { max-width: 640px; margin: 0 auto; }
+      .global-cta h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 400; letter-spacing: 4px; margin-bottom: 20px; }
+      .global-cta p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.8; }
+      .global-cta-btn {
+        display: inline-block; padding: 16px 48px;
+        background-color: #fff; color: #1a120d;
+        border-radius: 30px; font-weight: 600; font-size: 0.95rem; letter-spacing: 1px;
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .global-cta-btn:hover {
+        background-color: var(--bg-color-secondary);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
 
       @media (max-width: 900px) {
         .site-header { padding: 0 20px; }
