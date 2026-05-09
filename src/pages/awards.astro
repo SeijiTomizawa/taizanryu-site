@@ -75,7 +75,7 @@ const rows: string[][][] = [
 </Base>
 
 <script>
-  // ===== 行スライドイン（スクロール連動） =====
+  // ===== 行フェードイン（スクロール連動） =====
   const rowObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -83,57 +83,42 @@ const rows: string[][][] = [
         rowObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08 });
 
   document.querySelectorAll('.gl-row').forEach(row => rowObs.observe(row));
 
-  // ===== セル内画像の自動切り替え =====
-  const DURATION = 700;   // アニメーション時間 ms
-  const INTERVAL = 4000;  // 切り替え間隔 ms
-  const STAGGER  = 380;   // セルごとの遅延 ms
+  // ===== セル内画像のクロスフェード切り替え =====
+  const DURATION = 1800;  // フェード時間 ms
+  const INTERVAL = 7000;  // 切り替え間隔 ms
+  const STAGGER  = 600;   // セルごとの遅延 ms
 
   document.querySelectorAll<HTMLElement>('.gl-cell').forEach((cell) => {
-    const rowIdx  = parseInt(cell.dataset.row  ?? '0');
     const cellIdx = parseInt(cell.dataset.index ?? '0');
     const imgs    = Array.from(cell.querySelectorAll<HTMLImageElement>('.gl-img'));
     if (imgs.length < 2) return;
 
-    // 奇数行は右→左、偶数行は左→右
-    const fromRight = rowIdx % 2 === 0;
-
-    let current    = 0;
-    let animating  = false;
+    let current   = 0;
+    let animating = false;
 
     function cycle() {
       if (animating) return;
       animating = true;
 
-      const next    = (current + 1) % imgs.length;
-      const enterX  = fromRight ? '100%' : '-100%';
-      const exitX   = fromRight ? '-100%' : '100%';
-      const easing  = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
+      const next = (current + 1) % imgs.length;
 
-      // 次の画像を画面外に配置（アニメーションなし）
+      // 次の画像を透明で重ねる
       imgs[next].style.transition = 'none';
-      imgs[next].style.transform  = `translateX(${enterX})`;
-      imgs[next].style.opacity    = '1';
+      imgs[next].style.opacity    = '0';
       imgs[next].style.zIndex     = '2';
 
-      // 2フレーム後にスライド開始（transform がブラウザに反映されてから）
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        const t = `transform ${DURATION}ms ${easing}`;
-        imgs[next].style.transition    = t;
-        imgs[current].style.transition = t;
-        imgs[next].style.transform    = 'translateX(0)';
-        imgs[current].style.transform = `translateX(${exitX})`;
+        imgs[next].style.transition = `opacity ${DURATION}ms ease-in-out`;
+        imgs[next].style.opacity    = '1';
 
         setTimeout(() => {
-          // 退場した画像をリセット
-          imgs[current].style.transition = 'none';
-          imgs[current].style.transform  = 'translateX(0)';
-          imgs[current].style.opacity    = '0';
-          imgs[current].style.zIndex     = '0';
-          imgs[next].style.zIndex        = '1';
+          imgs[current].style.zIndex = '0';
+          imgs[current].style.opacity = '0';
+          imgs[next].style.zIndex    = '1';
           current   = next;
           animating = false;
         }, DURATION + 50);
@@ -204,21 +189,22 @@ const rows: string[][][] = [
     padding: 0;
   }
 
-  /* ===== 行（スライドイン用） ===== */
+  /* ===== 行（フェードイン用） ===== */
   .gl-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4px;
     opacity: 0;
-    transition: opacity 0.9s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(16px);
+    transition: opacity 1.8s ease, transform 2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .gl-row--from-right { transform: translateX(60px); }
-  .gl-row--from-left  { transform: translateX(-60px); }
+  .gl-row--from-right { transform: translateY(16px); }
+  .gl-row--from-left  { transform: translateY(16px); }
 
   .gl-row--revealed {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
   /* ===== セル ===== */
@@ -256,8 +242,6 @@ const rows: string[][][] = [
     .gl-row {
       grid-template-columns: repeat(2, 1fr);
     }
-    .gl-row--from-right { transform: translateX(30px); }
-    .gl-row--from-left  { transform: translateX(-30px); }
   }
 
   @media (max-width: 520px) {
