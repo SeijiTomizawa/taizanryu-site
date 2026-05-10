@@ -225,9 +225,9 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     background-color: #000;
     inset: 0;
     width: 100%;
-    height: 75vh;
-    padding-block-start: 30vh;
-    padding-block-end: 20vh;
+    height: 100vh;
+    padding-block-start: 20vh;
+    padding-block-end: 30vh;
     object-fit: cover;
     object-position: center;
   }
@@ -348,7 +348,7 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
 
   .sd-pillars {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2px;
     background-color: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -396,24 +396,69 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
   }
 
   .sd-quote blockquote {
-    text-align: center;
-    max-width: 700px;
+    text-align: left;
+    max-width: 760px;
     margin: 0 auto;
   }
 
+  .sd-quote blockquote > h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 4px;
+    color: #2a1a10;
+    text-align: center;
+    margin-bottom: 56px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(58, 42, 32, 0.2);
+  }
+
+  .sd-quote blockquote h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7a5a4a;
+    margin: 48px 0 20px;
+    padding-left: 14px;
+    border-left: 3px solid #7a5a4a;
+  }
+
   .sd-quote blockquote p {
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    line-height: 2;
+    font-size: 1rem;
+    line-height: 2.1;
     color: #3a2a20;
-    font-weight: 300;
-    letter-spacing: 1px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-bottom: 1.2em;
+  }
+
+  .sd-quote-image {
+    margin: 40px auto;
+    text-align: center;
+  }
+
+  .sd-quote-image img {
+    max-width: 420px;
+    width: 100%;
+    border-radius: 4px;
+    filter: grayscale(10%);
+  }
+
+  .sd-quote-caption {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    color: #7a5a4a;
   }
 
   .sd-quote blockquote footer {
-    margin-top: 28px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(58, 42, 32, 0.2);
     font-size: 0.85rem;
     letter-spacing: 2px;
     color: #7a5a4a;
+    text-align: center;
   }
 
   /* ===== 動画セクション ===== */
@@ -555,22 +600,6 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     .sd-videos,
     .sd-cta {
       padding: 60px 0;
-    }
-
-    .sd-pillars {
-      grid-template-columns: 1fr;
-    }
-
-    .sd-pillar {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 24px;
-      padding: 32px 24px;
-    }
-
-    .sd-pillar-num {
-      font-size: 1.8rem;
-      min-width: 40px;
     }
 
     .sd-video-grid {
