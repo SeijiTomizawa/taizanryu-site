@@ -180,8 +180,8 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     <div class="sd-inner">
 
       <div class="sd-section-header reveal">
-        <h2><span class="ja">宗家の写真</span><span class="en">Photos of Our Founders</span></h2>
-        <p class="ja">宗家の歴史と伝統を知るため、彼らの写真をご覧ください。</p>
+        <h2><span class="ja">宗家の若い頃の写真</span><span class="en">Photos of Our Founder in Their Youth</span></h2>
+        <p class="ja">宗家の歴史と伝統を知るため、写真をご覧ください。</p>
         <p class="en">Learn about our founders and their legacy through these photos.</p>
       </div>
 
@@ -193,7 +193,7 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     </div>
   </section>  
 
-  <section class="sd-cta">
+  <section class="sd-faith">
     <div class="sd-inner">
       <h2><span class="ja">信仰</span><span class="en">Faith</span></h2>
       <p class="ja">
@@ -218,9 +218,9 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     <div class="sd-inner">
 
       <div class="sd-section-header reveal">
-        <h2><span class="ja">宗家の写真</span><span class="en">Photos of Our Founders</span></h2>
-        <p class="ja">宗家の歴史と伝統を知るため、彼らの写真をご覧ください。</p>
-        <p class="en">Learn about our founders and their legacy through these photos.</p>
+        <h2><span class="ja">宗家の仲間たち</span><span class="en">Photos of Our Friends</span></h2>
+        <p class="ja">宗家の仲間たちを知るため、彼らの写真をご覧ください。</p>
+        <p class="en">Learn about our friends and their contributions through these photos.</p>
       </div>
 
       <div class="sd-photo-grid">
@@ -594,6 +594,77 @@ const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i
     background-color: var(--bg-color-secondary);
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ===== 信仰セクション ===== */
+  .sd-faith {
+    padding: 120px 40px;
+    background-color: #ffffff;
+    color: #2e2e2e;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 背景十字 */
+  .sd-faith::before {
+    content: "✝";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(260px, 40vw, 480px);
+    color: rgba(0, 0, 0, 0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .sd-faith .sd-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+  }
+
+  /* 小さい十字アイコン */
+  .sd-faith::after {
+    content: "✝";
+    display: block;
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    color: rgba(0, 0, 0, 0.18);
+    letter-spacing: 0;
+  }
+
+  .sd-faith h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 300;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+  }
+
+  /* h2 下の装飾線 */
+  .sd-faith h2::after {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.25);
+    margin: 20px auto 48px;
+  }
+
+  .sd-faith p {
+    font-size: 1.05rem;
+    line-height: 2.2;
+    color: #3a3a3a;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.5px;
   }
 
   /* ===== 写真グリッド ===== */
