@@ -2,6 +2,8 @@
 import { getEmDashEntry } from "emdash";
 import Base from "../layouts/Base.astro";
 import MarketingBlocks from "../components/MarketingBlocks.astro";
+import images from "../components/blocks/images";
+
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
 
@@ -90,7 +92,7 @@ const pageContent = page?.data.content;
 
     <section class="emblem" id="emblem">
       <div class="banner-image">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/LOGO.webp" alt="泰山流エンブレム" class="reveal" />
+        { images.taizanLogo }
       </div>
     </section>
 
@@ -98,7 +100,7 @@ const pageContent = page?.data.content;
       <dl>
         <dt class="reveal">
           <span class="work-num">1</span>
-          <img src="https://picsum.photos/300/150?random=7" alt="Gardens in Blue" />
+          { images.newyorkSeminar1 }
         </dt>
         <dd class="reveal">
           <h3><span class="ja">国境を越えて集う仲間たち</span><span class="en">Students from Around the World</span></h3>
@@ -108,7 +110,7 @@ const pageContent = page?.data.content;
         </dd>
         <dt class="reveal">
           <span class="work-num">2</span>
-          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+          { images.heroDojoTraining  }
         </dt>
         <dd class="reveal">
           <h3><span class="ja">稽古仲間たち</span><span class="en">Training Partners</span></h3>
@@ -118,7 +120,7 @@ const pageContent = page?.data.content;
         </dd>
         <dt class="reveal">
           <span class="work-num">3</span>
-          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+          { images.homeDojoInteriorImage }
         </dt>
         <dd class="reveal">
           <h3><span class="ja">泰山流の技術</span><span class="en">Taizan-ryu Techniques</span></h3>
@@ -128,7 +130,7 @@ const pageContent = page?.data.content;
         </dd>
         <dt class="reveal">
           <span class="work-num">4</span>
-          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+          { images.homeTaizanLogoPlaceholder }
         </dt>
         <dd class="reveal">
           <h3><span class="ja">宗家の賞状</span><span class="en">Soke's Awards</span></h3>
@@ -138,7 +140,7 @@ const pageContent = page?.data.content;
         </dd>
         <dt class="reveal">
           <span class="work-num">5</span>
-          <img src="https://picsum.photos/300/150?random=8" alt="Platter #2" />
+          { images.shiatsuReviewsHeroBg }
         </dt>
         <dd class="reveal">
           <h3><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h3>
@@ -152,7 +154,7 @@ const pageContent = page?.data.content;
     <section class="access reveal" id="access">
       <h3><span class="ja">アクセス</span><span class="en">Location</span></h3>
       <div class="access-hero">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/big-photo0000-6654.jpg" alt="八王子駅前"/>
+        { images.hachiojiStationImage }
       </div>
       <div class="access-info">
         <p>1-29-1 Koyasu-cho, Hachioji-shi, Tokyo 192-0904</p>

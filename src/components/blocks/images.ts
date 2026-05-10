@@ -320,3 +320,38 @@ export const sokeMartialArt21 =
   IMAGE_STORAGE_URL + "/soke/MARTIALART_photo_21.jpg";
 export const sokeMartialArt22 =
   IMAGE_STORAGE_URL + "/soke/MARTIALART_photo_22.jpg";
+
+export default {
+  logoImage, taizanLogo,
+  hachiojiStationImage,
+  membersGroupImage,
+  clientLetter1, clientLetter2, clientLetter3,
+  carouselImage1, carouselImage2, carouselImage3, carouselImage4, carouselImage5, carouselImage6,
+  sokePhoto, certificate1, certificate2, bibleLadyLetter, shiatsuTextbook1, shiatsuReviewsHeroBg,
+  selfDefenseHeroBg1, selfDefenseHeroBg2, selfDefenseHeroBg3, selfDefenseHeroBg4,
+  selfDefenseHeroBg5, selfDefenseHeroBg6, selfDefenseHeroBg7, selfDefenseHeroBg8,
+  shiatsuHeroBg1, shiatsuHeroBg2, shiatsuHeroBg3, shiatsuHeroBg4,
+  shiatsuHeroBg5, shiatsuHeroBg6, shiatsuHeroBg7,
+  aichiSeminar1, aichiSeminar2, aichiSeminar3, aichiSeminar4, aichiSeminar5,
+  aichiSeminar6, aichiSeminar7, aichiSeminar8, aichiSeminar9, aichiSeminar11,
+  newyorkSeminar1, newyorkSeminar2, newyorkSeminar3, newyorkSeminar4, newyorkSeminar5,
+  newyorkSeminar6, newyorkSeminar7, newyorkSeminar8, newyorkSeminar9, newyorkSeminar10,
+  newyorkSeminar11, newyorkSeminar12, newyorkSeminar13,
+  homeSokeImage, homeShiatsuImage, homeDojoInteriorImage, homeSokeTeachingImage, homeTaizanLogoPlaceholder,
+  sokeImage, heroGrandmaster, heroDojoTraining, heroTrainingAtmosphere, heroGroupTraining,
+  selfDefenseSokeImage, selfDefenseDojoInterior, selfDefenseDojoStudents, dojoInteriorImage,
+  selfDefenseDojoTraining1, selfDefenseDojoTraining2, selfDefenseDojoTraining3,
+  selfDefenseDojoTraining4, selfDefenseDojoTraining5,
+  selfDefenseCertificate1, selfDefenseCertificate2, selfDefenseCertificate3, selfDefenseCertificate4,
+  selfDefenseCertificate5, selfDefenseCertificate6, selfDefenseCertificate7, selfDefenseCertificate8,
+  selfDefenseCertificate9, selfDefenseCertificate10, selfDefenseCertificate11, selfDefenseCertificate12,
+  selfDefenseCertificate13, selfDefenseCertificate14, selfDefenseCertificate15, selfDefenseCertificate16,
+  sokeSokeImage, sokeSokeCouple, sokeShihanSaulCohe, sokeSokeMichaelDePasquale, sokeShodaiOkuyama,
+  sokeOldPic1, sokeOldPic2, sokeOldPic3, sokeOldPic4, sokeOldPic5,
+  sokeOldPic6, sokeOldPic7, sokeOldPic8, sokeOldPic9, sokeOldPic10,
+  sokeMartialArt1, sokeMartialArt2, sokeMartialArt3, sokeMartialArt4, sokeMartialArt5,
+  sokeMartialArt6, sokeMartialArt7, sokeMartialArt8, sokeMartialArt9, sokeMartialArt10,
+  sokeMartialArt11, sokeMartialArt12, sokeMartialArt13, sokeMartialArt14, sokeMartialArt15,
+  sokeMartialArt16, sokeMartialArt17, sokeMartialArt18, sokeMartialArt19, sokeMartialArt20,
+  sokeMartialArt21, sokeMartialArt22,
+};

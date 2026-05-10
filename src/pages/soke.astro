@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import images from "../components/blocks/images";
+
 ---
 
 <Base
@@ -10,8 +12,8 @@ import Base from "../layouts/Base.astro";
   <!-- ヒーローセクション -->
   <section class="sd-hero">
     <img
-      src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_07.webp"
-      alt="泰山流道場稽古"
+      src={images.sokeSokeImage}
+      alt="宗家ジョセフ・ミラー"
       class="sd-hero-bg"
     />
     <div class="sd-hero-overlay"></div>
@@ -56,7 +58,7 @@ import Base from "../layouts/Base.astro";
           <span class="sd-pillar-num">01</span>
           <div class="sd-pillar-body">
             <img
-              src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/JOE.webp"
+              src={images.sokeShihanSaulCohe}
               alt="宗家 ジョセフ・ミラー"
               class="soke-photo"
             />
@@ -69,7 +71,7 @@ import Base from "../layouts/Base.astro";
           <span class="sd-pillar-num">02</span>
           <div class="sd-pillar-body">
             <img
-              src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/JOE.webp"
+              src={images.sokeSokeMichaelDePasquale}
               alt="宗家 ジョセフ・ミラー"
               class="soke-photo"
             />
@@ -83,7 +85,7 @@ import Base from "../layouts/Base.astro";
           <span class="sd-pillar-num">03</span>
           <div class="sd-pillar-body">
             <img
-              src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/parts/JOE.webp"
+              src={images.sokeShodaiOkuyama}
               alt="宗家 ジョセフ・ミラー"
               class="soke-photo"
             />
@@ -125,6 +127,14 @@ import Base from "../layouts/Base.astro";
           One Monday evening in 1964, I took a bus to the Yoshitsune Dojo. Entering the dojo, I encountered a tall man coming down the stairs. I asked if he was the janitor of the facility; he frowned and said, "Do I look like the janitor?" I confidently replied, "Yes, you do." He led me upstairs, where I met a kind woman who told me the tall man was her husband, Soke Michael DePasquale. She gave me a gi as a gift and guided me to the mat. The next day, Mikey (Michael Jr.) explained I should call him "Soke." Over the following four years, Mikey and I became close friends. In 1968, I earned my first-degree brown belt.
         </p>
         <br>
+
+        <div class="sd-quote-image">
+          <img
+            src={ images.sokeSokeCouple }
+            alt="奥様との写真"
+          />
+          <p class="sd-quote-caption"><span class="ja">日本での思い出</span><span class="en">Memories from Japan</span></p>
+        </div>
 
         <h3><span class="ja">第3章：米国空軍と日本への道（1968-1972）</span><span class="en">Chapter 3: The U.S. Air Force and the Road to Japan (1968–1972)</span></h3>
         <p class="ja">
@@ -264,9 +274,10 @@ import Base from "../layouts/Base.astro";
 
   .sd-hero-bg {
     position: absolute;
+    background-color: var(--bg-color);
     inset: 0;
     width: 100%;
-    height: 100%;
+    height: 50vh;
     object-fit: cover;
     object-position: center;
   }

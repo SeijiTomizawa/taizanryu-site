@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import images from "../components/blocks/images";
+
 const dojos = [
   {
     id: "DOJO_01",
@@ -56,7 +58,7 @@ const dojos = [
   <!-- ヒーローセクション -->
   <section class="hero">
     <img
-      src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_08.webp"
+      src={images.logoImage}
       alt="友好関係の道場"
       class="hero-bg"
     />
@@ -77,7 +79,7 @@ const dojos = [
           <div class="card">
             <div class="card-photo">
               <img
-                src={`https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojos/${dojo.id}.webp`}
+                src={images.dojoInteriorImage}
                 alt={dojo.name}
               />
             </div>
