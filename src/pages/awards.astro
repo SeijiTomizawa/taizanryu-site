@@ -1,32 +1,20 @@
 ---
+import { getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
 
-const R2 = "https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev";
-const P  = "https://picsum.photos/800/600?random=";
+const { entries: photos, cacheHint } = await getEmDashCollection("gallery", {
+  status: "published",
+  orderBy: { order: "asc" },
+  limit: 100,
+});
+Astro.cache.set(cacheHint);
 
-// 4行 × 3列 — 各セルに画像を3枚（自動切り替え用）
-const rows: string[][][] = [
-  [
-    [`${R2}/dojo/DOJO_04.webp`,            `${P}20`, `${P}21`],
-    [`${R2}/dojo/DOJO_05.webp`,            `${P}22`, `${P}23`],
-    [`${R2}/dojo/DOJO_07.webp`,            `${P}24`, `${P}25`],
-  ],
-  [
-    [`${R2}/dojo/DOJO_08.webp`,            `${P}26`, `${P}27`],
-    [`${R2}/shiatsu/SHIATSU_DO_02.webp`,   `${P}28`, `${P}29`],
-    [`${R2}/biography/SOKE_JOE_MILLER.webp`, `${P}30`, `${P}31`],
-  ],
-  [
-    [`${R2}/parts/big-photo0000-6654.jpg`, `${P}32`, `${P}33`],
-    [`${P}34`, `${P}35`, `${P}36`],
-    [`${P}37`, `${P}38`, `${P}39`],
-  ],
-  [
-    [`${P}40`, `${P}41`, `${P}42`],
-    [`${P}43`, `${P}44`, `${P}45`],
-    [`${P}46`, `${P}47`, `${P}48`],
-  ],
-];
+// 3列のグリッドに分割
+const COLS = 3;
+const rows: (typeof photos)[] = [];
+for (let i = 0; i < photos.length; i += COLS) {
+  rows.push(photos.slice(i, i + COLS));
+}
 ---
 
 <Base
@@ -53,20 +41,17 @@ const rows: string[][][] = [
         class={`gl-row gl-row--${rowIdx % 2 === 0 ? 'from-right' : 'from-left'}`}
         data-row={rowIdx}
       >
-        {row.map((imgs, colIdx) => (
+        {row.map((photo, colIdx) => (
           <div
             class="gl-cell"
-            data-row={rowIdx}
-            data-index={rowIdx * 3 + colIdx}
+            data-index={rowIdx * COLS + colIdx}
           >
-            {imgs.map((src, i) => (
-              <img
-                src={src}
-                alt={`ギャラリー ${rowIdx * 3 + colIdx + 1}-${i + 1}`}
-                class={`gl-img${i === 0 ? ' gl-img--active' : ''}`}
-                loading="lazy"
-              />
-            ))}
+            <img
+              src={photo.data.image?.src ?? (photo.data.image as unknown as string)}
+              alt={photo.data.caption ?? `ギャラリー ${rowIdx * COLS + colIdx + 1}`}
+              class="gl-img gl-img--active"
+              loading="lazy"
+            />
           </div>
         ))}
       </div>
@@ -87,47 +72,6 @@ const rows: string[][][] = [
   }, { threshold: 0.08 });
 
   document.querySelectorAll('.gl-row').forEach(row => rowObs.observe(row));
-
-  // ===== セル内画像のクロスフェード切り替え =====
-  const DURATION = 1800;  // フェード時間 ms
-  const INTERVAL = 7000;  // 切り替え間隔 ms
-  const STAGGER  = 600;   // セルごとの遅延 ms
-
-  document.querySelectorAll<HTMLElement>('.gl-cell').forEach((cell) => {
-    const cellIdx = parseInt(cell.dataset.index ?? '0');
-    const imgs    = Array.from(cell.querySelectorAll<HTMLImageElement>('.gl-img'));
-    if (imgs.length < 2) return;
-
-    let current   = 0;
-    let animating = false;
-
-    function cycle() {
-      if (animating) return;
-      animating = true;
-
-      const next = (current + 1) % imgs.length;
-
-      // 次の画像を透明で重ねる
-      imgs[next].style.transition = 'none';
-      imgs[next].style.opacity    = '0';
-      imgs[next].style.zIndex     = '2';
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        imgs[next].style.transition = `opacity ${DURATION}ms ease-in-out`;
-        imgs[next].style.opacity    = '1';
-
-        setTimeout(() => {
-          imgs[current].style.zIndex = '0';
-          imgs[current].style.opacity = '0';
-          imgs[next].style.zIndex    = '1';
-          current   = next;
-          animating = false;
-        }, DURATION + 50);
-      }));
-    }
-
-    setTimeout(() => setInterval(cycle, INTERVAL), cellIdx * STAGGER);
-  });
 </script>
 
 <style>
@@ -200,9 +144,6 @@ const rows: string[][][] = [
     transition: opacity 1.8s ease, transform 2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .gl-row--from-right { transform: translateY(16px); }
-  .gl-row--from-left  { transform: translateY(16px); }
-
   .gl-row--revealed {
     opacity: 1;
     transform: translateY(0);
@@ -223,19 +164,13 @@ const rows: string[][][] = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    z-index: 0;
-    will-change: transform;
+    transition: transform 0.6s ease, filter 0.5s ease;
+    filter: grayscale(15%);
   }
 
-  .gl-img--active {
-    opacity: 1;
-    z-index: 1;
-  }
-
-  /* ホバーで少し明るく */
-  .gl-cell:hover .gl-img--active {
-    filter: brightness(1.08);
+  .gl-cell:hover .gl-img {
+    transform: scale(1.04);
+    filter: grayscale(0%) brightness(1.08);
   }
 
   /* ===== レスポンシブ ===== */
