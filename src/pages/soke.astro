@@ -2,6 +2,9 @@
 import Base from "../layouts/Base.astro";
 import images from "../components/blocks/images";
 
+const img = images as Record<string, string>;
+const oldPics      = Array.from({ length: 10 }, (_, i) => img[`sokeOldPic${i + 1}`]);
+const martialArts  = Array.from({ length: 22 }, (_, i) => img[`sokeMartialArt${i + 1}`]);
 ---
 
 <Base
@@ -172,77 +175,24 @@ import images from "../components/blocks/images";
     </div>
   </section>
 
-  <!-- 練習動画セクション -->
-  <section class="sd-videos">
+  <!-- 宗家の写真セクション -->
+  <section class="sd-photos">
     <div class="sd-inner">
 
       <div class="sd-section-header reveal">
-        <h2><span class="ja">練習動画</span><span class="en">Training Videos</span></h2>
-        <p class="ja">道場での稽古の様子をご覧ください。基本技術から実戦応用まで、泰山流の技を動画でお伝えします。</p>
-        <p class="en">Watch training sessions at our dojo. From fundamental techniques to practical applications, experience Taizan-ryu through video.</p>
+        <h2><span class="ja">宗家の写真</span><span class="en">Photos of Our Founders</span></h2>
+        <p class="ja">宗家の歴史と伝統を知るため、彼らの写真をご覧ください。</p>
+        <p class="en">Learn about our founders and their legacy through these photos.</p>
       </div>
 
-      <div class="sd-video-grid">
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流護身術 基本技法"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption"><span class="ja">基本技法 — 受け身と基礎動作</span><span class="en">Fundamentals — Ukemi &amp; Basic Movement</span></p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流逮捕術"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption"><span class="ja">逮捕術 — 安全な制圧技術</span><span class="en">Taiho Jutsu — Safe Restraint Techniques</span></p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流合気柔術"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption"><span class="ja">合気柔術 — 関節技と投げ技</span><span class="en">Aiki-Jujutsu — Joint Locks &amp; Throws</span></p>
-        </div>
-
-        <div class="sd-video-item reveal">
-          <div class="sd-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="泰山流組手稽古"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="sd-video-caption"><span class="ja">組手稽古 — 実践的な護身訓練</span><span class="en">Kumite — Practical Self-Defense Training</span></p>
-        </div>
-
+      <div class="sd-photo-grid">
+        {oldPics.map((src, i) => (
+          <img src={src} alt={`宗家 写真 ${i + 1}`} loading="lazy" />
+        ))}
+        {martialArts.map((src, i) => (
+          <img src={src} alt={`武道 写真 ${i + 1}`} loading="lazy" />
+        ))}
       </div>
-
-      <div class="sd-yt-link reveal">
-        <a
-          href="https://www.youtube.com/@taizanryu"
-          target="_blank"
-          rel="noopener"
-          class="sd-btn-outline"
-        >YouTube チャンネルで全動画を見る</a>
-      </div>
-
     </div>
   </section>
 
@@ -276,8 +226,8 @@ import images from "../components/blocks/images";
     inset: 0;
     width: 100%;
     height: 75vh;
-    padding-block-start: 100px;
-    padding-block-end: 60px;
+    padding-block-start: 30vh;
+    padding-block-end: 20vh;
     object-fit: cover;
     object-position: center;
   }
@@ -565,6 +515,33 @@ import images from "../components/blocks/images";
     background-color: var(--bg-color-secondary);
     transform: translateY(-3px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ===== 写真グリッド ===== */
+  .sd-photos {
+    padding: 100px 0;
+    background-color: var(--bg-color);
+  }
+
+  .sd-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .sd-photo-grid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+  }
+
+  .sd-photo-grid img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.03);
+    z-index: 1;
+    position: relative;
   }
 
   /* ===== レスポンシブ ===== */
