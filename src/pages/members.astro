@@ -240,14 +240,13 @@ try { Astro.cache.set(cacheHint); } catch {}
   }
 
   .mb-card-name {
-    font-size: 1rem;
+    font-size: clamp(0.78rem, 3.5vw, 1rem);
     font-weight: 600;
-    letter-spacing: 1.5px;
+    letter-spacing: clamp(0.5px, 0.4vw, 1.5px);
     margin-bottom: 4px;
     color: var(--text-on-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .mb-card-name-en {

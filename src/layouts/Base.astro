@@ -96,6 +96,7 @@ const pageCtx = createPublicPageContext({
           <li><a href="/event-photos"><span class="ja">大会写真</span><span class="en">Event Photos</span></a></li>
           <li><a href="/members"><span class="ja">門下生たち</span><span class="en">Members</span></a></li>
           <li><a href="/affiliated-dojos"><span class="ja">友好関係の道場</span><span class="en">Affiliated Dojos</span></a></li>
+          <li><a href="/contact"><span class="ja">お問い合わせ</span><span class="en">Contact Us</span></a></li>
         </ul>
       </nav>
       <br>
@@ -275,12 +276,12 @@ const pageCtx = createPublicPageContext({
         display: flex; justify-content: space-between; align-items: center;
         padding: 0 40px; z-index: 100;
       }
-      .header-left { display: flex; align-items: center; gap: 15px; }
-      .header-right { display: flex; align-items: center; gap: 16px; }
+      .header-left { display: flex; align-items: center; gap: 15px; min-width: 0; overflow: hidden; }
+      .header-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
       .logo-box img { width: 56px; height: 56px; border-radius: 4px; }
-      .site-title-block { display: flex; flex-direction: column; gap: 3px; }
-      .l-1 { font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; }
-      .l-2 { font-size: 0.65rem; font-weight: 400; letter-spacing: 1px; color: var(--text-secondary); }
+      .site-title-block { display: flex; flex-direction: column; gap: 3px; min-width: 0; overflow: hidden; }
+      .l-1 { font-size: clamp(0.6rem, 2.5vw, 0.85rem); font-weight: 600; letter-spacing: clamp(0px, 0.15vw, 1.5px); white-space: nowrap; overflow: hidden; }
+      .l-2 { font-size: clamp(0.5rem, 1.8vw, 0.65rem); font-weight: 400; letter-spacing: clamp(0px, 0.1vw, 1px); color: var(--text-secondary); white-space: nowrap; overflow: hidden; }
 
       /* --- Language button (header) --- */
       .lang-btn {

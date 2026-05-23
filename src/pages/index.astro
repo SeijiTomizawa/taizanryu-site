@@ -477,10 +477,11 @@ const pageContent = page?.data.content;
   }
 
   .access-hero img {
-    width: 100vw; /* HTML側の width="600" を上書きして全幅にする */
-    height: 350px; /* 高さを少し広げてダイナミックに（お好みで調整） */
+    width: calc(100% + 40px); /* padding 20px 両側分を加算して section 端まで伸ばす */
+    margin-left: -20px;       /* left padding 分だけ左にずらして左端を揃える */
+    height: 350px;
     object-fit: cover;
-    display: block; /* 画像下部の不要な隙間を消す */
+    display: block;
     margin-bottom: 40px;
   }
 

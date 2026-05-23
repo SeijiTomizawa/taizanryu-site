@@ -1,357 +1,951 @@
 ---
-import { getEmDashEntry } from "emdash";
 import Base from "../layouts/Base.astro";
-import MarketingBlocks from "../components/MarketingBlocks.astro";
+import { env } from "cloudflare:workers";
 
-const { entry: page, cacheHint } = await getEmDashEntry("pages", "contact");
-
-try {
-	Astro.cache.set(cacheHint);
-} catch {}
-
-// Handle form submission
-// NOTE: This is demo code. For production, add:
-// - CSRF token validation
-// - Rate limiting (e.g., via Cloudflare or middleware)
-// - Actual email sending or webhook integration
-let formStatus: "idle" | "success" | "error" = "idle";
-let formMessage = "";
+type FormStatus = "idle" | "success" | "error";
+let formStatus: FormStatus = "idle";
+let formError = "";
+let submittedValues = { name: "", email: "", phone: "", inquiry_type: "", message: "" };
 
 if (Astro.request.method === "POST") {
-	try {
-		const formData = await Astro.request.formData();
-		const name = formData.get("name")?.toString() || "";
-		const email = formData.get("email")?.toString() || "";
-		const company = formData.get("company")?.toString() || "";
-		const message = formData.get("message")?.toString() || "";
+  try {
+    const data = await Astro.request.formData();
+    const name         = data.get("name")?.toString().trim()         ?? "";
+    const email        = data.get("email")?.toString().trim()        ?? "";
+    const phone        = data.get("phone")?.toString().trim()        ?? "";
+    const inquiryType  = data.get("inquiry_type")?.toString()        ?? "";
+    const message      = data.get("message")?.toString().trim()      ?? "";
 
-		if (!name || !email || !message) {
-			formStatus = "error";
-			formMessage = "Please fill in all required fields.";
-		} else if (!email.includes("@")) {
-			formStatus = "error";
-			formMessage = "Please enter a valid email address.";
-		} else {
-			// TODO: Replace with actual email/webhook integration
-			console.log("Contact form submission:", {
-				name,
-				email,
-				company,
-				message,
-			});
-			formStatus = "success";
-			formMessage =
-				"Thanks for reaching out! We'll get back to you within 24 hours.";
-		}
-	} catch {
-		formStatus = "error";
-		formMessage = "Something went wrong. Please try again.";
-	}
+    submittedValues = { name, email, phone, inquiry_type: inquiryType, message };
+
+    // バリデーション
+    if (!name || !email || !message) {
+      formStatus = "error";
+      formError = "必須項目をすべて入力してください。 / Please fill in all required fields.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      formStatus = "error";
+      formError = "有効なメールアドレスを入力してください。 / Please enter a valid email address.";
+    } else {
+      // D1 に保存
+      const db = (env as any).DB;
+      await db.prepare(`
+        CREATE TABLE IF NOT EXISTS contact_submissions (
+          id          TEXT PRIMARY KEY DEFAULT (lower(hex(randomblob(16)))),
+          name        TEXT NOT NULL,
+          email       TEXT NOT NULL,
+          phone       TEXT,
+          inquiry_type TEXT,
+          message     TEXT NOT NULL,
+          created_at  TEXT DEFAULT (datetime('now', 'localtime'))
+        )
+      `).run();
+
+      await db.prepare(`
+        INSERT INTO contact_submissions (name, email, phone, inquiry_type, message)
+        VALUES (?, ?, ?, ?, ?)
+      `).bind(name, email, phone || null, inquiryType || null, message).run();
+
+      // Resend でメール通知
+      const resendApiKey  = (env as any).RESEND_API_KEY  as string | undefined;
+      const fromEmail     = (env as any).CONTACT_FROM_EMAIL as string | undefined;
+      const toEmail       = (env as any).CONTACT_TO_EMAIL  as string | undefined;
+
+      if (resendApiKey && fromEmail && toEmail) {
+        const inquiryLabels: Record<string, string> = {
+          trial:   "体験稽古・入門",
+          shiatsu: "指圧整体のご予約",
+          dojo:    "道場・流派について",
+          other:   "その他",
+        };
+        const inquiryLabel = inquiryLabels[inquiryType] ?? inquiryType ?? "未選択";
+
+        const subject = `[泰山流 お問い合わせ] ${inquiryLabel} — ${name} 様`;
+
+        const textBody = [
+          `■ お名前　　: ${name}`,
+          `■ メール　　: ${email}`,
+          `■ 電話番号　: ${phone || "（未入力）"}`,
+          `■ 種別　　　: ${inquiryLabel}`,
+          ``,
+          `■ メッセージ`,
+          message,
+          ``,
+          `──────────────────`,
+          `泰山流護身術・逮捕術 東京八王子本部道場`,
+          `https://peacefulmountainsystem.com`,
+        ].join("\n");
+
+        const htmlBody = `
+          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
+            <h2 style="color:#6B1F23;border-bottom:2px solid #6B1F23;padding-bottom:8px;">
+              泰山流 お問い合わせ
+            </h2>
+            <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+              <tr><td style="padding:8px 12px;background:#f9f6f2;font-weight:bold;width:120px;">お名前</td><td style="padding:8px 12px;">${name}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f9f6f2;font-weight:bold;">メール</td><td style="padding:8px 12px;"><a href="mailto:${email}">${email}</a></td></tr>
+              <tr><td style="padding:8px 12px;background:#f9f6f2;font-weight:bold;">電話番号</td><td style="padding:8px 12px;">${phone || "（未入力）"}</td></tr>
+              <tr><td style="padding:8px 12px;background:#f9f6f2;font-weight:bold;">種別</td><td style="padding:8px 12px;">${inquiryLabel}</td></tr>
+            </table>
+            <h3 style="color:#6B1F23;">メッセージ</h3>
+            <div style="background:#f9f6f2;padding:16px;border-radius:6px;white-space:pre-wrap;">${message}</div>
+            <hr style="margin:32px 0;border:none;border-top:1px solid #ddd;">
+            <p style="color:#888;font-size:12px;">泰山流護身術・逮捕術 東京八王子本部道場</p>
+          </div>`;
+
+        const res = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${resendApiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: `泰山流 お問い合わせフォーム <${fromEmail}>`,
+            to:   [toEmail],
+            reply_to: email,
+            subject,
+            text: textBody,
+            html: htmlBody,
+          }),
+        });
+
+        if (!res.ok) {
+          console.error("Resend error:", await res.text());
+        }
+      }
+
+      formStatus = "success";
+    }
+  } catch (e) {
+    console.error("Contact form error:", e);
+    formStatus = "error";
+    formError = "送信に失敗しました。時間をおいてから再度お試しください。 / Something went wrong. Please try again later.";
+  }
 }
-
-const pageContent = page?.data.content;
 ---
 
 <Base
-	title="Contact"
-	description="Have questions? Want a demo? We'd love to hear from you."
+  title="お問い合わせ"
+  description="泰山流護身術・逮捕術へのお問い合わせ。体験稽古・指圧整体のご予約・道場についてのご質問はこちらから。"
 >
-	{pageContent && <MarketingBlocks value={pageContent} />}
 
-	<section class="contact-form-section section">
-		<div class="container">
-			<div class="contact-grid">
-				<div class="contact-info">
-					<h2>Talk to our team</h2>
-					<p>Fill out the form and we'll be in touch within 24 hours.</p>
+  <!-- タイトルセクション -->
+  <section class="ct-title">
+    <div class="ct-inner">
+      <div class="ct-title-content reveal">
+        <p class="ct-eyebrow">Taizan-ryu</p>
+        <h1 class="ct-title-text"><span class="ja">お問い合わせ</span><span class="en">Contact Us</span></h1>
+        <div class="ct-divider"></div>
+        <p class="ct-title-desc ja">
+          体験稽古のお申し込み、指圧整体のご予約、その他ご質問はお気軽にどうぞ。<br>
+        </p>
+        <p class="ct-title-desc en">
+          Feel free to reach out for trial class inquiries, shiatsu appointments, or any questions.<br>
+          We typically respond within 2–3 business days.
+        </p>
+      </div>
+    </div>
+  </section>
 
-					<div class="contact-methods">
-						<div class="contact-method">
-							<div class="contact-icon">
-								<i class="ph ph-envelope" aria-hidden="true"></i>
-							</div>
-							<div class="contact-method-content">
-								<h4>Email</h4>
-								<a href="mailto:hello@acme.example">hello@acme.example</a>
-							</div>
-						</div>
-						<div class="contact-method">
-							<div class="contact-icon">
-								<i class="ph ph-lifebuoy" aria-hidden="true"></i>
-							</div>
-							<div class="contact-method-content">
-								<h4>Support</h4>
-								<a href="mailto:support@acme.example">support@acme.example</a>
-							</div>
-						</div>
-						<div class="contact-method">
-							<div class="contact-icon">
-								<i class="ph ph-currency-dollar" aria-hidden="true"></i>
-							</div>
-							<div class="contact-method-content">
-								<h4>Sales</h4>
-								<a href="mailto:sales@acme.example">sales@acme.example</a>
-							</div>
-						</div>
-					</div>
-				</div>
+  <!-- フォームセクション -->
+  <section class="ct-form-section surface-light">
+    <div class="ct-inner">
 
-				<div class="contact-form-wrapper">
-					{
-						formStatus === "success" ? (
-							<div class="form-success">
-								<div class="success-icon">✓</div>
-								<h3>Message Sent!</h3>
-								<p>{formMessage}</p>
-								<a href="/contact" class="btn btn-secondary">
-									Send another message
-								</a>
-							</div>
-						) : (
-							<form method="POST" class="contact-form">
-								{formStatus === "error" && (
-									<div class="form-error">
-										<p>{formMessage}</p>
-									</div>
-								)}
+      <div class="ct-layout">
 
-								<div class="form-row">
-									<div class="form-field">
-										<label for="name">Name *</label>
-										<input
-											type="text"
-											id="name"
-											name="name"
-											required
-											placeholder="Your name"
-											autocomplete="name"
-										/>
-									</div>
-									<div class="form-field">
-										<label for="email">Email *</label>
-										<input
-											type="email"
-											id="email"
-											name="email"
-											required
-											placeholder="you@company.com"
-											autocomplete="email"
-										/>
-									</div>
-								</div>
+        <!-- 左：アクセス情報 -->
+        <aside class="ct-info reveal">
+          <div class="ct-info-block">
+            <h2 class="ct-info-heading"><span class="ja">道場へのアクセス</span><span class="en">Find Us</span></h2>
+            <ul class="ct-info-list">
+              <li>
+                <span class="ct-info-label ja">住所</span>
+                <span class="ct-info-label en">Address</span>
+                <span class="ct-info-value">〒192-0904<br>東京都八王子市子安町1-29-1</span>
+              </li>
+              <li>
+                <span class="ct-info-label ja">アクセス</span>
+                <span class="ct-info-label en">Access</span>
+                <span class="ct-info-value ja">JR八王子駅 南口より徒歩5分</span>
+                <span class="ct-info-value en">5 min walk from Hachioji Station South Exit (JR)</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ct-info-block">
+            <h2 class="ct-info-heading"><span class="ja">お問い合わせ内容</span><span class="en">Inquiry Types</span></h2>
+            <ul class="ct-inquiry-types">
+              <li><span class="ct-badge">稽古</span><span class="ja">体験稽古・入門について</span><span class="en">Trial Class / Enrollment</span></li>
+              <li><span class="ct-badge">指圧</span><span class="ja">指圧整体のご予約</span><span class="en">Shiatsu Appointment</span></li>
+              <li><span class="ct-badge">道場</span><span class="ja">道場・流派について</span><span class="en">About the Dojo</span></li>
+              <li><span class="ct-badge">他</span><span class="ja">その他のご相談</span><span class="en">Other Inquiries</span></li>
+            </ul>
+          </div>
+        </aside>
 
-								<div class="form-field">
-									<label for="company">Company</label>
-									<input
-										type="text"
-										id="company"
-										name="company"
-										placeholder="Your company"
-										autocomplete="organization"
-									/>
-								</div>
+        <!-- 右：フォーム -->
+        <div class="ct-form-wrapper reveal">
+          {formStatus === "success" ? (
+            <div class="ct-success">
+              <div class="ct-success-icon">✓</div>
+              <h3><span class="ja">送信完了</span><span class="en">Message Sent</span></h3>
+              <p class="ja">お問い合わせありがとうございます。<br>通常2〜3営業日以内にご返信いたします。</p>
+              <p class="en">Thank you for reaching out.<br>We'll get back to you within 2–3 business days.</p>
+              <a href="/contact" class="ct-btn-secondary">
+                <span class="ja">別の内容を送る</span>
+                <span class="en">Send Another Message</span>
+              </a>
+            </div>
+          ) : (
+            <form method="POST" class="ct-form" novalidate>
+              {formStatus === "error" && (
+                <div class="ct-error-banner" role="alert">
+                  <span>{formError}</span>
+                </div>
+              )}
 
-								<div class="form-field">
-									<label for="message">Message *</label>
-									<textarea
-										id="message"
-										name="message"
-										required
-										rows="5"
-										placeholder="Tell us about your project or question..."
-									/>
-								</div>
+              <!-- 氏名 / Email 行 -->
+              <div class="ct-row">
+                <div class="ct-field">
+                  <label for="name">
+                    <span class="ja">氏名</span><span class="en">Name</span>
+                    <span class="ct-required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    autocomplete="name"
+                    value={submittedValues.name}
+                    placeholder="山田 太郎 / Taro Yamada"
+                  />
+                </div>
+                <div class="ct-field">
+                  <label for="email">
+                    <span class="ja">メールアドレス</span><span class="en">Email</span>
+                    <span class="ct-required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    value={submittedValues.email}
+                    placeholder="example@email.com"
+                  />
+                </div>
+              </div>
 
-								<button type="submit" class="btn btn-primary btn-lg">
-									Send Message
-								</button>
-							</form>
-						)
-					}
-				</div>
-			</div>
-		</div>
-	</section>
+              <!-- 電話番号 / お問い合わせ種別 行 -->
+              <div class="ct-row">
+                <div class="ct-field">
+                  <label for="phone">
+                    <span class="ja">お電話番号</span><span class="en">Phone</span>
+                    <span class="ct-optional ja">（任意）</span>
+                    <span class="ct-optional en">(optional)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    autocomplete="tel"
+                    value={submittedValues.phone}
+                    placeholder="042-xxx-xxxx"
+                  />
+                </div>
+                <div class="ct-field">
+                  <label for="inquiry_type">
+                    <span class="ja">お問い合わせ種別</span><span class="en">Inquiry Type</span>
+                    <span class="ct-optional ja">（任意）</span>
+                    <span class="ct-optional en">(optional)</span>
+                  </label>
+                  <select id="inquiry_type" name="inquiry_type">
+                    <option value="" disabled={true} selected={!submittedValues.inquiry_type}>
+                      選択してください / Please select
+                    </option>
+                    <option value="trial" selected={submittedValues.inquiry_type === "trial"}>
+                      体験稽古・入門 / Trial Class
+                    </option>
+                    <option value="shiatsu" selected={submittedValues.inquiry_type === "shiatsu"}>
+                      指圧整体のご予約 / Shiatsu Appointment
+                    </option>
+                    <option value="dojo" selected={submittedValues.inquiry_type === "dojo"}>
+                      道場・流派について / About the Dojo
+                    </option>
+                    <option value="other" selected={submittedValues.inquiry_type === "other"}>
+                      その他 / Other
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- メッセージ -->
+              <div class="ct-field">
+                <label for="message">
+                  <span class="ja">メッセージ</span><span class="en">Message</span>
+                  <span class="ct-required">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={6}
+                  placeholder="ご質問・ご相談内容をご記入ください / Please describe your inquiry..."
+                >{submittedValues.message}</textarea>
+              </div>
+
+              <button type="button" id="ct-confirm-btn" class="ct-btn-primary">
+                <span class="ja">内容を確認する</span>
+                <span class="en">Review & Send</span>
+              </button>
+            </form>
+          )}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 確認モーダル -->
+  <div id="ct-modal" class="ct-modal-backdrop" aria-hidden="true">
+    <div class="ct-modal" role="dialog" aria-modal="true" aria-labelledby="ct-modal-title">
+      <h2 id="ct-modal-title">
+        <span class="ja">送信内容のご確認</span>
+        <span class="en">Please Confirm</span>
+      </h2>
+      <p class="ct-modal-sub">
+        <span class="ja">以下の内容で送信します。よろしければ「送信する」を押してください。</span>
+        <span class="en">Please review the details below and press "Send" to submit.</span>
+      </p>
+
+      <dl class="ct-modal-table">
+        <div class="ct-modal-row">
+          <dt><span class="ja">お名前</span><span class="en">Name</span></dt>
+          <dd id="cm-name"></dd>
+        </div>
+        <div class="ct-modal-row">
+          <dt><span class="ja">メールアドレス</span><span class="en">Email</span></dt>
+          <dd id="cm-email"></dd>
+        </div>
+        <div class="ct-modal-row" id="cm-phone-row">
+          <dt><span class="ja">電話番号</span><span class="en">Phone</span></dt>
+          <dd id="cm-phone"></dd>
+        </div>
+        <div class="ct-modal-row" id="cm-type-row">
+          <dt><span class="ja">種別</span><span class="en">Type</span></dt>
+          <dd id="cm-type"></dd>
+        </div>
+        <div class="ct-modal-row">
+          <dt><span class="ja">メッセージ</span><span class="en">Message</span></dt>
+          <dd id="cm-message"></dd>
+        </div>
+      </dl>
+
+      <div class="ct-modal-actions">
+        <button type="button" id="ct-modal-cancel" class="ct-modal-btn-cancel">
+          <span class="ja">戻って修正する</span>
+          <span class="en">Go Back</span>
+        </button>
+        <button type="button" id="ct-modal-submit" class="ct-modal-btn-submit">
+          <span class="ja">送信する</span>
+          <span class="en">Send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
 </Base>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const LABELS: Record<string, string> = {
+      trial:   "体験稽古・入門 / Trial Class",
+      shiatsu: "指圧整体のご予約 / Shiatsu Appointment",
+      dojo:    "道場・流派について / About the Dojo",
+      other:   "その他 / Other",
+    };
+
+    const form       = document.querySelector<HTMLFormElement>(".ct-form");
+    const confirmBtn = document.getElementById("ct-confirm-btn");
+    const modal      = document.getElementById("ct-modal");
+    const cancelBtn  = document.getElementById("ct-modal-cancel");
+    const submitBtn  = document.getElementById("ct-modal-submit");
+
+    if (!modal) return;
+
+    function setText(id: string, value: string) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    function setRowVisible(rowId: string, visible: boolean) {
+      const el = document.getElementById(rowId);
+      if (el) el.hidden = !visible;
+    }
+
+    function openModal() {
+      if (!form) return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const fd          = new FormData(form);
+      const name        = String(fd.get("name") ?? "").trim();
+      const email       = String(fd.get("email") ?? "").trim();
+      const phone       = String(fd.get("phone") ?? "").trim();
+      const inquiryType = String(fd.get("inquiry_type") ?? "");
+      const message     = String(fd.get("message") ?? "").trim();
+
+      setText("cm-name",    name);
+      setText("cm-email",   email);
+      setText("cm-message", message);
+
+      setText("cm-phone", phone);
+      setRowVisible("cm-phone-row", !!phone);
+
+      setText("cm-type", LABELS[inquiryType] ?? inquiryType);
+      setRowVisible("cm-type-row", !!inquiryType);
+
+      modal.setAttribute("aria-hidden", "false");
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      submitBtn?.focus();
+    }
+
+    function closeModal() {
+      modal.setAttribute("aria-hidden", "true");
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+      confirmBtn?.focus();
+    }
+
+    confirmBtn?.addEventListener("click", openModal);
+    cancelBtn?.addEventListener("click", closeModal);
+
+    submitBtn?.addEventListener("click", function () {
+      if (!form) return;
+      const hidden = document.createElement("input");
+      hidden.type  = "hidden";
+      hidden.name  = "_confirmed";
+      hidden.value = "1";
+      form.appendChild(hidden);
+      form.submit();
+    });
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+    });
+  });
+</script>
+
 <style>
-	.contact-form-section {
-		padding-bottom: var(--spacing-5xl);
-	}
+  /* ===== 共通 ===== */
+  .ct-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
 
-	.contact-grid {
-		display: grid;
-		grid-template-columns: 1fr 1.5fr;
-		gap: var(--spacing-4xl);
-		align-items: start;
-	}
+  /* ===== タイトルセクション ===== */
+  .ct-title {
+    padding: calc(var(--header-height) + 80px) 0 80px;
+    background-color: var(--bg-color);
+    text-align: center;
+  }
 
-	.contact-info h2 {
-		font-size: var(--font-size-2xl);
-		margin-bottom: var(--spacing-md);
-	}
+  .ct-title-content {
+    max-width: 640px;
+    margin: 0 auto;
+  }
 
-	.contact-info > p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-2xl);
-	}
+  .ct-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
 
-	.contact-methods {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-lg);
-	}
+  .ct-title-text {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    letter-spacing: 8px;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
 
-	.contact-method {
-		display: flex;
-		align-items: center;
-		gap: var(--spacing-md);
-	}
+  .ct-divider {
+    width: 40px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 auto 32px;
+  }
 
-	.contact-icon {
-		width: 48px;
-		height: 48px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.25rem;
-		color: white;
-		background: linear-gradient(
-			135deg,
-			var(--color-primary),
-			var(--color-accent)
-		);
-		border-radius: var(--radius);
-		flex-shrink: 0;
-	}
+  .ct-title-desc {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-secondary);
+  }
 
-	.contact-method-content h4 {
-		font-size: var(--font-size-sm);
-		font-weight: 600;
-		margin-bottom: var(--spacing-xs);
-	}
+  /* ===== フォームセクション ===== */
+  .ct-form-section {
+    padding: 100px 0;
+  }
 
-	.contact-method-content a {
-		color: var(--color-primary);
-		font-size: var(--font-size-lg);
-	}
+  .ct-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+    align-items: start;
+  }
 
-	.contact-method-content a:hover {
-		text-decoration: underline;
-	}
+  /* ===== 左サイド：情報 ===== */
+  .ct-info {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
 
-	.contact-form-wrapper {
-		background: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-lg);
-		padding: var(--spacing-2xl);
-	}
+  .ct-info-heading {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-on-light);
+    margin-bottom: 20px;
+  }
 
-	.contact-form {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-lg);
-	}
+  .ct-info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-	.form-row {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--spacing-lg);
-	}
+  .ct-info-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 
-	.form-field {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-sm);
-	}
+  .ct-info-label {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-on-light-muted);
+  }
 
-	.form-field label {
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-	}
+  .ct-info-value {
+    font-size: 0.95rem;
+    color: var(--text-on-light);
+    line-height: 1.7;
+  }
 
-	.form-field input,
-	.form-field textarea {
-		padding: var(--spacing-md);
-		font-family: inherit;
-		font-size: var(--font-size-base);
-		color: var(--color-text);
-		background: var(--color-bg);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-sm);
-		transition:
-			border-color var(--transition-fast),
-			box-shadow var(--transition-fast);
-	}
+  .ct-inquiry-types {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
 
-	.form-field input:focus,
-	.form-field textarea:focus {
-		outline: none;
-		border-color: var(--color-primary);
-		box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-	}
+  .ct-inquiry-types li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: var(--text-on-light);
+    line-height: 1.4;
+  }
 
-	.form-field input::placeholder,
-	.form-field textarea::placeholder {
-		color: var(--color-muted);
-	}
+  .ct-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #6B1F23;
+    color: #fff;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
 
-	.form-field textarea {
-		resize: vertical;
-		min-height: 120px;
-	}
+  /* ===== 右サイド：フォーム ===== */
+  .ct-form-wrapper {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 48px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08);
+  }
 
-	.form-error {
-		padding: var(--spacing-md);
-		background: rgba(239, 68, 68, 0.1);
-		border: 1px solid rgba(239, 68, 68, 0.3);
-		border-radius: var(--radius-sm);
-		color: #dc2626;
-		font-size: var(--font-size-sm);
-	}
+  .ct-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 
-	@media (prefers-color-scheme: dark) {
-		.form-error {
-			color: #f87171;
-		}
-	}
+  .ct-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
 
-	.form-success {
-		text-align: center;
-		padding: var(--spacing-2xl);
-	}
+  .ct-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-	.success-icon {
-		width: 64px;
-		height: 64px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 2rem;
-		color: white;
-		background: var(--color-success);
-		border-radius: var(--radius-full);
-		margin: 0 auto var(--spacing-lg);
-	}
+  .ct-field label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-on-light);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
 
-	.form-success h3 {
-		font-size: var(--font-size-xl);
-		margin-bottom: var(--spacing-sm);
-	}
+  .ct-required {
+    color: #6B1F23;
+    font-size: 0.9rem;
+  }
 
-	.form-success p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-xl);
-	}
+  .ct-optional {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--text-on-light-muted);
+    letter-spacing: 0.5px;
+  }
 
-	@media (max-width: 768px) {
-		.contact-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-2xl);
-		}
+  .ct-field input,
+  .ct-field select,
+  .ct-field textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-on-light);
+    background-color: #f9f6f2;
+    border: 1.5px solid rgba(107, 31, 35, 0.15);
+    border-radius: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none;
+  }
 
-		.form-row {
-			grid-template-columns: 1fr;
-		}
-	}
+  .ct-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235c4a3c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .ct-field input:focus,
+  .ct-field select:focus,
+  .ct-field textarea:focus {
+    outline: none;
+    border-color: #6B1F23;
+    box-shadow: 0 0 0 3px rgba(107, 31, 35, 0.1);
+    background-color: #ffffff;
+  }
+
+  .ct-field input::placeholder,
+  .ct-field textarea::placeholder {
+    color: rgba(92, 74, 60, 0.4);
+    font-size: 0.88rem;
+  }
+
+  .ct-field textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.7;
+  }
+
+  /* ===== ボタン ===== */
+  .ct-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 32px;
+    background-color: #6B1F23;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    margin-top: 8px;
+  }
+
+  .ct-btn-primary:hover {
+    background-color: #8a2529;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(107, 31, 35, 0.35);
+  }
+
+  .ct-btn-primary:active {
+    transform: translateY(0);
+  }
+
+  /* ===== エラーバナー ===== */
+  .ct-error-banner {
+    padding: 14px 18px;
+    background-color: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 8px;
+    color: #b91c1c;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  /* ===== 送信成功 ===== */
+  .ct-success {
+    text-align: center;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ct-success-icon {
+    width: 64px;
+    height: 64px;
+    background-color: #6B1F23;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+
+  .ct-success h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: var(--text-on-light);
+  }
+
+  .ct-success p {
+    font-size: 0.95rem;
+    color: var(--text-on-light-muted);
+    line-height: 1.8;
+  }
+
+  .ct-btn-secondary {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 12px 28px;
+    border: 1.5px solid rgba(107, 31, 35, 0.4);
+    border-radius: 8px;
+    color: #6B1F23;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .ct-btn-secondary:hover {
+    border-color: #6B1F23;
+    background-color: rgba(107, 31, 35, 0.06);
+  }
+
+  /* ===== レスポンシブ ===== */
+  @media (max-width: 900px) {
+    .ct-inner {
+      padding: 0 20px;
+    }
+
+    .ct-title {
+      padding: calc(var(--header-height) + 48px) 0 60px;
+    }
+
+    .ct-form-section {
+      padding: 60px 0;
+    }
+
+    .ct-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .ct-form-wrapper {
+      padding: 32px 24px;
+    }
+
+    .ct-row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ct-title-text {
+      letter-spacing: 4px;
+    }
+  }
+
+  /* ===== 確認モーダル ===== */
+  .ct-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ct-modal-backdrop.is-open {
+    display: flex;
+    animation: ctBackdropIn 0.2s ease forwards;
+  }
+
+  @keyframes ctBackdropIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .ct-modal {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 40px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.3);
+    animation: ctModalIn 0.25s ease forwards;
+  }
+
+  .ct-modal-backdrop.is-open .ct-modal {
+    animation: ctModalIn 0.25s ease forwards;
+  }
+
+  @keyframes ctModalIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .ct-modal h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #1a120d;
+    margin-bottom: 8px;
+  }
+
+  .ct-modal-sub {
+    font-size: 0.85rem;
+    color: var(--text-on-light-muted);
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .ct-modal-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(107, 31, 35, 0.12);
+    margin-bottom: 28px;
+  }
+
+  .ct-modal-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(107, 31, 35, 0.12);
+    align-items: baseline;
+  }
+
+  .ct-modal-row dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-on-light-muted);
+    padding-top: 2px;
+  }
+
+  .ct-modal-row dd {
+    font-size: 0.95rem;
+    color: #1a120d;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .ct-modal-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .ct-modal-btn-cancel {
+    flex: 1;
+    padding: 13px 16px;
+    background: none;
+    border: 1.5px solid rgba(107, 31, 35, 0.3);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #5c4a3c;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .ct-modal-btn-cancel:hover {
+    border-color: #6B1F23;
+    background-color: rgba(107, 31, 35, 0.04);
+  }
+
+  .ct-modal-btn-submit {
+    flex: 1.4;
+    padding: 13px 16px;
+    background-color: #6B1F23;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  }
+
+  .ct-modal-btn-submit:hover {
+    background-color: #8a2529;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(107, 31, 35, 0.35);
+  }
+
+  @media (max-width: 560px) {
+    .ct-modal {
+      padding: 28px 20px;
+    }
+    .ct-modal-row {
+      grid-template-columns: 80px 1fr;
+    }
+    .ct-modal-actions {
+      flex-direction: column-reverse;
+    }
+  }
 </style>

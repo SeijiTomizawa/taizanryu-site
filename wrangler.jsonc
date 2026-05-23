@@ -22,9 +22,16 @@
 	"observability": {
 		"enabled": true,
 	},
+	"vars": {
+		// 本番では `wrangler secret put RESEND_API_KEY` でシークレットとして設定する
+		"RESEND_API_KEY": "",
+		"CONTACT_FROM_EMAIL": "contact@peacefulmountainsystem.com",
+		"CONTACT_TO_EMAIL": "uilriku59jp@yahoo.co.jp",
+	},
 	"worker_loaders": [
 		{
 			"binding": "LOADER",
 		},
 	],
+	
 }
