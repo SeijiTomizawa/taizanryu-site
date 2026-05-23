@@ -455,8 +455,10 @@ const pageContent = page?.data.content;
 
   /* --- アクセスセクション (全画面幅) --- */
   .access {
+    position: relative;
     width: 100vw;
     left: 50%;
+    transform: translateX(-50%);
     text-align: center;
     padding: 80px 20px;
   }
@@ -487,16 +489,18 @@ const pageContent = page?.data.content;
     width: 100%; /* HTML側の width="600" を上書きして全幅にする */
     height: 450px;
     display: block;
-  } */
+  }
 
   .features-section {
     padding: 80px 0;
   }
 
   .news {
+    position: relative;
     width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 80px 20px;
-    border-radius: 4px;
     margin: 60px 0;
   }
 
