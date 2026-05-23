@@ -1,0 +1,26 @@
+{
+  "name": "泰山流護身術・逮捕術",
+  "short_name": "泰山流",
+  "description": "東京八王子本部道場 - Peaceful Mountain System",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#6B1F23",
+  "background_color": "#6B1F23",
+  "lang": "ja",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
