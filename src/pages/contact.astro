@@ -367,11 +367,9 @@ if (Astro.request.method === "POST") {
 
     const form       = document.querySelector<HTMLFormElement>(".ct-form");
     const confirmBtn = document.getElementById("ct-confirm-btn");
-    const modal      = document.getElementById("ct-modal");
+    const modal      = document.getElementById("ct-modal") as HTMLElement;
     const cancelBtn  = document.getElementById("ct-modal-cancel");
     const submitBtn  = document.getElementById("ct-modal-submit");
-
-    if (!modal) return;
 
     function setText(id: string, value: string) {
       const el = document.getElementById(id);
