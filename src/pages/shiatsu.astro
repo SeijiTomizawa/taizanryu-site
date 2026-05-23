@@ -2,11 +2,13 @@
 import Base from "../layouts/Base.astro";
 import { getEmDashCollection } from "emdash";
 import { getCloudflareStreamUrl } from "../components/blocks/videos";
+import images from "../components/blocks/images";
 
 const { entries: allVideos, cacheHint } = await getEmDashCollection("videos", { limit: 100 });
 try { Astro.cache.set(cacheHint); } catch {}
 
 const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").slice(0, 4);
+const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-testimonial");
 ---
 
 <Base
@@ -36,7 +38,7 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
   </section>
 
   <!-- 説明セクション -->
-  <section class="sh-desc">
+  <section class="sh-desc surface-dark">
     <div class="sh-inner">
 
       <div class="sh-intro reveal">
@@ -89,8 +91,9 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
     </div>
   </section>
 
+
   <!-- 宗家の言葉 -->
-  <section class="sh-quote">
+  <section class="sh-quote surface-white">
     <div class="sh-inner">
       <blockquote class="reveal">
         <h2><span class="ja">泰山流指圧について</span><span class="en">About Taizan-ryu Shiatsu</span></h2>
@@ -158,42 +161,91 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
     </div>
   </section>
 
-  <!-- 施術動画セクション -->
-  <section class="sh-videos">
+  <!-- 指圧認定証セクション -->
+  <section class="sh-certs surface-dark">
+    <div class="sh-inner">
+      <div class="sh-section-header reveal">
+        <h2><span class="ja">指圧認定証</span><span class="en">Shiatsu Certifications</span></h2>
+        <p class="ja">宗家ジョセフ・ミラーの指圧資格証明書</p>
+        <p class="en">Soke Joseph Miller's Shiatsu Certification</p>
+      </div>
+
+      <div class="sh-cert-grid reveal">
+        <img src={images.certificate1} alt="指圧認定証 1" />
+        <img src={images.certificate2} alt="指圧認定証 2" />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 宗家の著書セクション -->
+  <section class="sh-books surface-white">
     <div class="sh-inner">
 
       <div class="sh-section-header reveal">
-        <h2><span class="ja">施術動画</span><span class="en">Treatment Videos</span></h2>
-        <p class="ja">泰山流指圧の施術の様子をご覧ください。独自の手技と経絡へのアプローチを動画でご紹介します。</p>
-        <p class="en">Watch Taizan-ryu Shiatsu treatments in action. Discover our unique hand techniques and meridian approach through video.</p>
+        <h2><span class="ja">宗家の著書</span><span class="en">Soke's Publications</span></h2>
       </div>
 
-      <div class="sh-video-grid">
+      <div class="sh-book-row reveal">
+        <div class="sh-book-image">
+          <img
+            src={images.shiatsuTextbook1}
+            alt="Healing Touch: The Complete Guide"
+          />
+        </div>
+        <div class="sh-book-text">
+          <p class="sh-book-label"><span class="ja">著書</span><span class="en">Publication</span></p>
+          <h3 class="sh-book-title">Healing Touch: The Complete Guide</h3>
+          <p class="sh-book-subtitle"><span class="ja">泰山流指圧・整体のガイドブック</span><span class="en">A Guide to the TaizanRyu System of Shiatsu and Seitai</span></p>
+          <p class="sh-book-desc ja">
+            宗家ジョセフ・ミラーによる、60年以上の武道経験に基づいた泰山流指圧の包括的なガイドブックです。伝統的な日本の治療芸術と現代的なアプローチを融合させ、心身の健康を取り戻すための実践的な知識が詰まっています。
+          </p>
+          <p class="sh-book-desc en">
+            Discover the secrets of TaizanRyu Shiatsu in this comprehensive guide by Soke Joseph Miller. Drawing from over 60 years of martial arts experience, this book bridges traditional Japanese healing arts with practical application.
+          </p>
+          <a
+            href="https://www.amazon.co.jp/"
+            target="_blank"
+            rel="noopener"
+            class="sh-amazon-btn"
+          >
+            <span class="sh-amazon-icon">&#9654;</span>
+            <span class="ja">Amazonで購入する</span><span class="en">Buy on Amazon</span>
+          </a>
+        </div>
+      </div>
 
-        {dojoVideos.map((v) => (
-          <div class="sh-video-item reveal">
-            <div class="sh-video-wrap">
-              <iframe
-                src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
-                title={v.data.title_jp}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+    </div>
+  </section>
+
+
+  <!-- 治療院お客様の声セクション -->
+  <section class="sh-testimonials surface-light" id="testimonials">
+    <div class="sh-testimonials-wrap">
+
+      <div class="sh-inner">
+        <div class="sh-section-header reveal">
+          <h2><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h2>
+          <p class="ja">施術を受けたお客様の体験談を動画でご紹介します。個人の感想であり、効果を保証するものではありません。</p>
+          <p class="en">Video testimonials from clients who have received treatment. These are personal experiences and do not guarantee outcomes.</p>
+        </div>
+      </div>
+
+      <div class="sh-testimonial-grid-wrap">
+        <div class="sh-testimonial-grid">
+          {testimonialVideos.map((v, i) => (
+            <div class="sh-testimonial-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
+              <div class="sh-testimonial-video">
+                <iframe
+                  src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
+                  title={v.data.title_jp}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
             </div>
-            <p class="sh-video-caption ja">{v.data.description_jp}</p>
-            <p class="sh-video-caption en">{v.data.description_en || v.data.description_jp}</p>
-          </div>
-        ))}
-
-      </div>
-
-      <div class="sh-yt-link reveal">
-        <a
-          href="https://www.youtube.com/@taizanryu"
-          target="_blank"
-          rel="noopener"
-          class="sh-btn-outline"
-        ><span class="ja">YouTube チャンネルで全動画を見る</span><span class="en">Watch All Videos on YouTube</span></a>
+          ))}
+        </div>
       </div>
 
     </div>
@@ -321,7 +373,6 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
   /* ===== 説明セクション ===== */
   .sh-desc {
     padding: 100px 0;
-    background-color: var(--bg-color);
   }
 
   .sh-intro {
@@ -373,6 +424,131 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
     line-height: 1;
   }
 
+  /* ===== 指圧認定証セクション ===== */
+  .sh-certs {
+    padding: 100px 0;
+  }
+
+  .sh-cert-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .sh-cert-grid img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    filter: grayscale(15%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .sh-cert-grid img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 600px) {
+    .sh-cert-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ===== 宗家の著書セクション ===== */
+  .sh-books {
+    padding: 100px 0;
+  }
+
+  .sh-book-row {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 60px;
+    align-items: start;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .sh-book-image img {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+  }
+
+  .sh-book-text {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sh-book-label {
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .sh-book-title {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-on-light);
+    line-height: 1.3;
+  }
+
+  .sh-book-subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    border-left: 3px solid rgba(107, 31, 35, 0.4);
+    padding-left: 12px;
+  }
+
+  .sh-book-desc {
+    font-size: 0.95rem;
+    line-height: 2;
+    color: var(--text-secondary);
+  }
+
+  .sh-amazon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 14px 32px;
+    background-color: #FF9900;
+    color: #111;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    align-self: flex-start;
+  }
+
+  .sh-amazon-btn:hover {
+    background-color: #e88800;
+    transform: translateY(-2px);
+  }
+
+  .sh-amazon-icon {
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 700px) {
+    .sh-book-row {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .sh-book-image img {
+      max-width: 220px;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
   .sh-pillar-body h3 {
     font-size: 1.15rem;
     font-weight: 500;
@@ -389,7 +565,6 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
   /* ===== 宗家の言葉 ===== */
   .sh-quote {
     padding: 100px 0;
-    background-color: var(--bg-color-secondary);
   }
 
   .sh-quote blockquote {
@@ -540,6 +715,8 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
     }
 
     .sh-desc,
+    .sh-certs,
+    .sh-books,
     .sh-quote,
     .sh-videos {
       padding: 60px 0;
@@ -568,5 +745,68 @@ const dojoVideos = allVideos.filter(v => v.data.category === "dojo-training").sl
 
     .line-a { letter-spacing: 4px; }
     .line-b { letter-spacing: 5px; }
+  }
+
+  /* ===== お客様の声セクション ===== */
+  .sh-testimonials {
+    padding: 100px 0;
+  }
+
+  .sh-testimonials-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .sh-testimonial-grid-wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    width: 100%;
+  }
+
+  .sh-testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .sh-testimonial-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sh-testimonial-video {
+    position: relative;
+    width: 100%;
+    padding-top: 177.78%; /* 9:16 縦長 */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #0a0705;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .sh-testimonial-item:hover .sh-testimonial-video {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
+    transform: translateY(-4px);
+  }
+
+  .sh-testimonial-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  @media (max-width: 900px) {
+    .sh-testimonials { padding: 60px 0; }
+    .sh-testimonial-grid-wrap { padding: 0 16px; }
+    .sh-testimonial-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  }
+
+  @media (max-width: 560px) {
+    .sh-testimonial-grid { grid-template-columns: 1fr; }
   }
 </style>

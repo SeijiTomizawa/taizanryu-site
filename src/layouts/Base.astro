@@ -47,7 +47,7 @@ const pageCtx = createPublicPageContext({
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Yuji+Syuku&display=swap" rel="stylesheet">
   </head>
 
   <body>
@@ -82,12 +82,9 @@ const pageCtx = createPublicPageContext({
           <li><a href="/self-defense"><span class="ja">護身術・逮捕術</span><span class="en">Martial Arts</span></a></li>
           <li><a href="/shiatsu"><span class="ja">指圧治療院</span><span class="en">Shiatsu Clinic</span></a></li>
           <li><a href="/soke"><span class="ja">宗家について</span><span class="en">About the Soke</span></a></li>
+          <li><a href="/event-photos"><span class="ja">大会写真</span><span class="en">Event Photos</span></a></li>
           <li><a href="/members"><span class="ja">門下生たち</span><span class="en">Members</span></a></li>
           <li><a href="/affiliated-dojos"><span class="ja">友好関係の道場</span><span class="en">Affiliated Dojos</span></a></li>
-          <li><a href="/training"><span class="ja">練習風景</span><span class="en">Training</span></a></li>
-          <li><a href="/event-photos"><span class="ja">大会写真</span><span class="en">Event Photos</span></a></li>
-          <li><a href="/awards"><span class="ja">宗家の賞状</span><span class="en">Awards</span></a></li>
-          <li><a href="/testimonials"><span class="ja">治療院お客様の声</span><span class="en">Testimonials</span></a></li>
         </ul>
       </nav>
       <br>
@@ -206,8 +203,11 @@ const pageCtx = createPublicPageContext({
       :root {
         --bg-color: #6B1F23;
         --bg-color-secondary: #E8E2D6;
+        --bg-black: #0d0806;
         --text-primary: #ffffff;
         --text-secondary: #bbaea6;
+        --text-on-light: #1a120d;
+        --text-on-light-muted: #5c4a3c;
         --font-sans: 'Montserrat', sans-serif;
         --header-height: 80px;
       }
@@ -222,6 +222,28 @@ const pageCtx = createPublicPageContext({
         overflow-x: hidden;
       }
       a { color: inherit; text-decoration: none; }
+
+      /* ===== 背景色・文字色ペア ===== */
+      .surface-dark  { background-color: var(--bg-color);  color: var(--text-primary); }
+      .surface-black { background-color: var(--bg-black);  color: var(--text-primary); }
+      .surface-light {
+        background-color: var(--bg-color-secondary);
+        color: var(--text-on-light);
+        --text-primary: var(--text-on-light);
+        --text-secondary: var(--text-on-light-muted);
+      }
+      .surface-white {
+        background-color: #ffffff;
+        color: var(--text-on-light);
+        --text-primary: var(--text-on-light);
+        --text-secondary: var(--text-on-light-muted);
+      }
+
+      /* 毛筆フォント：日本語見出し全体に適用 */
+      h1 .ja, h2 .ja, h3 .ja {
+        font-family: 'Yuji Syuku', serif;
+        font-weight: 400;
+      }
 
       /* --- Language toggle --- */
       .en { display: none; }
@@ -402,7 +424,7 @@ const pageCtx = createPublicPageContext({
       .reveal.active { opacity: 1; transform: translateY(0); }
 
       /* --- Global CTA --- */
-      .global-cta { padding: 100px 40px; background-color: #1a120d; text-align: center; }
+      .global-cta { padding: 100px 40px; background-color: var(--bg-color); text-align: center; }
       .global-cta-inner { max-width: 640px; margin: 0 auto; }
       .global-cta h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 400; letter-spacing: 4px; margin-bottom: 20px; }
       .global-cta p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.8; }

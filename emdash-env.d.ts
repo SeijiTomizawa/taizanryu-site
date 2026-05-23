@@ -5,6 +5,59 @@
 
 import type { ContentBylineCredit, PortableTextBlock } from "emdash";
 
+export interface 賞状 {
+  id: string;
+  slug: string | null;
+  status: string;
+  image: { id: string; src?: string; alt?: string; width?: number; height?: number };
+  caption?: string;
+  order?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface 写真 {
+  id: string;
+  slug: string | null;
+  status: string;
+  image: { id: string; src?: string; alt?: string; width?: number; height?: number };
+  caption?: string;
+  order?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface 門下生 {
+  id: string;
+  slug: string | null;
+  status: string;
+  name: string;
+  member_id: string;
+  photo_url?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
+export interface お知らせ {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  date: string;
+  category?: string;
+  body?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+}
+
 export interface Page {
   id: string;
   slug: string | null;
@@ -31,53 +84,31 @@ export interface Post {
   bylines?: ContentBylineCredit[];
 }
 
-export interface Video {
+export interface 動画 {
   id: string;
   slug: string | null;
   status: string;
   title_jp: string;
-  title_en?: string | null;
-  description_jp?: string | null;
-  description_en?: string | null;
+  title_en?: string;
+  description_jp?: string;
+  description_en?: string;
   cloudflare_video_id: string;
-  category?: string | null;
-  thumbnail_time?: string | null;
+  category?: string;
+  thumbnail_time?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
-}
-
-export interface Member {
-  id: string;
-  slug: string | null;
-  status: string;
-  name: string;
-  member_id: string;
-  photo_url?: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
-}
-
-export interface News {
-  id: string;
-  slug: string | null;
-  status: string;
-  title: string;
-  date?: string | null;
-  category?: string | null;
-  body?: PortableTextBlock[];
-  createdAt: Date;
-  updatedAt: Date;
-  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
 }
 
 declare module "emdash" {
   interface EmDashCollections {
+    certificates: 賞状;
+    gallery: 写真;
+    members: 門下生;
+    news: お知らせ;
     pages: Page;
     posts: Post;
-    videos: Video;
-    members: Member;
-    news: News;
+    videos: 動画;
   }
 }

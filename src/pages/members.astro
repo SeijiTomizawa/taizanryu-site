@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { getEmDashCollection } from "emdash";
-import { membersGroupImage } from "../components/blocks/images";
+import { membersGroupImage, logoImage } from "../components/blocks/images";
 
 const { entries: members, cacheHint } = await getEmDashCollection("members", {
   limit: 100,
@@ -45,25 +45,29 @@ try { Astro.cache.set(cacheHint); } catch {}
   </section>
 
   <!-- リストセクション -->
-  <section class="mb-list">
-    <h2><span class="ja">共に稽古を積む仲間たち</span><span class="en">Training Together as One</span></h2>
-    <p><span class="ja">2025年9月現在 - 泰山流護身術認定メンバー</span><span class="en">As of September 2025 — Taizan-ryu Certified Members</span></p>
+  <section class="mb-list surface-light">
+    <div class="mb-inner">
+      <div class="mb-list-header reveal">
+        <h2><span class="ja">共に稽古を積む仲間たち</span><span class="en">Training Together as One</span></h2>
+        <p><span class="ja">2025年9月現在 - 泰山流護身術認定メンバー</span><span class="en">As of September 2025 — Taizan-ryu Certified Members</span></p>
+      </div>
 
-    <div class="mb-grid">
-      {members.map((member) => (
-        <div class="mb-card">
-          <div class="mb-card-photo">
-            <img
-              src={member.data.photo_url || `https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/members/${member.data.member_id}.webp`}
-              alt={member.data.name}
-            />
+      <div class="mb-grid">
+        {members.map((member) => (
+          <div class="mb-card reveal">
+            <div class="mb-card-photo">
+              <img
+                src={member.data.photo_url || logoImage}
+                alt={member.data.name}
+              />
+            </div>
+            <div class="mb-card-body">
+              <h3 class="mb-card-name">{member.data.name}</h3>
+              <p class="mb-card-name-en">{member.data.member_id}</p>
+            </div>
           </div>
-          <div class="mb-card-body">
-            <h3 class="mb-card-name">{member.data.name}</h3>
-            <p class="mb-card-name-en">{member.data.member_id}</p>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   </section>
 
@@ -156,7 +160,6 @@ try { Astro.cache.set(cacheHint); } catch {}
   /* ===== リストセクション ===== */
   .mb-list {
     padding: 100px 0;
-    background-color: var(--bg-color);
   }
 
   .mb-list-header {
@@ -169,6 +172,7 @@ try { Astro.cache.set(cacheHint); } catch {}
     font-weight: 400;
     letter-spacing: 4px;
     margin-bottom: 14px;
+    color: var(--text-primary);
   }
 
   .mb-list-header p {
@@ -180,64 +184,76 @@ try { Astro.cache.set(cacheHint); } catch {}
   /* カードグリッド */
   .mb-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   /* カード */
   .mb-card {
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-                box-shadow 0.35s ease,
-                border-color 0.35s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    padding: 16px;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.3s ease;
   }
 
   .mb-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
   }
 
   /* カード写真 */
   .mb-card-photo {
-    aspect-ratio: 1 / 1;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 8px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #f0ebe3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mb-card-photo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-    filter: grayscale(20%);
+    object-fit: contain;
+    transition: transform 0.4s ease;
+    filter: grayscale(15%);
   }
 
   .mb-card:hover .mb-card-photo img {
-    transform: scale(1.04);
+    transform: scale(1.06);
     filter: grayscale(0%);
   }
 
   /* カード本文 */
   .mb-card-body {
-    padding: 24px;
+    flex: 1;
+    min-width: 0;
   }
 
   .mb-card-name {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     margin-bottom: 4px;
+    color: var(--text-on-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .mb-card-name-en {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     letter-spacing: 1px;
-    margin-bottom: 16px;
   }
 
   /* タグ */
@@ -298,8 +314,8 @@ try { Astro.cache.set(cacheHint); } catch {}
     }
 
     .mb-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
   }
 

@@ -1,14 +1,20 @@
 ---
-import { getEmDashEntry } from "emdash";
+import { getEmDashEntry, getEmDashCollection } from "emdash";
 import Base from "../layouts/Base.astro";
 import MarketingBlocks from "../components/MarketingBlocks.astro";
 import images from "../components/blocks/images";
 
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
+const { entries: newsItems, cacheHint: newsCacheHint } = await getEmDashCollection("news", {
+  status: "published",
+  orderBy: { date: "desc" },
+  limit: 5,
+});
 
 try {
   Astro.cache.set(cacheHint);
+  Astro.cache.set(newsCacheHint);
 } catch {}
 
 const pageTitle = page?.data.title;
@@ -85,14 +91,38 @@ const pageContent = page?.data.content;
       </div>
     </section>
 
-    <section class="news reveal" id="news">
-      <h2><span class="ja">最新情報</span><span class="en">Latest News</span></h2>
-      <p><span class="ja">準備中</span><span class="en">Coming Soon</span></p>
+    <section class="news surface-white reveal" id="news">
+      <div class="news-inner">
+        <div class="news-header">
+          <p class="news-eyebrow">Taizan-ryu</p>
+          <h2><span class="ja">お知らせ</span><span class="en">Latest News</span></h2>
+          <div class="news-divider"></div>
+        </div>
+
+        {newsItems.length === 0 ? (
+          <p class="news-empty"><span class="ja">準備中</span><span class="en">Coming Soon</span></p>
+        ) : (
+          <ul class="news-list">
+            {newsItems.map((item) => (
+              <li class="news-item">
+                <span class="news-date">{item.data.date}</span>
+                {item.data.category && (
+                  <span class="news-category">{item.data.category}</span>
+                )}
+                <span class="news-title">{item.data.title}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
 
-    <section class="emblem" id="emblem">
+    <section class="emblem surface-light" id="emblem">
       <div class="banner-image">
-        { images.taizanLogo }
+        <img
+                src={ images.taizanLogo }
+                alt="泰山流のロゴ"
+        />
       </div>
     </section>
 
@@ -100,61 +130,53 @@ const pageContent = page?.data.content;
       <dl>
         <dt class="reveal">
           <span class="work-num">1</span>
-          { images.newyorkSeminar1 }
+          <img
+                src={ images.newyorkSeminar1 }
+                alt="国境を越えて集う仲間たち"
+          />
         </dt>
         <dd class="reveal">
           <h3><span class="ja">国境を越えて集う仲間たち</span><span class="en">Students from Around the World</span></h3>
           <span class="ja">世界中から集まった生徒たちが、泰山流の技術と精神を学び、共に成長しています。国籍や背景を超えた絆が、道場を一層豊かなものにしています。</span>
           <span class="en">Students from across the globe come to learn the art and spirit of Taizan-ryu and grow together. Bonds that transcend nationality and background make our dojo all the richer.</span>
-          <a href="/training" class="btn"><span class="ja">詳細を見る</span><span class="en">Details</span></a>
+          <a href="/event-photos" class="btn"><span class="ja">ウェブページに行く</span><span class="en">Visit Page</span></a>
         </dd>
         <dt class="reveal">
           <span class="work-num">2</span>
-          { images.heroDojoTraining  }
-        </dt>
-        <dd class="reveal">
-          <h3><span class="ja">稽古仲間たち</span><span class="en">Training Partners</span></h3>
-          <span class="ja">稽古で培った絆と信頼。同じ目標に向かって努力する、様々な国籍、年齢、経験レベルの仲間たちとの交流は、武道の成長に欠かせない要素です。</span>
-          <span class="en">The bonds and trust forged through training. The exchange with partners of all nationalities, ages, and experience levels striving toward the same goal is an essential element of martial growth.</span>
-          <a href="/training" class="btn"><span class="ja">詳細を見る</span><span class="en">Details</span></a>
-        </dd>
-        <dt class="reveal">
-          <span class="work-num">3</span>
-          { images.homeDojoInteriorImage }
+          <img
+                src={ images.heroDojoTraining }
+                alt="稽古仲間たち"
+          />
         </dt>
         <dd class="reveal">
           <h3><span class="ja">泰山流の技術</span><span class="en">Taizan-ryu Techniques</span></h3>
           <span class="ja">宗家ジョー・ミラーによる技術解説と、道場での稽古の様子をご覧ください。基本技術から実戦応用まで、映像を通じて泰山流の技術と哲学を体験できます。</span>
           <span class="en">Watch technique explanations by Soke Joe Miller and training sessions at the dojo. Experience the art and philosophy of Taizan-ryu through video, from fundamentals to practical application.</span>
-          <a href="/techniques" class="btn"><span class="ja">詳細を見る</span><span class="en">Details</span></a>
+          <a href="/self-defense#videos" class="btn"><span class="ja">ウェブページに行く</span><span class="en">Visit Page</span></a>
         </dd>
         <dt class="reveal">
-          <span class="work-num">4</span>
-          { images.homeTaizanLogoPlaceholder }
-        </dt>
-        <dd class="reveal">
-          <h3><span class="ja">宗家の賞状</span><span class="en">Soke's Awards</span></h3>
-          <span class="ja">泰山流宗家ジョー・ミラーの認定証と栄誉を紹介します。武道界への貢献が評価され、多数の賞状や表彰を受けています。</span>
-          <span class="en">Presenting the certificates and honors of Soke Joe Miller. Recognized for his contributions to the martial arts world with numerous awards and commendations.</span>
-          <a href="/awards" class="btn"><span class="ja">詳細を見る</span><span class="en">Details</span></a>
-        </dd>
-        <dt class="reveal">
-          <span class="work-num">5</span>
-          { images.shiatsuReviewsHeroBg }
+          <span class="work-num">3</span>
+          <img
+                src={ images.homeTaizanLogoPlaceholder }
+                alt="泰山流のロゴ"
+          />
         </dt>
         <dd class="reveal">
           <h3><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h3>
           <span class="ja">泰山流指圧整体院での施術を受けたお客様からの感想と体験談をご紹介します。身体の不調が改善された喜びの声が多数寄せられています。</span>
           <span class="en">Testimonials and stories from clients who have received treatment at Taizan-ryu Shiatsu Clinic. Many have shared the joy of finding relief from chronic conditions.</span>
-          <a href="/testimonials" class="btn"><span class="ja">詳細を見る</span><span class="en">Details</span></a>
+          <a href="/shiatsu#testimonials" class="btn"><span class="ja">ウェブページに行く</span><span class="en">Visit Page</span></a>
         </dd>
       </dl>
     </section>
 
-    <section class="access reveal" id="access">
+    <section class="access surface-light reveal" id="access">
       <h3><span class="ja">アクセス</span><span class="en">Location</span></h3>
       <div class="access-hero">
-        { images.hachiojiStationImage }
+        <img
+          src={ images.hachiojiStationImage }
+          alt="八王子駅"
+        />
       </div>
       <div class="access-info">
         <p>1-29-1 Koyasu-cho, Hachioji-shi, Tokyo 192-0904</p>
@@ -346,7 +368,8 @@ const pageContent = page?.data.content;
   .featured-works img {
     width: 300px;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #0d0806;
     border-radius: 8px;
   }
 
@@ -413,19 +436,15 @@ const pageContent = page?.data.content;
 
   /* --- エンブレムセクション (全画面幅 & 位置調整) --- */
   .emblem {
-    /* 画面幅いっぱいにするトリック */
     position: relative;
     width: 100vw;
-    height: 300px; /* 適宜調整 */
+    height: 300px;
     left: 50%;
     transform: translateX(-50%);
-    
     text-align: center;
-    background-color: var(--bg-color-secondary);
-    
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .emblem img {
@@ -440,7 +459,6 @@ const pageContent = page?.data.content;
     left: 50%;
     text-align: center;
     padding: 80px 20px;
-    background-color: var(--bg-color-secondary);
   }
 
   .access h3 {
@@ -476,11 +494,96 @@ const pageContent = page?.data.content;
   }
 
   .news {
-    background-color: #fff;
-    color: #000;
     width: 100vw;
     padding: 80px 20px;
     border-radius: 4px;
+    margin: 60px 0;
+  }
+
+  .news-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .news-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .news-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .news h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+  }
+
+  .news-divider {
+    width: 32px;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+  }
+
+  .news-list {
+    list-style: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .news-item {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease;
+  }
+
+  .news-item:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    padding-left: 8px;
+  }
+
+  .news-date {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .news-category {
+    font-size: 0.68rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #6B1F23;
+    padding: 2px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .news-title {
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+  }
+
+  .news-empty {
+    text-align: center;
+    color: #999;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
   }
 
   .featured-works {
