@@ -35,9 +35,9 @@ const pageContent = page?.data.content;
     
     <section class="hero-carousel">
       <div class="carousel-images">
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_04.webp" alt="Dojo 04" class="carousel-slide active" />
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_08.webp" alt="Dojo 08" class="carousel-slide" />
-        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_07.webp" alt="Dojo 07" class="carousel-slide" />
+        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_04.webp" alt="Dojo 04" class="carousel-slide active" decoding="async" />
+        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_08.webp" alt="Dojo 08" class="carousel-slide" loading="lazy" decoding="async" />
+        <img src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/dojo/DOJO_07.webp" alt="Dojo 07" class="carousel-slide" loading="lazy" decoding="async" />
       </div>
       
       <div class="carousel-overlay"></div>
@@ -91,7 +91,7 @@ const pageContent = page?.data.content;
       </div>
     </section>
 
-    <section class="news surface-white" id="news">
+    <!-- <section class="news surface-white" id="news">
       <div class="news-inner">
         <div class="news-header">
           <p class="news-eyebrow">Taizan-ryu</p>
@@ -115,7 +115,7 @@ const pageContent = page?.data.content;
           </ul>
         )}
       </div>
-    </section>
+    </section> -->
 
     <section class="emblem surface-light" id="emblem">
       <div class="banner-image">
@@ -165,7 +165,7 @@ const pageContent = page?.data.content;
           <h3><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h3>
           <span class="ja">泰山流指圧整体院での施術を受けたお客様からの感想と体験談をご紹介します。身体の不調が改善された喜びの声が多数寄せられています。</span>
           <span class="en">Testimonials and stories from clients who have received treatment at Taizan-ryu Shiatsu Clinic. Many have shared the joy of finding relief from chronic conditions.</span>
-          <a href="/shiatsu#testimonials" class="btn"><span class="ja">ページへ行く</span><span class="en">Visit Page</span></a>
+          <a href="/testimonials" class="btn"><span class="ja">ページへ行く</span><span class="en">Visit Page</span></a>
         </dd>
       </dl>
     </section>
@@ -183,7 +183,13 @@ const pageContent = page?.data.content;
         <p><span class="ja">八王子駅南口より徒歩5分</span><span class="en">5 min walk from Hachioji Station South Exit</span></p>
         <p><span class="ja">新宿駅から30分、日本全国からアクセス良好</span><span class="en">30 min from Shinjuku, easily accessible from anywhere in Japan</span></p>
       </div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.0163513502466!2d139.3370407760321!3d35.65196877259671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60191ddb5bd357c9%3A0xe6ea1e69ca00b8b!2z44CSMTkyLTA5MDQg5p2x5Lqs6YO95YWr546L5a2Q5biC5a2Q5a6J55S677yR5LiB55uu77yS77yZ4oiS77yR!5e0!3m2!1sja!2sjp!4v1778164204991!5m2!1sja!2sjp"></iframe>
+      <iframe
+        id="map-iframe"
+        title="Google Maps — 泰山流道場"
+        data-src-ja="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.0163513502466!2d139.3370407760321!3d35.65196877259671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60191ddb5bd357c9%3A0xe6ea1e69ca00b8b!2z44CSMTkyLTA5MDQg5p2x5Lqs6YO95YWr546L5a2Q5biC5a2Q5a6J55S677yR5LiB55uu77yS77yZ4oiS77yR!5e0!3m2!1sja!2sjp!4v1778164204991!5m2!1sja!2sjp"
+        data-src-en="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.0163513502466!2d139.3370407760321!3d35.65196877259671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60191ddb5bd357c9%3A0xe6ea1e69ca00b8b!2z44CSMTkyLTA5MDQg5p2x5Lqs6YO95YWr546L5a2Q5biC5a2Q5a6J55S677yR5LiB55uu77yS77yZ4oiS77yR!5e0!3m2!1sen!2sjp!4v1778164204991!5m2!1sen!2sjp"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3242.0163513502466!2d139.3370407760321!3d35.65196877259671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60191ddb5bd357c9%3A0xe6ea1e69ca00b8b!2z44CSMTkyLTA5MDQg5p2x5Lqs6YO95YWr546L5a2Q5biC5a2Q5a6J55S677yR5LiB55uu77yS77yZ4oiS77yR!5e0!3m2!1sja!2sjp!4v1778164204991!5m2!1sja!2sjp"
+      ></iframe>
     </section>
 
   </div>
@@ -191,19 +197,36 @@ const pageContent = page?.data.content;
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // カルーセル
     const slides = document.querySelectorAll('.carousel-slide');
-    if (slides.length === 0) return;
-
-    let currentSlide = 0;
-    const intervalTime = 5000;
-
-    function nextSlide() {
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
+    if (slides.length > 0) {
+      let currentSlide = 0;
+      function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }
+      setInterval(nextSlide, 5000);
     }
 
-    setInterval(nextSlide, intervalTime);
+    // Google Maps 言語切り替え
+    const mapIframe = document.getElementById('map-iframe') as HTMLIFrameElement | null;
+    if (mapIframe) {
+      function updateMapLang(lang: string) {
+        const src = lang === 'en'
+          ? mapIframe!.dataset.srcEn
+          : mapIframe!.dataset.srcJa;
+        if (src && mapIframe!.src !== src) mapIframe!.src = src;
+      }
+
+      // 初期言語を反映
+      updateMapLang(document.documentElement.dataset.lang || 'ja');
+
+      // 言語変更を監視
+      new MutationObserver(() => {
+        updateMapLang(document.documentElement.dataset.lang || 'ja');
+      }).observe(document.documentElement, { attributeFilter: ['data-lang'] });
+    }
   });
 </script>
 

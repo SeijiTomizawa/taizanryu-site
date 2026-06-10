@@ -7,6 +7,10 @@ const { entries: members, cacheHint } = await getEmDashCollection("members", {
   limit: 100,
 });
 try { Astro.cache.set(cacheHint); } catch {}
+
+const now = new Date();
+const dateJa = `${now.getFullYear()}年${now.getMonth() + 1}月現在`;
+const dateEn = now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
 ---
 
 <Base
@@ -49,7 +53,7 @@ try { Astro.cache.set(cacheHint); } catch {}
     <div class="mb-inner">
       <div class="mb-list-header reveal">
         <h2><span class="ja">共に稽古を積む仲間たち</span><span class="en">Training Together as One</span></h2>
-        <p><span class="ja">2025年9月現在 - 泰山流護身術認定メンバー</span><span class="en">As of September 2025 — Taizan-ryu Certified Members</span></p>
+        <p><span class="ja">{dateJa} - 泰山流護身術認定メンバー</span><span class="en">As of {dateEn} — Taizan-ryu Certified Members</span></p>
       </div>
 
       <div class="mb-grid">
@@ -59,6 +63,8 @@ try { Astro.cache.set(cacheHint); } catch {}
               <img
                 src={member.data.photo_url || logoImage}
                 alt={member.data.name}
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div class="mb-card-body">

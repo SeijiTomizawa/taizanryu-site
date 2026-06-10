@@ -221,33 +221,19 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
 
   <!-- 治療院お客様の声セクション -->
   <section class="sh-testimonials surface-light" id="testimonials">
-    <div class="sh-testimonials-wrap">
-
-      <div class="sh-inner">
-        <div class="sh-section-header reveal">
-          <h2><span class="ja">治療院お客様の声</span><span class="en">Client Testimonials</span></h2>
-          <p class="ja">施術を受けたお客様の体験談を動画でご紹介します。個人の感想であり、効果を保証するものではありません。</p>
-          <p class="en">Video testimonials from clients who have received treatment. These are personal experiences and do not guarantee outcomes.</p>
-        </div>
+    <div class="sh-inner">
+      <div class="sh-testimonials-cta reveal">
+        <h2>
+          <span class="ja">お客様の声</span>
+          <span class="en">Client Testimonials</span>
+        </h2>
+        <p class="ja">施術を受けられたお客様からいただいた、率直な感想をご紹介します。</p>
+        <p class="en">Read what our clients have to say about their experience with Taizan-ryu Shiatsu.</p>
+        <a href="/testimonials" class="sh-testimonials-btn">
+          <span class="ja">お客様の声をすべて見る</span>
+          <span class="en">View All Testimonials</span>
+        </a>
       </div>
-
-      <div class="sh-testimonial-grid-wrap">
-        <div class="sh-testimonial-grid">
-          {testimonialVideos.map((v, i) => (
-            <div class="sh-testimonial-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
-              <div class="sh-testimonial-video">
-                <iframe
-                  src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
-                  title={v.data.title_jp}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -750,6 +736,60 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
   /* ===== お客様の声セクション ===== */
   .sh-testimonials {
     padding: 100px 0;
+    text-align: center;
+  }
+
+  .sh-testimonials-cta {
+    max-width: 620px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sh-testimonials-ornament {
+    font-size: 2.8rem;
+    line-height: 1;
+    color: var(--text-secondary);
+    opacity: 0.45;
+    margin-bottom: 4px;
+  }
+
+  .sh-testimonials-cta h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin: 0;
+  }
+
+  .sh-testimonials-cta p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    margin: 0;
+  }
+
+  .sh-testimonials-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #38bdf8; /* 鮮やかな空色 */
+    color: #0f172a; /* 視認性を高めるための濃い文字色 */
+    padding: 10px 28px;
+    border-radius: 30px; /* 角丸 */
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+    align-self: center;
+  }
+
+  .sh-testimonials-btn:hover {
+    background-color: #7dd3fc; /* ホバー時は少し明るい空色に */
+    transform: translateY(-3px); /* ふわっと浮く */
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); /* 空色の影 */
   }
 
   .sh-testimonials-wrap {

@@ -5,26 +5,44 @@ import images from "../components/blocks/images";
 const dojos = [
   {
     id: "DOJO_01",
+    logo: images.logoImage, // TODO: コウジン道場のロゴ画像URLに差し替え
     name: "泰山流柔術 東海岸本部 コウジン道場",
+    name_en: "Peaceful Mountain System East Coast KOUJIN Dojo",
     master: "エメリー・マルドロウ師範",
+    master_en: "Dojo Sensei Emery Muldrow",
     location: "20 Seaview Avenue Jersey City N.J 07305, USA",
+    location_en: "20 Seaview Avenue Jersey City N.J 07305, USA",
+    email: "Umfibi@yahoo.com",
     discribe: "私たちは、そのビジョンに100％共感しています。それが「コウジン道場」のスタイルです。混沌としたこの世界において、真の修行とは帯やトロフィーのためではありません。それは、揺るぎない肉体、精神、そして魂の鎧を鍛え上げ、胸を張って歩み、脅威を早期に察知し、街が投げかけるあらゆる事態に対処できるようにすることです。言い訳は通用せず、経歴も問われません。ただ、純粋な可能性を解き放つだけです。",
+    discribe_en: "We connect with that vision 100%, KOUJIN dojo style. In a chaotic world, real training isn't about belts or trophies—it's forging unbreakable physical, mental, and spiritual armor so you walk tall, spot threats early, and handle whatever the streets throw at you. No excuses, no backgrounds held against you; just pure potential unlocked.",
     link: "製作中",
   },
   {
     id: "DOJO_02",
+    logo: images.logoImage, // TODO: 木鶏塾のロゴ画像URLに差し替え
     name: "天庸流柔術 大阪総本部道場 木鶏塾",
+    name_en: "Tenyo-ryu Ju-jutsu Osaka HQ — Mokkei Juku",
     master: "垣本総師範",
+    master_en: "Grandmaster Kakimoto",
     location: "大阪府大阪市北区天満",
+    location_en: "Tenma, Kita-ku, Osaka, Japan",
+    email: "",
     discribe: "力や身体の大きさに関係なく、一人ひとりのポテンシャルの向上を目的とした稽古を行ってります。",
-    link: "https://mokkeijuku.com/", 
+    discribe_en: "Training focused on developing each individual's potential, regardless of strength or body size.",
+    link: "https://mokkeijuku.com/",
   },
   {
     id: "DOJO_03",
+    logo: images.logoImage, // TODO: 天庸流東京支部のロゴ画像URLに差し替え
     name: "天庸流柔術　東京支部",
+    name_en: "Tenyo-ryu Ju-jutsu — Tokyo Branch",
     master: "齊藤師範",
+    master_en: "Sensei Saito",
     location: "東京調布・三鷹・荻窪",
+    location_en: "Chofu, Mitaka & Ogikubo, Tokyo",
+    email: "",
     discribe: "体操や指圧も行い、お互いに健康になれてしまうというお得な集まりですので、初心者の方もぜひ、気軽にご参加ください。",
+    discribe_en: "We also incorporate gymnastics and shiatsu, making it a rewarding gathering where everyone improves their health together. Beginners are warmly welcome.",
     link: "https://9f0sw.hp.peraichi.com/",
   },
 ];
@@ -77,20 +95,40 @@ const dojos = [
       <div class="grid">
         {dojos.map((dojo) => (
           <div class="card">
-            <div class="card-photo">
+            <div class="card-logo">
               <img
-                src={images.dojoInteriorImage}
+                src={dojo.logo}
                 alt={dojo.name}
               />
             </div>
-            <div class="card-body">
-              <h3 class="card-name">{dojo.name}</h3>
-              <p class="card-location">{dojo.location}</p>
-              <p class="card-description">{dojo.discribe}</p>
-              {dojo.link.startsWith('http') && (
+            <div class="card-body surface-light">
+              <h3 class="card-name">
+                <span class="ja">{dojo.name}</span>
+                <span class="en">{dojo.name_en}</span>
+              </h3>
+              <p class="card-master">
+                <span class="ja">{dojo.master}</span>
+                <span class="en">{dojo.master_en}</span>
+              </p>
+              <p class="card-location">
+                <span class="ja">{dojo.location}</span>
+                <span class="en">{dojo.location_en}</span>
+              </p>
+              {dojo.email && (
+                <a href={`mailto:${dojo.email}`} class="card-email">{dojo.email}</a>
+              )}
+              <p class="card-description">
+                <span class="ja">{dojo.discribe}</span>
+                <span class="en">{dojo.discribe_en}</span>
+              </p>
+              {dojo.link.startsWith('http') ? (
                 <a href={dojo.link} target="_blank" rel="noopener noreferrer" class="btn">
                   <span class="ja">ウェブページに行く</span><span class="en">Visit Page</span>
                 </a>
+              ) : (
+                <p class="card-under-construction">
+                  <span class="ja">製作中</span><span class="en">Web site under construction.</span>
+                </p>
               )}
             </div>
           </div>
@@ -233,24 +271,28 @@ const dojos = [
     border-color: rgba(255, 255, 255, 0.16);
   }
 
-  /* カード写真 */
-  .card-photo {
+  /* カードロゴ */
+  .card-logo {
     min-height: 260px;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
-  .card-photo img {
+  .card-logo img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease, filter 0.6s ease;
-    filter: grayscale(20%);
+    max-width: 200px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  .card:hover .card-photo img {
+  .card:hover .card-logo img {
+    opacity: 1;
     transform: scale(1.04);
-    filter: grayscale(0%);
   }
 
   /* カード本文 */
@@ -269,10 +311,37 @@ const dojos = [
     line-height: 1.6;
   }
 
+  .card-under-construction {
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    margin-top: 8px;
+  }
+
+  .card-master {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 1.5px;
+  }
+
   .card-location {
     font-size: 0.82rem;
     color: var(--text-secondary);
     letter-spacing: 1px;
+  }
+
+  .card-email {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .card-email:hover {
+    color: var(--text-primary);
   }
 
   .card-description {
@@ -388,8 +457,9 @@ const dojos = [
       grid-template-columns: 1fr;
     }
 
-    .card-photo {
+    .card-logo {
       min-height: 200px;
+      padding: 28px 24px;
     }
 
     .hero {

@@ -109,14 +109,13 @@ if (Astro.request.method === "POST") {
         });
 
         if (!res.ok) {
-          console.error("Resend error:", await res.text());
+          throw new Error(await res.text());
         }
       }
 
       formStatus = "success";
     }
   } catch (e) {
-    console.error("Contact form error:", e);
     formStatus = "error";
     formError = "送信に失敗しました。時間をおいてから再度お試しください。 / Something went wrong. Please try again later.";
   }

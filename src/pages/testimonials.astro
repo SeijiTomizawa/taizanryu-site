@@ -54,11 +54,11 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
   </section>
 
   <!-- 動画ギャラリー -->
-  <section class="ts-videos">
+  <section class="ts-videos surface-light">
     <div class="ts-grid-wrap">
       <div class="ts-grid">
         {testimonialVideos.map((v, i) => (
-          <div class="ts-item reveal" style={`animation-delay: ${(i % 3) * 100}ms`}>
+          <div class="ts-item reveal" style={`animation-delay: ${(i % 4) * 80}ms`}>
             <div class="ts-video-wrap">
               <iframe
                 src={getCloudflareStreamUrl(v.data.cloudflare_video_id, false, Number(v.data.thumbnail_time))}
@@ -220,7 +220,6 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
   /* ===== 動画ギャラリー ===== */
   .ts-videos {
     padding: 60px 0 100px;
-    background-color: var(--bg-color);
   }
 
   .ts-grid-wrap {
@@ -231,8 +230,8 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
 
   .ts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 
   .ts-item {
@@ -244,7 +243,7 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
   .ts-video-wrap {
     position: relative;
     width: 100%;
-    padding-top: 56.25%;
+    padding-top: 177.78%;
     border-radius: 8px;
     overflow: hidden;
     background-color: #0a0705;
@@ -281,13 +280,14 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
     .ts-videos { padding-bottom: 60px; }
 
     .ts-grid-wrap { padding: 0 16px; }
-    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
     .ts-line-a { letter-spacing: 4px; }
     .ts-line-b { letter-spacing: 5px; }
   }
 
   @media (max-width: 560px) {
-    .ts-grid { grid-template-columns: 1fr; }
+    .ts-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .ts-grid-wrap { padding: 0 12px; }
   }
 </style>

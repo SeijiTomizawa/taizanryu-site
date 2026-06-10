@@ -10,7 +10,7 @@ interface Props {
   image?: string;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image = logoImage } = Astro.props;
 const settings = await getSiteSettings();
 const siteTitle = settings?.title || "泰山流護身術・逮捕術";
 const fullTitle = title ? `${title} — ${siteTitle}` : siteTitle;
@@ -37,6 +37,10 @@ const pageCtx = createPublicPageContext({
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{fullTitle}</title>
     <EmDashHead page={pageCtx} />
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="ja" href={Astro.url.href} />
+    <link rel="alternate" hreflang="en" href={Astro.url.href} />
+    <link rel="alternate" hreflang="x-default" href={Astro.url.href} />
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -76,7 +80,7 @@ const pageCtx = createPublicPageContext({
         <button class="lang-btn" id="langBtn" aria-label="Switch language">
           <span class="lang-ja">English</span><span class="lang-en">日本語</span>
         </button>
-        <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
@@ -167,7 +171,9 @@ const pageCtx = createPublicPageContext({
         if(drawer && overlay) {
           drawer.classList.toggle('open');
           overlay.classList.toggle('open');
-          document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+          const isOpen = drawer.classList.contains('open');
+          document.body.style.overflow = isOpen ? 'hidden' : '';
+          hamburger?.setAttribute('aria-expanded', String(isOpen));
         }
       }
 
@@ -408,7 +414,7 @@ const pageCtx = createPublicPageContext({
       /* --- Footer --- */
       .site-footer { background-color: var(--bg-color); padding: 48px 40px 32px; border-top: 1px solid rgba(255,255,255,0.1); }
       .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-secondary); }
-      .footer-admin { text-align: center; margin-top: 20px; }
+      .footer-admin { display: none; }
       .admin-link {
         display: inline-flex; align-items: center; justify-content: center;
         width: 24px; height: 24px;
