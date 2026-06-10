@@ -57,6 +57,11 @@
 				"CONTACT_FROM_EMAIL": "contact@peacefulmountainsystem.com",
 				"CONTACT_TO_EMAIL": "uilriku59jp@yahoo.co.jp",
 			},
+			"worker_loaders": [
+				{
+					"binding": "LOADER",
+				},
+			],
 		},
 	},
 }
