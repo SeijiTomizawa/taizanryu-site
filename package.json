@@ -7,8 +7,8 @@
 		"dev": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
-		"deploy": "wrangler deploy",
-		"deploy:dev": "wrangler deploy --env dev",
+		"deploy": "astro build && cd dist/server && wrangler deploy",
+		"deploy:dev": "astro build && cd dist/server && wrangler deploy --env dev",
 		"typecheck": "astro check" 
 	},
 	"dependencies": {
