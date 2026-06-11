@@ -95,6 +95,7 @@ export interface 動画 {
   cloudflare_video_id: string;
   category?: string;
   thumbnail_time?: string;
+  sort_order?: number;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

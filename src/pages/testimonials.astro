@@ -7,7 +7,16 @@ import { shiatsuReviewsHeroBg } from "../components/blocks/images";
 const { entries: allVideos, cacheHint } = await getEmDashCollection("videos", { limit: 100 });
 try { Astro.cache.set(cacheHint); } catch {}
 
-const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-testimonial");
+const testimonialVideos = allVideos
+  .filter(v => v.data.category === "shiatsu-testimonial")
+  .sort((a, b) => {
+    const aOrder = Number((a.data as any).sort_order ?? 0);
+    const bOrder = Number((b.data as any).sort_order ?? 0);
+    if (aOrder > 0 && bOrder > 0) return aOrder - bOrder;
+    if (aOrder > 0) return -1;
+    if (bOrder > 0) return 1;
+    return a.id.localeCompare(b.id);
+  });
 ---
 
 <Base

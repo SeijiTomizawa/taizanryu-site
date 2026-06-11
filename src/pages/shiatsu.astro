@@ -229,6 +229,10 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
         </h2>
         <p class="ja">施術を受けられたお客様からいただいた、率直な感想をご紹介します。</p>
         <p class="en">Read what our clients have to say about their experience with Taizan-ryu Shiatsu.</p>
+        <img
+          src="https://pub-488a24026ed4411b8d591260b603cdd1.r2.dev/shiatsu/SHIATSU_Testimonials_260610.jpg"
+          alt="お客様の声"
+          class="sh-testimonials-img">
         <a href="/testimonials" class="sh-testimonials-btn">
           <span class="ja">お客様の声をすべて見る</span>
           <span class="en">View All Testimonials</span>
@@ -768,6 +772,13 @@ const testimonialVideos = allVideos.filter(v => v.data.category === "shiatsu-tes
     color: var(--text-secondary);
     line-height: 1.9;
     margin: 0;
+  }
+
+  .sh-testimonials-img {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 8px;
+    display: block;
   }
 
   .sh-testimonials-btn {

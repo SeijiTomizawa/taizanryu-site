@@ -8,9 +8,10 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
-const { title, description, image = logoImage } = Astro.props;
+const { title, description, image = logoImage, noindex = false } = Astro.props;
 const settings = await getSiteSettings();
 const siteTitle = settings?.title || "泰山流護身術・逮捕術";
 const fullTitle = title ? `${title} — ${siteTitle}` : siteTitle;
@@ -37,6 +38,7 @@ const pageCtx = createPublicPageContext({
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{fullTitle}</title>
     <EmDashHead page={pageCtx} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <!-- hreflang -->
     <link rel="alternate" hreflang="ja" href={Astro.url.href} />
     <link rel="alternate" hreflang="en" href={Astro.url.href} />
@@ -72,8 +74,8 @@ const pageCtx = createPublicPageContext({
           <img src={logoImage} alt="Site Logo" class="logo" />
         </div>
         <div class="site-title-block">
-          <span class="l-1"><span class="ja">泰山流護身術・逮捕術</span><span class="en">Taizan-ryu Martial Arts</span></span>
-          <span class="l-2"><span class="ja">東京八王子本部道場</span><span class="en">Tokyo Hachioji Main Dojo</span></span>
+          <span class="l-1"><span class="ja">泰山流護身術・逮捕術</span><span class="en">Peaceful Mountain System</span></span>
+          <span class="l-2"><span class="ja">東京八王子本部道場</span><span class="en">Tokyo Hachioji HQ Dojo</span></span>
         </div>
       </a>
       <div class="header-right">
@@ -92,6 +94,19 @@ const pageCtx = createPublicPageContext({
       <button class="close-btn" id="closeBtn" aria-label="メニューを閉じる">&times;</button>
       
       <nav class="drawer-nav">
+        <div class="drawer-lang">
+          <button class="lang-btn lang-btn--drawer" id="langBtnDrawer" aria-label="Switch language">
+            <span class="drawer-lang-ja">
+              <span class="drawer-lang-label">日本語</span>
+              <span class="drawer-lang-sub">Japanese</span>
+            </span>
+            <span class="drawer-lang-divider">/</span>
+            <span class="drawer-lang-en">
+              <span class="drawer-lang-label">English</span>
+              <span class="drawer-lang-sub">英語</span>
+            </span>
+          </button>
+        </div>
         <ul>
           <li><a href="/#home"><span class="ja">ホーム</span><span class="en">Home</span></a></li>
           <li><a href="/self-defense"><span class="ja">護身術・逮捕術</span><span class="en">Martial Arts</span></a></li>
@@ -104,20 +119,6 @@ const pageCtx = createPublicPageContext({
           <li><a href="/contact"><span class="ja">お問い合わせ</span><span class="en">Contact Us</span></a></li>
         </ul>
       </nav>
-      <br>
-      <div class="drawer-lang">
-        <button class="lang-btn lang-btn--drawer" id="langBtnDrawer" aria-label="Switch language">
-          <span class="drawer-lang-ja">
-            <span class="drawer-lang-label">日本語</span>
-            <span class="drawer-lang-sub">Japanese</span>
-          </span>
-          <span class="drawer-lang-divider">/</span>
-          <span class="drawer-lang-en">
-            <span class="drawer-lang-label">English</span>
-            <span class="drawer-lang-sub">英語</span>
-          </span>
-        </button>
-      </div>
     </aside>
 
     <div class="overlay" id="overlay"></div>
@@ -325,10 +326,7 @@ const pageCtx = createPublicPageContext({
 
       /* --- Language button (drawer) --- */
       .drawer-lang {
-        position: absolute;
-        bottom: 40px;
-        left: 40px;
-        right: 40px;
+        margin-bottom: 24px;
       }
       .lang-btn--drawer {
         width: 100%;
@@ -388,7 +386,7 @@ const pageCtx = createPublicPageContext({
       /* --- Drawer --- */
       .drawer-menu {
         position: fixed; top: 0; right: -100%; width: 350px; height: 100vh;
-        background-color: var(--bg-color); z-index: 200; padding: 80px 40px 120px;
+        background-color: var(--bg-color); z-index: 200; padding: 80px 40px 60px;
         transition: right 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: -5px 0 15px rgba(0,0,0,0.5);
         overflow-y: auto;
       }

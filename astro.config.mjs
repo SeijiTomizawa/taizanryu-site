@@ -19,5 +19,12 @@ export default defineConfig({
 			sandboxRunner: sandbox(),
 		}),
 	],
+	experimental: {
+		cache: {
+			provider: {
+				entrypoint: "astro/cache/memory",
+			},
+		},
+	},
 	devToolbar: { enabled: false },
 });

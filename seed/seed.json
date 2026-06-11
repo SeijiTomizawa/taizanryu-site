@@ -55,6 +55,12 @@
 					"slug": "thumbnail_time",
 					"label": "サムネイル時間（秒）",
 					"type": "string"
+				},
+				{
+					"slug": "sort_order",
+					"label": "表示順",
+					"type": "number",
+					"defaultValue": 0
 				}
 			]
 		},
