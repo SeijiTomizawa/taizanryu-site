@@ -28,29 +28,8 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Build (dev)
+      - name: Build & Deploy (dev)
         if: github.ref == 'refs/heads/develop'
-        run: npm run build
-
-      - name: Patch config for dev environment
-        if: github.ref == 'refs/heads/develop'
-        run: |
-          node -e "
-            const fs = require('fs');
-            const cfg = JSON.parse(fs.readFileSync('dist/server/wrangler.json', 'utf8'));
-            cfg.name = 'taizanryu-site-dev';
-            const db = cfg.d1_databases.find(d => d.binding === 'DB');
-            if (db) {
-              db.database_name = 'taizanryu-site-db-dev';
-              db.database_id   = '4720e1be-b6f6-4714-bfee-0a41a7e98d45';
-            }
-            fs.writeFileSync('dist/server/wrangler.json', JSON.stringify(cfg));
-            console.log('Patched for dev:', cfg.name, db?.database_id);
-          "
-
-      - name: Deploy (dev)
-        if: github.ref == 'refs/heads/develop'
-        run: npx wrangler deploy
+        run: npm run build && npx wrangler deploy --env dev
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
